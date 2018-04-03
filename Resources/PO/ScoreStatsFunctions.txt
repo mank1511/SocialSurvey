@@ -1,0 +1,34 @@
+*** Settings ***
+Resource    ../../Resources/Variables.txt
+Library    DateTime
+Library    OperatingSystem
+Resource  ../../Resources/Common.txt
+Resource  ../../Resources/FirstTest.txt
+
+
+*** Keywords ***
+
+Get the expected question text from the DB
+    Connect to Production Reporting MySQL
+    ${SurveyQuestions}=    query  ${Query45}
+    ${SurveyQuestions0}=    convert to string    ${SurveyQuestions}
+    ${SurveyQuestions1}=    remove string    ${SurveyQuestions0}  (  )  '
+    @{Questions}=   split string  ${SurveyQuestions1}  ,,
+
+    ${Question1}=   get from list  ${Questions}  0
+    ${Question2}=   get from list  ${Questions}  1
+    ${Question3}=   get from list  ${Questions}  2
+    ${Question4}=   get from list  ${Questions}  3
+    ${Question5}=   get from list  ${Questions}  4
+
+    Login as CompanyAdmin and GoTo Scorestats Tab
+
+    wait until page contains  ${Question1}
+    wait until page contains  ${Question2}
+    wait until page contains  ${Question3}
+    wait until page contains  ${Question4}
+    wait until page contains  ${Question5}
+
+
+
+

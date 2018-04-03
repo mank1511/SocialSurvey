@@ -1,0 +1,7 @@
+*** Settings ***
+Documentation  Score stats test case
+Resource  ../Resources/PO/ScoreStatsFunctions.txt
+
+*** Test Cases ***
+Get the survey questions for a company and compare it with the UI.
+    Get the expected question text from the DB

@@ -1,0 +1,167 @@
+
+
+*** Settings ***
+Resource  ../Resources/FirstTest.txt
+Resource  ../Resources/PO/LandingPage.txt
+Resource  /Common.txt
+Resource  ../Resources/PO/UserRanking.txt
+Resource  /Variables.txt
+Library   DateTime
+Library   OperatingSystem
+
+*** Keywords ***
+#For company
+#----------------------------------------------------------------------------------------------------------------------
+
+Get the UI completed count for company
+    Connect to Production Reporting MySQL
+    ${Compltd}=    query  ${Query21}
+    ${Compltd1}=  convert to string  ${Compltd}
+    ${CompletedFinal}=    remove string  ${Compltd1}  (  )  ,
+    return from keyword  ${CompletedFinal}
+Get Actual completed count for a company
+    [Arguments]  ${Completed}
+    ${First}=    query  ${Query25}
+    ${Second}=    convert to string  ${First}
+    ${clean}=    remove string  ${Second}  (  )  ,
+    should be equal as numbers  ${Completed}  ${clean}
+Get the UI Incomplete count for company
+    Connect to Production Reporting MySQL
+    ${Incmplt}=    query  ${Query22}
+    ${Incmplt1}=  convert to string  ${Incmplt}
+    ${IncmpltFinal}=    remove string  ${Incmplt1}  (  )  ,
+    return from keyword  ${IncmpltFinal}
+Get Actual incomplete count for a company
+    [Arguments]  ${Incompleted}
+    ${First}=    query  ${Query26}
+    ${Second}=    convert to string  ${First}
+    ${clean}=    remove string  ${Second}  (  )  ,
+    should be equal as numbers   ${Incompleted}  ${clean}
+Get the UI Zillow count for company
+    Connect to Production Reporting MySQL
+    ${Zillow}=    query  ${Query23}
+    ${Zillow1}=  convert to string  ${Zillow}
+    ${ZillowFinal}=    remove string  ${Zillow1}  (  )  ,
+    return from keyword  ${ZillowFinal}
+Get Actual Zillow count for a company
+    [Arguments]  ${Zillow}
+    ${First}=    query  ${Query27}
+    ${Second}=    convert to string  ${First}
+    ${clean}=    remove string  ${Second}  (  )  ,
+    should be equal as numbers  ${Zillow}  ${clean}
+Get the Third Party reviews count for company
+    Connect to Production Reporting MySQL
+    ${ThirdParty}=    query  ${Query24}
+    ${ThirdParty1}=  convert to string  ${ThirdParty}
+    ${ThirdPartyFinal}=    remove string  ${ThirdParty1}  (  )  ,
+    return from keyword  ${ThirdPartyFinal}
+Get Actual Third Party count for a company
+    [Arguments]  ${ThirdParty}
+    ${First}=    query  ${Query28}
+    ${Second}=    convert to string  ${First}
+    ${clean}=    remove string  ${Second}  (  )  ,
+    should be equal as numbers  ${ThirdParty}  ${clean}
+
+#for region
+#----------------------------------------------------------------------------------------------------------------------
+Get the UI completed count for region
+    Connect to Production Reporting MySQL
+    ${Compltd}=    query  ${Query29}
+    ${Compltd1}=  convert to string  ${Compltd}
+    ${CompletedFinal}=    remove string  ${Compltd1}  (  )  ,
+    return from keyword  ${CompletedFinal}
+Get Actual completed count for a region
+    [Arguments]  ${Completed}
+    ${First}=    query  ${Query37}
+    ${Second}=    convert to string  ${First}
+    ${clean}=    remove string  ${Second}  (  )  ,
+    should be equal as numbers  ${Completed}  ${clean}
+Get the UI Incomplete count for region
+    Connect to Production Reporting MySQL
+    ${Incmplt}=    query  ${Query30}
+    ${Incmplt1}=  convert to string  ${Incmplt}
+    ${IncmpltFinal}=    remove string  ${Incmplt1}  (  )  ,
+    return from keyword  ${IncmpltFinal}
+Get Actual incomplete count for a region
+    [Arguments]  ${Incompleted}
+    ${First}=    query  ${Query38}
+    ${Second}=    convert to string  ${First}
+    ${clean}=    remove string  ${Second}  (  )  ,
+    should be equal as numbers   ${Incompleted}  ${clean}
+Get the UI Zillow count for region
+    Connect to Production Reporting MySQL
+    ${Zillow}=    query  ${Query31}
+    ${Zillow1}=  convert to string  ${Zillow}
+    ${ZillowFinal}=    remove string  ${Zillow1}  (  )  ,
+    return from keyword  ${ZillowFinal}
+Get Actual Zillow count for a region
+    [Arguments]  ${Zillow}
+    ${First}=    query  ${Query39}
+    ${Second}=    convert to string  ${First}
+    ${clean}=    remove string  ${Second}  (  )  ,
+    should be equal as numbers  ${Zillow}  ${clean}
+Get the Third Party reviews count for region
+    Connect to Production Reporting MySQL
+    ${ThirdParty}=    query  ${Query32}
+    ${ThirdParty1}=  convert to string  ${ThirdParty}
+    ${ThirdPartyFinal}=    remove string  ${ThirdParty1}  (  )  ,
+    return from keyword  ${ThirdPartyFinal}
+Get Actual Third Party count for a region
+    [Arguments]  ${ThirdParty}
+    ${First}=    query  ${Query40}
+    ${Second}=    convert to string  ${First}
+    ${clean}=    remove string  ${Second}  (  )  ,
+    should be equal as numbers  ${ThirdParty}  ${clean}
+
+
+#For Branch
+#----------------------------------------------------------------------------------------------------------------------
+
+Get the UI completed count for branch
+    Connect to Production Reporting MySQL
+    ${Compltd}=    query  ${Query33}
+    ${Compltd1}=  convert to string  ${Compltd}
+    ${CompletedFinal}=    remove string  ${Compltd1}  (  )  ,
+    return from keyword  ${CompletedFinal}
+Get Actual completed count for a branch
+    [Arguments]  ${Completed}
+    ${First}=    query  ${Query41}
+    ${Second}=    convert to string  ${First}
+    ${clean}=    remove string  ${Second}  (  )  ,
+    should be equal as numbers  ${Completed}  ${clean}
+Get the UI Incomplete count for branch
+    Connect to Production Reporting MySQL
+    ${Incmplt}=    query  ${Query34}
+    ${Incmplt1}=  convert to string  ${Incmplt}
+    ${IncmpltFinal}=    remove string  ${Incmplt1}  (  )  ,
+    return from keyword  ${IncmpltFinal}
+Get Actual incomplete count for a branch
+    [Arguments]  ${Incompleted}
+    ${First}=    query  ${Query42}
+    ${Second}=    convert to string  ${First}
+    ${clean}=    remove string  ${Second}  (  )  ,
+    should be equal as numbers   ${Incompleted}  ${clean}
+Get the UI Zillow count for branch
+    Connect to Production Reporting MySQL
+    ${Zillow}=    query  ${Query35}
+    ${Zillow1}=  convert to string  ${Zillow}
+    ${ZillowFinal}=    remove string  ${Zillow1}  (  )  ,
+    return from keyword  ${ZillowFinal}
+Get Actual Zillow count for a branch
+    [Arguments]  ${Zillow}
+    ${First}=    query  ${Query43}
+    ${Second}=    convert to string  ${First}
+    ${clean}=    remove string  ${Second}  (  )  ,
+    should be equal as numbers  ${Zillow}  ${clean}
+Get the Third Party reviews count for branch
+    Connect to Production Reporting MySQL
+    ${ThirdParty}=    query  ${Query36}
+    ${ThirdParty1}=  convert to string  ${ThirdParty}
+    ${ThirdPartyFinal}=    remove string  ${ThirdParty1}  (  )  ,
+    return from keyword  ${ThirdPartyFinal}
+Get Actual Third Party count for a branch
+    [Arguments]  ${ThirdParty}
+    ${First}=    query  ${Query44}
+    ${Second}=    convert to string  ${First}
+    ${clean}=    remove string  ${Second}  (  )  ,
+    should be equal as numbers  ${ThirdParty}  ${clean}

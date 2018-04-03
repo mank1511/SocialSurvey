@@ -1,0 +1,38 @@
+*** Settings ***
+Documentation  Checks the User Ranking For a Company for all time frames.
+Resource  ../Resources/FirstTest.txt
+Resource  ../Resources/PO/LandingPage.txt
+Resource  ../Resources/Common.txt
+Resource  ../Resources/PO/UserRanking.txt
+
+
+
+*** Test Cases ***
+Login To Social Survey
+    [Tags]  Smoke   Regression
+    Login As Company Admin
+    Get Authn Session
+
+Validate last year user ranking results
+    [Tags]  Smoke   Regression
+    Connect to Production Reporting MySQL
+    Fetch User Ranking Last Year and Save in A file
+    Read from a Text file and compare the results
+
+Validate this year user ranking results
+    [Tags]  Smoke   Regression
+    Connect to Production Reporting MySQL
+    Fetch User Ranking This Year and Save in A file
+    Read from a Text file and compare the results
+
+Validate last month user ranking results
+    [Tags]  Smoke   Regression
+    Connect to Production Reporting MySQL
+    Fetch User Ranking Last Month and Save in A file
+    Read from a Text file and compare the results
+
+Validate this month user ranking results
+    [Tags]  Smoke   Regression
+    Connect to Production Reporting MySQL
+    Fetch User Ranking This Month and Save in A file
+    Read from a Text file and compare the results

@@ -1,0 +1,13 @@
+*** Settings ***
+Resource  ../Resources/FirstTest.txt
+
+
+*** Test Cases ***
+Generate User Ranking Reports
+    Login As Company Admin
+    Go to Reports page
+    Generate and verify user ranking this year
+    Generate and verify user ranking last year
+    Generate and verify user ranking this Month
+    Generate and verify user ranking last Month
+

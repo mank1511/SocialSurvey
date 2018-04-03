@@ -1,0 +1,9 @@
+*** Settings ***
+Library  Selenium2Library
+
+*** Keywords ***
+Login As A Company Admin
+    Click Link  Hierarchy
+    Wait Until Page Contains  Advantage Rent A Car
+    Click Element  id=tr-comp-337
+    Click Element  xpath=//div[@data-iden=7799]

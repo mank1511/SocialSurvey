@@ -1,0 +1,108 @@
+*** Settings ***
+Documentation  Checks the SPS Score
+Resource  ../Resources/FirstTest.txt
+Resource  ../Resources/PO/LandingPage.txt
+Resource  ../Resources/Common.txt
+Resource  ../Resources/PO/UserRanking.txt
+Library   DateTime
+Library   OperatingSystem
+
+
+
+*** Keywords ***
+Calculate SPS Score and save it in a file for a company
+    Connect to Production Reporting MySQL
+    ${Great}=    query  ${Query9}
+    ${Ok}=    query  ${Query10}
+    ${Unpleasant}=    query  ${Query11}
+    ${Great1}=  convert to string  ${Great}
+    ${Great2}=  remove string  ${Great1}  (  )  ,
+    ${Ok1}=  convert to string  ${Ok}
+    ${Ok2}=  remove string  ${Ok1}  (  )  ,
+    ${Unpleasant1}=  convert to string  ${Unpleasant}
+    ${Unpleasant2}=  remove string  ${Unpleasant1}  (  )  ,
+    ${Unpleasant3}=    convert to number  ${Unpleasant2}
+    ${Ok3}=    convert to number  ${Ok2}
+    ${Great3}=    convert to number  ${Great2}
+    ${Calc1}=   evaluate    ${Great3} - ${Unpleasant3}
+    ${Calc2}=   evaluate    ${Great3} + ${Unpleasant3} + ${Ok3}
+    ${var3}=    evaluate    ${Calc1} / ${Calc2} * 100
+    ${var4}=    convert to string  ${var3}
+    write_variable_in_txt_file  ${var4}    spsscore
+Read the calculated SPS score from file and match against the UI value for a company
+    ${ReadFromTheFile}=    get file  C:/ResponseFiles/spsscore.txt
+    ${ReadFromTheFile1}=    convert to number  ${ReadFromTheFile}  2
+    Connect to Production Reporting MySQL
+    ${ValueOnTheUI}=    query  ${Query12}
+    ${zyx}=    convert to string  ${ValueOnTheUI}
+    ${xyz}=    remove string  ${zyx}  (  )  ,  Decimal  '
+    ${ValueOnTheUI1}=   convert to number  ${xyz}
+    log to console  ${ValueOnTheUI1}
+    should be equal as numbers  ${ValueOnTheUI1}  ${ReadFromTheFile1}  msg=For A Company Values donot match...
+
+Calculate SPS Score and save it in a file for a Region
+    Connect to Production Reporting MySQL
+    ${Great}=    query  ${Query13}
+    ${Ok}=    query  ${Query14}
+    ${Unpleasant}=    query  ${Query15}
+    ${Great1}=  convert to string  ${Great}
+    ${Great2}=  remove string  ${Great1}  (  )  ,
+    ${Ok1}=  convert to string  ${Ok}
+    ${Ok2}=  remove string  ${Ok1}  (  )  ,
+    ${Unpleasant1}=  convert to string  ${Unpleasant}
+    ${Unpleasant2}=  remove string  ${Unpleasant1}  (  )  ,
+    ${Unpleasant3}=    convert to number  ${Unpleasant2}
+    ${Ok3}=    convert to number  ${Ok2}
+    ${Great3}=    convert to number  ${Great2}
+    ${Calc1}=   evaluate    ${Great3} - ${Unpleasant3}
+    ${Calc2}=   evaluate    ${Great3} + ${Unpleasant3} + ${Ok3}
+    ${var3}=    evaluate    ${Calc1} / ${Calc2} * 100
+    ${var5}=    convert to string  ${var3}
+    log to console  ${var5}
+    ${var4}=    convert to string  ${var3}
+    write_variable_in_txt_file  ${var5}    spsscoreRegion
+Read the calculated SPS score from file and match against the UI value for a Region
+    ${ReadFromTheFile}=    get file  C:/ResponseFiles/spsscoreRegion.txt
+    ${ReadFromTheFile1}=    convert to number  ${ReadFromTheFile}  1
+    Connect to Production Reporting MySQL
+    ${ValueOnTheUI}=    query  ${Query16}
+    ${zyx}=    convert to string  ${ValueOnTheUI}
+    ${xyz}=    remove string  ${zyx}  (  )  ,  Decimal  '
+    ${ValueOnTheUI1}=   convert to number  ${xyz}  2
+    should be equal as numbers  ${ValueOnTheUI1}  ${ReadFromTheFile1}  msg=For a Region, Values donot match....
+
+Calculate SPS Score and save it in a file for a Branch
+    Connect to Production Reporting MySQL
+    ${Great}=    query  ${Query17}
+    ${Ok}=    query  ${Query18}
+    ${Unpleasant}=    query  ${Query19}
+    ${Great1}=  convert to string  ${Great}
+    ${Great2}=  remove string  ${Great1}  (  )  ,
+    ${Ok1}=  convert to string  ${Ok}
+    ${Ok2}=  remove string  ${Ok1}  (  )  ,
+    ${Unpleasant1}=  convert to string  ${Unpleasant}
+    ${Unpleasant2}=  remove string  ${Unpleasant1}  (  )  ,
+    ${Unpleasant3}=    convert to number  ${Unpleasant2}
+    ${Ok3}=    convert to number  ${Ok2}
+    ${Great3}=    convert to number  ${Great2}
+    ${Calc1}=   evaluate    ${Great3} - ${Unpleasant3}
+    ${Calc2}=   evaluate    ${Great3} + ${Unpleasant3} + ${Ok3}
+    ${var3}=    evaluate    ${Calc1} / ${Calc2} * 100
+    ${var4}=    convert to string  ${var3}
+    write_variable_in_txt_file  ${var4}    spsscoreBranch
+Read the calculated SPS score from file and match against the UI value for a Branch
+    ${ReadFromTheFile}=    get file  C:/ResponseFiles/spsscoreBranch.txt
+    ${ReadFromTheFile1}=    convert to number  ${ReadFromTheFile}  2
+    log to console  ${ReadFromTheFile1}
+    Connect to Production Reporting MySQL
+    ${ValueOnTheUI}=    query  ${Query20}
+    ${zyx}=    convert to string  ${ValueOnTheUI}
+    ${xyz}=    remove string  ${zyx}  (  )  ,  Decimal  '
+    ${ValueOnTheUI1}=   convert to number  ${xyz}  2
+    should be equal as numbers  ${ValueOnTheUI1}  ${ReadFromTheFile1}  msg=For a Branch, Values donot match....
+
+
+
+
+
+

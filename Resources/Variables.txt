@@ -1,0 +1,84 @@
+*** Settings ***
+Library     DateTime
+Library     Selenium2Library
+Library     String
+Library     OperatingSystem
+*** Keywords ***
+*** Variables ***
+#CompanyId to be tested against for all queries
+${CompanyId}=    337
+${CompanyNameForLoginAs}=    Advantage Rent a Car
+#Month value for User ranking to fetch from centralized and reporting DB
+${PastMonth}=    2
+${ThisMonth}=    3
+${PastMonthText}=   Feb
+${ThisMonthText}=   Mar
+#to be used in SPS score and user ranking query to get the monthly of the year Data, its a month and year combination
+${PastYear}=    2017
+${ThisYear}=    2018
+#to be used to get the SPS SCORE FOR A REGION
+${REGION_ID}=    617
+${BRANCH_ID}=    1221
+#to be used to get the sps score for a month
+${ScoreStatsCompanyId}=    1043
+${ScoreStatsMonth}=  2
+${ScoreStatsYear}=  2018
+${Question}=    'How would you rate the vehicle return process? 1 star = worst, 5 stars = best'
+#Query for getting user ranking from centralised db, for all the time frames.
+${Query1}=     select x.AGENT_ID from  (select a.AGENT_ID,a.AGENT_NAME,a.COMPANY_ID,count(distinct a.SURVEY_DETAILS_ID) as COMPLETED,avg(if(b.QUESTION_TYPE='sb-range-0to10',(b.ANSWER/2),b.ANSWER)) as AVG_SCORE from survey_details a left join survey_response b on a.SURVEY_DETAILS_ID=b.SURVEY_DETAILS_ID where a.STAGE=-1 and a.SOURCE not in ("Zillow", "admin", "agent", "customer", "3rd Party Review", "upload", "CSV_UPLOAD") and year(a.SURVEY_COMPLETED_DATE_EST) = ${PastYear}  and b.IS_USER_RANKING_QUESTION=1 and a.COMPANY_ID=${CompanyId}  group by a.AGENT_ID order by a.AGENT_ID) x left join min_requirement_for_ranking c on x.COMPANY_ID=c.COMPANY_ID right join users u on x.AGENT_ID=u.user_id and STATUS in (1,2) order by round(((((x.AVG_SCORE)*COMPLETED)+c.YEAR_OFFSET)/(COMPLETED+1)),3) desc limit 10;
+${Query2}=     select user_id from user_ranking_past_year_main where year=2017 and company_id=337 and is_eligible !=2 order by ranking_score desc limit 10;
+${Query3}=     select x.AGENT_ID from  (select a.AGENT_ID,a.AGENT_NAME,a.COMPANY_ID,count(distinct a.SURVEY_DETAILS_ID) as COMPLETED,avg(if(b.QUESTION_TYPE='sb-range-0to10',(b.ANSWER/2),b.ANSWER)) as AVG_SCORE from survey_details a left join survey_response b on a.SURVEY_DETAILS_ID=b.SURVEY_DETAILS_ID where a.STAGE=-1 and a.SOURCE not in ("Zillow", "admin", "agent", "customer", "3rd Party Review", "upload", "CSV_UPLOAD") and year(a.SURVEY_COMPLETED_DATE_EST) = ${ThisYear}  and b.IS_USER_RANKING_QUESTION=1 and a.COMPANY_ID=${CompanyId}  group by a.AGENT_ID order by a.AGENT_ID) x left join min_requirement_for_ranking c on x.COMPANY_ID=c.COMPANY_ID right join users u on x.AGENT_ID=u.user_id and STATUS in (1,2) order by ((((x.AVG_SCORE)*COMPLETED)+c.YEAR_OFFSET)/(COMPLETED+1)) desc limit 10;
+${Query4}=     select user_id from user_ranking_this_year_main where company_id=337 and is_eligible !=2 order by ranking_score desc limit 10;
+${Query5}=     select x.AGENT_ID from  (select a.AGENT_ID,a.AGENT_NAME,a.COMPANY_ID,count(distinct a.SURVEY_DETAILS_ID) as COMPLETED, avg(if(b.QUESTION_TYPE='sb-range-0to10',(b.ANSWER/2),b.ANSWER)) as AVG_SCORE from survey_details a left join survey_response b on a.SURVEY_DETAILS_ID=b.SURVEY_DETAILS_ID  where a.STAGE=-1 and a.SOURCE not in ("Zillow", "admin", "agent", "customer", "3rd Party Review", "upload", "CSV_UPLOAD") and month(a.SURVEY_COMPLETED_DATE_EST) = ${PastMonth}  and year(a.SURVEY_COMPLETED_DATE_EST)=${ThisYear}  and b.IS_USER_RANKING_QUESTION=1 and a.COMPANY_ID=${CompanyId}  group by a.AGENT_ID order by a.AGENT_ID) x left join min_requirement_for_ranking c on x.COMPANY_ID=c.COMPANY_ID right join users u on x.AGENT_ID=u.user_id and STATUS in (1,2) order by ((((x.AVG_SCORE)*COMPLETED)+c.MONTH_OFFSET)/(COMPLETED+1)) desc limit 10;
+${Query6}=     select user_id from user_ranking_past_month_main where year=2017 and month=2 and company_id=337 and is_eligible !=2 order by ranking_score desc limit 10;
+${Query7}=     select x.AGENT_ID from  (select a.AGENT_ID,a.AGENT_NAME,a.COMPANY_ID,count(distinct a.SURVEY_DETAILS_ID) as COMPLETED, avg(if(b.QUESTION_TYPE='sb-range-0to10',(b.ANSWER/2),b.ANSWER)) as AVG_SCORE from survey_details a left join survey_response b on a.SURVEY_DETAILS_ID=b.SURVEY_DETAILS_ID  where a.STAGE=-1 and a.SOURCE not in ("Zillow", "admin", "agent", "customer", "3rd Party Review", "upload", "CSV_UPLOAD") and month(a.SURVEY_COMPLETED_DATE_EST) = ${ThisMonth}  and year(a.SURVEY_COMPLETED_DATE_EST)=${ThisYear}  and b.IS_USER_RANKING_QUESTION=1 and a.COMPANY_ID=${CompanyId}  group by a.AGENT_ID order by a.AGENT_ID) x left join min_requirement_for_ranking c on x.COMPANY_ID=c.COMPANY_ID right join users u on x.AGENT_ID=u.user_id and STATUS in (1,2) order by ((((x.AVG_SCORE)*COMPLETED)+c.MONTH_OFFSET)/(COMPLETED+1)) desc limit 10;
+${Query8}=     select user_id from user_ranking_this_month_main where this_month=3 and company_id=337 and is_eligible !=2 order by ranking_score desc limit 10;
+#To fetch All time SPS score data from centalized DB for a company
+${Query9}=     select count(*) from survey_details where AGENT_ID in (select user_id from users where COMPANY_ID=${CompanyId}  ) and SOURCE not in ("Zillow", "3rd Party Review") and MOOD='Great' and STAGE=-1;
+${Query10}=    select count(*) from survey_details where AGENT_ID in (select user_id from users where COMPANY_ID=${CompanyId}  ) and SOURCE not in ("Zillow", "3rd Party Review") and MOOD='Ok' and STAGE=-1;
+${Query11}=    select count(*) from survey_details where AGENT_ID in (select user_id from users where COMPANY_ID=${CompanyId}  ) and SOURCE not in ("Zillow", "3rd Party Review") and MOOD='Unpleasant' and STAGE=-1;
+${Query12}=    select sps_score from overview_company where company_id=${CompanyId}  ;
+#To fetch ALL time SPS score data from centalized DB for a Region
+${Query13}=    select count(*) from survey_details where AGENT_ID in (select user_id from user_profile where REGION_ID=${REGION_ID}  and STATUS=1)  and SOURCE not in ("Zillow", "3rd Party Review") and MOOD='Great' and STAGE=-1;
+${Query14}=    select count(*) from survey_details where AGENT_ID in (select user_id from user_profile where REGION_ID=${REGION_ID}   and STATUS=1)  and SOURCE not in ("Zillow", "3rd Party Review") and MOOD='Ok' and STAGE=-1;
+${Query15}=    select count(*) from survey_details where AGENT_ID in (select user_id from user_profile where REGION_ID=${REGION_ID}   and STATUS=1)  and SOURCE not in ("Zillow", "3rd Party Review") and MOOD='Unpleasant' and STAGE=-1;
+${Query16}=    select sps_score from overview_region where region_id=${REGION_ID};
+${Query17}=    select count(*) from survey_details where AGENT_ID in (select user_id from user_profile where BRANCH_ID=${BRANCH_ID}  and STATUS=1)  and SOURCE not in ("Zillow", "3rd Party Review") and MOOD='Great' and STAGE=-1;
+${Query18}=    select count(*) from survey_details where AGENT_ID in (select user_id from user_profile where BRANCH_ID=${BRANCH_ID}  and STATUS=1)  and SOURCE not in ("Zillow", "3rd Party Review") and MOOD='Ok' and STAGE=-1;
+${Query19}=    select count(*) from survey_details where AGENT_ID in (select user_id from user_profile where BRANCH_ID=${BRANCH_ID}  and STATUS=1)  and SOURCE not in ("Zillow", "3rd Party Review") and MOOD='Unpleasant' and STAGE=-1;
+${Query20}=    select sps_score from overview_region where branch_id=${BRANCH_ID}  ;
+#-----------------------------------------------------------------------------------------------------------------------
+#Overview
+#To Fetch the All time Overview counts for a company
+${Query21}=    select completed from overview_company where company_id= ${CompanyId}  ;
+${Query22}=    select incomplete from overview_company where company_id= ${CompanyId}  ;
+${Query23}=    select zillow_reviews from overview_company where company_id= ${CompanyId}  ;
+${Query24}=    select third_party from overview_company where company_id= ${CompanyId}  ;
+#To Fetch the All time Overview counts for a Region
+${Query29}=    select completed from overview_region where region_id= ${REGION_ID}  ;
+${Query30}=    select incomplete from overview_region where region_id= ${REGION_ID}  ;
+${Query31}=    select zillow_reviews from overview_region where region_id= ${REGION_ID}  ;
+${Query32}=    select third_party from overview_region where region_id= ${REGION_ID}  ;
+#To Fetch the All time Overview counts for a Branch
+${Query33}=    select completed from overview_branch where branch_id= ${BRANCH_ID}  ;
+${Query34}=    select incomplete from overview_branch where branch_id= ${BRANCH_ID}  ;
+${Query35}=    select zillow_reviews from overview_branch where branch_id= ${BRANCH_ID}  ;
+${Query36}=    select third_party from overview_branch where branch_id= ${BRANCH_ID}  ;
+#Actual Overview count from centralised DB for a company
+${Query25}=    select count(*) from survey_details where stage=-1 and source not in ('Zillow','3rd Party Review') and COMPANY_ID=${CompanyId}  ;
+${Query26}=    select count(*) from survey_pre_initiation where STATUS in (0,1,2) and AGENT_ID in (select user_id from users where company_id= ${CompanyId}  and STATUS not in (11));
+${Query27}=    select count(*) from survey_details where source='Zillow' and company_id= ${CompanyId}  ;
+${Query28}=    select count(*) from survey_details where source='3rd Party Review' and company_id= ${CompanyId}  ;
+#Actual Overview count from centralised DB for a region
+${Query37}=    select count(*) from survey_details where stage=-1 and source not in ('Zillow','3rd Party Review') and AGENT_ID in (select user_id from user_profile where REGION_ID=${REGION_ID}  and STATUS in (0,1,2));
+${Query38}=    select count(*) from survey_pre_initiation where STATUS in (0,1,2) and AGENT_ID in (select user_id from user_profile where REGION_ID=${REGION_ID}  and STATUS in (0,1,2));
+${Query39}=    select count(*) from survey_details where source='Zillow' and REGION_ID= ${REGION_ID}  ;
+${Query40}=    select count(*) from survey_details where source='3rd Party Review' and REGION_ID= ${REGION_ID}  ;
+#Actual Overview count from centralised DB for a branch
+${Query41}=    select count(*) from survey_details where stage=-1 and source not in ('Zillow','3rd Party Review') and AGENT_ID in (select user_id from user_profile where BRANCH_ID=${BRANCH_ID}  and STATUS in (0,1,2));
+${Query42}=    select count(*) from survey_pre_initiation where STATUS in (0,1,2) and AGENT_ID in (select user_id from user_profile where BRANCH_ID=${BRANCH_ID}  and STATUS in (0,1,2));
+${Query43}=    select count(*) from survey_details where source='Zillow' and BRANCH_ID= ${BRANCH_ID}  ;
+${Query44}=    select count(*) from survey_details where source='3rd Party Review' and BRANCH_ID= ${BRANCH_ID}  ;
+#Score stats related Queries
+${Query45}=    select distinct QUESTION from survey_response where SURVEY_DETAILS_ID in (select SURVEY_DETAILS_ID from survey_details where AGENT_ID in  (select user_id from users where COMPANY_ID=${ScoreStatsCompanyId}  and status in (1,2,4))  and STAGE=-1 and SOURCE not in ('Zillow','3rd Party Review') and month(SURVEY_COMPLETED_DATE_EST)=  ${ScoreStatsMonth}   and year(SURVEY_COMPLETED_DATE_EST)=  ${ScoreStatsYear}  ) group by QUESTION;
+${Query46}=    select avg(ANSWER) from survey_response where SURVEY_DETAILS_ID in (select SURVEY_DETAILS_ID from survey_details where COMPANY_ID=${ScoreStatsCompanyId}  and stage=-1 and source not in ('Zillow','3rd Party Review') and  month(SURVEY_COMPLETED_DATE_EST)=${ScoreStatsMonth}  and year(SURVEY_COMPLETED_DATE_EST)=${ScoreStatsYear}  ) and QUESTION = ${Question};

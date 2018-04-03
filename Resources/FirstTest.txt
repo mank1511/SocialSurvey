@@ -1,0 +1,31 @@
+*** Settings ***
+
+Resource  PO/HierarchyPage.txt
+Resource  PO/LandingPage.txt
+Resource  PO/LoginPage.txt
+Resource  PO/SessionCookie.txt
+Library  Collections
+Library  RequestsLibrary
+Suite Setup  Get Authn Session  http://34.210.235.210  patidar@infrrd.ai  socialsurvey
+
+*** Keywords ***
+Do authentication and Make a Get Request
+    [Tags]  APITest
+    Get Authn Session
+Login As Company Admin
+    Login as SS Admin
+    After that Login As Company Admin
+    sleep  3
+
+Go to Score Stats tab
+    reload page
+    sleep  3
+    click element  id=score-stats-btn
+
+
+
+
+
+
+
+

@@ -1,0 +1,7 @@
+*** Settings ***
+Library  Selenium2Library
+Resource    C:/developments/robot-scripts/SocialSurvey/Resources/PO/SessionCookie.txt
+
+*** Keywords ***
+Open Landing page
+    Open Browser  http://34.210.235.210  chrome

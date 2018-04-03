@@ -1,0 +1,107 @@
+*** Settings ***
+Library  Selenium2Library
+Library  Selenium2Library
+Library  String
+Library  OperatingSystem
+Library  DatabaseLibrary
+Library  DateTime
+Resource  Variables.txt
+Library   Collections
+Resource  FirstTest.txt
+
+*** Variables ***
+${DIRPath}=    C:/ResponseFiles
+${DBname}=    ss_report_stage
+${Hostname}=    ss-report-stage.c3n1qsdsmjxc.us-west-2.rds.amazonaws.com
+${DBUsername}=    subhrajit
+${DBPassword}=    hCuT4&E#rq
+*** Keywords ***
+Begin Web Test
+    Open Browser  about:blank  chrome
+    Maximize Browser Window
+
+End Web Test
+    Close Browser
+
+write_variable_in_txt_file
+    ${TheTime}    get time    format='epoch'
+    ${ConvrtTime}   convert to string  ${TheTime}
+    [Arguments]  ${queryResults}    ${FileName}
+    remove files   ${DIRPath}/${FileName}.txt
+    Create File    ${DIRPath}/${FileName}.txt   ${queryResults}
+
+Connect to Staging Reporting MySQL
+    Connect To Database Using Custom Params    pymysql    database='ss_report_stage', user='subhrajit', password='hCuT4&E#rq', host='ss-report-stage.c3n1qsdsmjxc.us-west-2.rds.amazonaws.com', port=3306
+
+
+Connect to Production Reporting MySQL
+    Connect To Database Using Custom Params    pymysql    database='ss_report', user='infrrd_ops', password='vfsOIJ987', host='ss-report.c3n1qsdsmjxc.us-west-2.rds.amazonaws.com', port=3306
+
+Go to Reports page
+    mouse over  id=dashboard-link
+    click element  xpath=//div[@class='hdr-link-item-dropdown-item'][3]
+    wait until page contains  Reporting
+    sleep  3
+    click element  id=dashboard-sel
+    sleep  1
+    click element  xpath=//div[@class='da-dd-item'][2]
+    sleep  3
+    wait until page contains  Reporting
+
+
+Generate and verify user ranking this year
+    click element   xpath=//select[@id="generate-survey-reports"]
+    wait until element is visible    //option[contains(text(),'User Ranking Report')]
+    click element    xpath=//option[contains(text(),'User Ranking Report')]
+    click element   id=reports-generate-report-btn
+    ${Text}=    get text    xpath=//tr[@id='recent-activity-row0']/td[@class='v-tbl-recent-activity fetch-email txt-bold tbl-black-text ']
+    should be equal as strings  ${Text}  This Year
+    log to console  ${Text}
+
+Generate and verify user ranking last year
+    click element   xpath=//select[@id="generate-survey-reports"]
+    wait until element is visible    //option[contains(text(),'User Ranking Report')]
+    click element    xpath=//option[contains(text(),'User Ranking Report')]
+    sleep  2
+    click element   xpath=//select[@id="report-time-selector"]
+    wait until element is visible    //option[contains(text(),'Last Year')]
+    click element    xpath=//option[contains(text(),'Last Year')]
+    click element   id=reports-generate-report-btn
+    ${Text}=    get text    xpath=//tr[@id='recent-activity-row0']/td[@class='v-tbl-recent-activity fetch-email txt-bold tbl-black-text ']
+    should be equal as strings  ${Text}  Last Year
+    log to console  ${Text}
+
+Generate and verify user ranking this Month
+    click element   xpath=//select[@id="generate-survey-reports"]
+    wait until element is visible    //option[contains(text(),'User Ranking Report')]
+    click element    xpath=//option[contains(text(),'User Ranking Report')]
+    sleep  2
+    click element   xpath=//select[@id="report-time-selector"]
+    wait until element is visible    //option[contains(text(),'This Month')]
+    click element    xpath=//option[contains(text(),'This Month')]
+    click element   id=reports-generate-report-btn
+    ${Text}=    get text    xpath=//tr[@id='recent-activity-row0']/td[@class='v-tbl-recent-activity fetch-email txt-bold tbl-black-text ']
+    ${ExpectedText}=  catenate    ${ThisMonthText}   2018
+    log to console  Expected text is:    ${ExpectedText}
+    should be equal as strings  ${Text}  Mar 2018
+    log to console  ${Text}
+
+Generate and verify user ranking last Month
+    click element   xpath=//select[@id="generate-survey-reports"]
+    wait until element is visible    //option[contains(text(),'User Ranking Report')]
+    click element    xpath=//option[contains(text(),'User Ranking Report')]
+    sleep  2
+    click element   xpath=//select[@id="report-time-selector"]
+    wait until element is visible    //option[contains(text(),'Last Month')]
+    click element    xpath=//option[contains(text(),'Last Month')]
+    click element   id=reports-generate-report-btn
+    ${Text}=    get text    xpath=//tr[@id='recent-activity-row0']/td[@class='v-tbl-recent-activity fetch-email txt-bold tbl-black-text ']
+    should be equal as strings  ${Text}  Feb 2018
+    log to console  ${Text}
+
+Login as CompanyAdmin and GoTo Scorestats Tab
+    login as company admin
+    Go to Score Stats tab
+
+
+

@@ -1,0 +1,56 @@
+*** Settings ***
+Library  Selenium2Library
+Library  Selenium2Library
+Library  String
+Library  OperatingSystem
+Library  DatabaseLibrary
+Library  DateTime
+Library   Collections
+Resource  /Common.txt
+Resource  /Variables.txt
+
+
+*** Keywords ***
+Fetch User Ranking Last Year and Save in A file
+    ${queryResults}=    query  ${Query1}
+    ${queryResults1}=    query  ${Query2}
+    ${Var1}=    convert to string   ${queryResults}
+    ${Var2}=    convert to string   ${queryResults1}
+    remove files  C:/ResponseFiles/MySQLResponseFileCentralized.txt     C:/ResponseFiles/MySQLResponseFileReporting.txt
+    write_variable_in_txt_file  ${Var1}     MySQLResponseFileCentralized
+    write_variable_in_txt_file  ${Var2}     MySQLResponseFileReporting
+
+Fetch User Ranking This Year and Save in A file
+    ${queryResults}=    query  ${Query3}
+    ${queryResults1}=    query  ${Query4}
+    ${Var1}=    convert to string   ${queryResults}
+    ${Var2}=    convert to string   ${queryResults1}
+    remove files  C:/ResponseFiles/MySQLResponseFileCentralized.txt     C:/ResponseFiles/MySQLResponseFileReporting.txt
+    write_variable_in_txt_file  ${Var1}     MySQLResponseFileCentralized
+    write_variable_in_txt_file  ${Var2}     MySQLResponseFileReporting
+
+Fetch User Ranking Last Month and Save in A file
+    ${queryResults}=    query  ${Query5}
+    ${queryResults1}=    query  ${Query6}
+    ${Var1}=    convert to string   ${queryResults}
+    ${Var2}=    convert to string   ${queryResults1}
+    remove files  C:/ResponseFiles/MySQLResponseFileCentralized.txt     C:/ResponseFiles/MySQLResponseFileReporting.txt
+    write_variable_in_txt_file  ${Var1}     MySQLResponseFileCentralized
+    write_variable_in_txt_file  ${Var2}     MySQLResponseFileReporting
+
+Fetch User Ranking This Month and Save in A file
+    ${queryResults}=    query  ${Query7}
+    ${queryResults1}=    query  ${Query8}
+    ${Var1}=    convert to string   ${queryResults}
+    ${Var2}=    convert to string   ${queryResults1}
+    remove files  C:/ResponseFiles/MySQLResponseFileCentralized.txt     C:/ResponseFiles/MySQLResponseFileReporting.txt
+    write_variable_in_txt_file  ${Var1}     MySQLResponseFileCentralized
+    write_variable_in_txt_file  ${Var2}     MySQLResponseFileReporting
+
+
+Read from a Text file and compare the results
+    ${TextFileContent}=    Get File    C:/ResponseFiles/MySQLResponseFileCentralized.txt
+    ${TextFileContent1}=    Get File    C:/ResponseFiles/MySQLResponseFileReporting.txt
+    log to console  ${TextFileContent}
+    log to console  ${TextFileContent1}
+    should be equal as strings    ${TextFileContent}   ${TextFileContent1}  msg=The Ranking values created are incorrect.

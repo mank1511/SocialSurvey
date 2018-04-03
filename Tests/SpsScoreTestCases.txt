@@ -1,0 +1,17 @@
+*** Settings ***
+Documentation  Checks the SPS score for all the timeframes.
+Resource  ../Resources/FirstTest.txt
+Resource  ../Resources/PO/LandingPage.txt
+Resource  ../Resources/Common.txt
+Resource  ../Resources/PO/UserRanking.txt
+Resource  ../Resources/PO/SPSScoreFunctions.txt
+
+*** Test Cases ***
+Match the SPS scores for region branch and Company
+    [Tags]  Smoke
+    Calculate SPS Score and save it in a file for a company
+    Read the calculated SPS score from file and match against the UI value for a company
+    Calculate SPS Score and save it in a file for a Region
+    Read the calculated SPS score from file and match against the UI value for a Region
+    Calculate SPS Score and save it in a file for a Branch
+    Read the calculated SPS score from file and match against the UI value for a Branch

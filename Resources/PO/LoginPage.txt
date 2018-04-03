@@ -1,0 +1,30 @@
+*** Settings ***
+
+Library  Selenium2Library
+Resource  Variables.txt
+
+
+*** Keywords ***
+Login as SS Admin
+    [Documentation]  To fetch the cookie from the current active session to be used in the API calls
+    Open browser  https://socialsurvey.me/login.do  chrome
+    #Wait Until Page Contains  Enterprise Reputation Management
+    maximize browser window
+    Input Text  id=login-user-id   patidar@infrrd.ai
+    Input Text  id=login-pwd  socialsurvey
+    Click Element  xpath=//div[@id='login-submit']
+    wait until page contains  Dashboard
+
+After that Login As Company Admin
+    click link  id=heirarchy-link
+    wait until page contains  View Hierarchy
+    click element  xpath=//input[@id='hr-comp-sel']
+    Input Text  xpath=//input[@id='hr-comp-sel']  ${CompanyNameForLoginAs}
+    sleep  2
+    click element  xpath=//span[@id='hr-comp-icn']
+    sleep  2
+    click element  xpath=//div[@id='tr-comp-337']
+    sleep  2
+    click element  xpath=//div[@class='float-right v-tbl-icn v-icn-login user-login-icn']
+    wait until page contains  Dashboard  timeout=15
+    sleep   5

@@ -1,0 +1,3996 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generated="20180403 16:37:18.290" generator="Robot 3.0.2 (Python 2.7.14 on win32)">
+<suite source="C:\developments\robot-scripts\SocialSurvey\tests" id="s1" name="Tests">
+<suite source="C:\developments\robot-scripts\SocialSurvey\tests\OverviewTestCases.txt" id="s1-s1" name="OverviewTestCases">
+<test id="s1-s1-t1" name="Company Overview test case">
+<kw name="Get the UI completed count for company" library="OverviewFunctions">
+<assign>
+<var>${Complete}</var>
+</assign>
+<kw name="Connect to Production Reporting MySQL" library="Common">
+<kw name="Connect To Database Using Custom Params" library="DatabaseLibrary">
+<doc>Loads the DB API 2.0 module given `dbapiModuleName` then uses it to</doc>
+<arguments>
+<arg>pymysql</arg>
+<arg>database='ss_report', user='infrrd_ops', password='vfsOIJ987', host='ss-report.c3n1qsdsmjxc.us-west-2.rds.amazonaws.com', port=3306</arg>
+</arguments>
+<msg timestamp="20180403 16:37:18.620" level="INFO">Executing : Connect To Database Using Custom Params : pymysql.connect(db_api_2.connect(database='ss_report', user='infrrd_ops', password='vfsOIJ987', host='ss-report.c3n1qsdsmjxc.us-west-2.rds.amazonaws.com', port=3306)) </msg>
+<status status="PASS" endtime="20180403 16:37:19.657" starttime="20180403 16:37:18.603"></status>
+</kw>
+<status status="PASS" endtime="20180403 16:37:19.657" starttime="20180403 16:37:18.603"></status>
+</kw>
+<kw name="Query" library="DatabaseLibrary">
+<doc>Uses the input `selectStatement` to query for the values that will be returned as a list of tuples. Set optional</doc>
+<arguments>
+<arg>${Query21}</arg>
+</arguments>
+<assign>
+<var>${Compltd}</var>
+</assign>
+<msg timestamp="20180403 16:37:19.658" level="INFO">Executing : Query  |  select completed from overview_company where company_id= 337 ; </msg>
+<msg timestamp="20180403 16:37:20.160" level="INFO">${Compltd} = ((106142,),)</msg>
+<status status="PASS" endtime="20180403 16:37:20.160" starttime="20180403 16:37:19.657"></status>
+</kw>
+<kw name="Convert To String" library="BuiltIn">
+<doc>Converts the given item to a Unicode string.</doc>
+<arguments>
+<arg>${Compltd}</arg>
+</arguments>
+<assign>
+<var>${Compltd1}</var>
+</assign>
+<msg timestamp="20180403 16:37:20.161" level="INFO">${Compltd1} = ((106142,),)</msg>
+<status status="PASS" endtime="20180403 16:37:20.161" starttime="20180403 16:37:20.161"></status>
+</kw>
+<kw name="Remove String" library="String">
+<doc>Removes all ``removables`` from the given ``string``.</doc>
+<arguments>
+<arg>${Compltd1}</arg>
+<arg>(</arg>
+<arg>)</arg>
+<arg>,</arg>
+</arguments>
+<assign>
+<var>${CompletedFinal}</var>
+</assign>
+<msg timestamp="20180403 16:37:20.162" level="INFO">${CompletedFinal} = 106142</msg>
+<status status="PASS" endtime="20180403 16:37:20.162" starttime="20180403 16:37:20.161"></status>
+</kw>
+<kw name="Return From Keyword" library="BuiltIn">
+<doc>Returns from the enclosing user keyword.</doc>
+<arguments>
+<arg>${CompletedFinal}</arg>
+</arguments>
+<msg timestamp="20180403 16:37:20.162" level="INFO">Returning from the enclosing user keyword.</msg>
+<status status="PASS" endtime="20180403 16:37:20.162" starttime="20180403 16:37:20.162"></status>
+</kw>
+<msg timestamp="20180403 16:37:20.162" level="INFO">${Complete} = 106142</msg>
+<status status="PASS" endtime="20180403 16:37:20.162" starttime="20180403 16:37:18.602"></status>
+</kw>
+<kw name="Get Actual completed count for a company" library="OverviewFunctions">
+<arguments>
+<arg>${Complete}</arg>
+</arguments>
+<kw name="Query" library="DatabaseLibrary">
+<doc>Uses the input `selectStatement` to query for the values that will be returned as a list of tuples. Set optional</doc>
+<arguments>
+<arg>${Query25}</arg>
+</arguments>
+<assign>
+<var>${First}</var>
+</assign>
+<msg timestamp="20180403 16:37:20.163" level="INFO">Executing : Query  |  select count(*) from survey_details where stage=-1 and source not in ('Zillow','3rd Party Review') and COMPANY_ID=337 ; </msg>
+<msg timestamp="20180403 16:37:21.360" level="INFO">${First} = ((106142,),)</msg>
+<status status="PASS" endtime="20180403 16:37:21.360" starttime="20180403 16:37:20.163"></status>
+</kw>
+<kw name="Convert To String" library="BuiltIn">
+<doc>Converts the given item to a Unicode string.</doc>
+<arguments>
+<arg>${First}</arg>
+</arguments>
+<assign>
+<var>${Second}</var>
+</assign>
+<msg timestamp="20180403 16:37:21.361" level="INFO">${Second} = ((106142,),)</msg>
+<status status="PASS" endtime="20180403 16:37:21.361" starttime="20180403 16:37:21.360"></status>
+</kw>
+<kw name="Remove String" library="String">
+<doc>Removes all ``removables`` from the given ``string``.</doc>
+<arguments>
+<arg>${Second}</arg>
+<arg>(</arg>
+<arg>)</arg>
+<arg>,</arg>
+</arguments>
+<assign>
+<var>${clean}</var>
+</assign>
+<msg timestamp="20180403 16:37:21.361" level="INFO">${clean} = 106142</msg>
+<status status="PASS" endtime="20180403 16:37:21.361" starttime="20180403 16:37:21.361"></status>
+</kw>
+<kw name="Should Be Equal As Numbers" library="BuiltIn">
+<doc>Fails if objects are unequal after converting them to real numbers.</doc>
+<arguments>
+<arg>${Completed}</arg>
+<arg>${clean}</arg>
+</arguments>
+<status status="PASS" endtime="20180403 16:37:21.362" starttime="20180403 16:37:21.361"></status>
+</kw>
+<status status="PASS" endtime="20180403 16:37:21.362" starttime="20180403 16:37:20.162"></status>
+</kw>
+<kw name="Get the UI Incomplete count for company" library="OverviewFunctions">
+<assign>
+<var>${Incomplete}</var>
+</assign>
+<kw name="Connect to Production Reporting MySQL" library="Common">
+<kw name="Connect To Database Using Custom Params" library="DatabaseLibrary">
+<doc>Loads the DB API 2.0 module given `dbapiModuleName` then uses it to</doc>
+<arguments>
+<arg>pymysql</arg>
+<arg>database='ss_report', user='infrrd_ops', password='vfsOIJ987', host='ss-report.c3n1qsdsmjxc.us-west-2.rds.amazonaws.com', port=3306</arg>
+</arguments>
+<msg timestamp="20180403 16:37:21.363" level="INFO">Executing : Connect To Database Using Custom Params : pymysql.connect(db_api_2.connect(database='ss_report', user='infrrd_ops', password='vfsOIJ987', host='ss-report.c3n1qsdsmjxc.us-west-2.rds.amazonaws.com', port=3306)) </msg>
+<status status="PASS" endtime="20180403 16:37:22.380" starttime="20180403 16:37:21.363"></status>
+</kw>
+<status status="PASS" endtime="20180403 16:37:22.380" starttime="20180403 16:37:21.362"></status>
+</kw>
+<kw name="Query" library="DatabaseLibrary">
+<doc>Uses the input `selectStatement` to query for the values that will be returned as a list of tuples. Set optional</doc>
+<arguments>
+<arg>${Query22}</arg>
+</arguments>
+<assign>
+<var>${Incmplt}</var>
+</assign>
+<msg timestamp="20180403 16:37:22.381" level="INFO">Executing : Query  |  select incomplete from overview_company where company_id= 337 ; </msg>
+<msg timestamp="20180403 16:37:22.886" level="INFO">${Incmplt} = ((1025745,),)</msg>
+<status status="PASS" endtime="20180403 16:37:22.886" starttime="20180403 16:37:22.380"></status>
+</kw>
+<kw name="Convert To String" library="BuiltIn">
+<doc>Converts the given item to a Unicode string.</doc>
+<arguments>
+<arg>${Incmplt}</arg>
+</arguments>
+<assign>
+<var>${Incmplt1}</var>
+</assign>
+<msg timestamp="20180403 16:37:22.886" level="INFO">${Incmplt1} = ((1025745,),)</msg>
+<status status="PASS" endtime="20180403 16:37:22.887" starttime="20180403 16:37:22.886"></status>
+</kw>
+<kw name="Remove String" library="String">
+<doc>Removes all ``removables`` from the given ``string``.</doc>
+<arguments>
+<arg>${Incmplt1}</arg>
+<arg>(</arg>
+<arg>)</arg>
+<arg>,</arg>
+</arguments>
+<assign>
+<var>${IncmpltFinal}</var>
+</assign>
+<msg timestamp="20180403 16:37:22.887" level="INFO">${IncmpltFinal} = 1025745</msg>
+<status status="PASS" endtime="20180403 16:37:22.887" starttime="20180403 16:37:22.887"></status>
+</kw>
+<kw name="Return From Keyword" library="BuiltIn">
+<doc>Returns from the enclosing user keyword.</doc>
+<arguments>
+<arg>${IncmpltFinal}</arg>
+</arguments>
+<msg timestamp="20180403 16:37:22.887" level="INFO">Returning from the enclosing user keyword.</msg>
+<status status="PASS" endtime="20180403 16:37:22.888" starttime="20180403 16:37:22.887"></status>
+</kw>
+<msg timestamp="20180403 16:37:22.888" level="INFO">${Incomplete} = 1025745</msg>
+<status status="PASS" endtime="20180403 16:37:22.888" starttime="20180403 16:37:21.362"></status>
+</kw>
+<kw name="Get Actual incomplete count for a company" library="OverviewFunctions">
+<arguments>
+<arg>${Incomplete}</arg>
+</arguments>
+<kw name="Query" library="DatabaseLibrary">
+<doc>Uses the input `selectStatement` to query for the values that will be returned as a list of tuples. Set optional</doc>
+<arguments>
+<arg>${Query26}</arg>
+</arguments>
+<assign>
+<var>${First}</var>
+</assign>
+<msg timestamp="20180403 16:37:22.889" level="INFO">Executing : Query  |  select count(*) from survey_pre_initiation where STATUS in (0,1,2) and AGENT_ID in (select user_id from users where company_id= 337 and STATUS not in (11)); </msg>
+<msg timestamp="20180403 16:37:28.950" level="INFO">${First} = ((1025745,),)</msg>
+<status status="PASS" endtime="20180403 16:37:28.950" starttime="20180403 16:37:22.889"></status>
+</kw>
+<kw name="Convert To String" library="BuiltIn">
+<doc>Converts the given item to a Unicode string.</doc>
+<arguments>
+<arg>${First}</arg>
+</arguments>
+<assign>
+<var>${Second}</var>
+</assign>
+<msg timestamp="20180403 16:37:28.950" level="INFO">${Second} = ((1025745,),)</msg>
+<status status="PASS" endtime="20180403 16:37:28.950" starttime="20180403 16:37:28.950"></status>
+</kw>
+<kw name="Remove String" library="String">
+<doc>Removes all ``removables`` from the given ``string``.</doc>
+<arguments>
+<arg>${Second}</arg>
+<arg>(</arg>
+<arg>)</arg>
+<arg>,</arg>
+</arguments>
+<assign>
+<var>${clean}</var>
+</assign>
+<msg timestamp="20180403 16:37:28.951" level="INFO">${clean} = 1025745</msg>
+<status status="PASS" endtime="20180403 16:37:28.951" starttime="20180403 16:37:28.951"></status>
+</kw>
+<kw name="Should Be Equal As Numbers" library="BuiltIn">
+<doc>Fails if objects are unequal after converting them to real numbers.</doc>
+<arguments>
+<arg>${Incompleted}</arg>
+<arg>${clean}</arg>
+</arguments>
+<status status="PASS" endtime="20180403 16:37:28.952" starttime="20180403 16:37:28.951"></status>
+</kw>
+<status status="PASS" endtime="20180403 16:37:28.952" starttime="20180403 16:37:22.888"></status>
+</kw>
+<kw name="Get the UI Zillow count for company" library="OverviewFunctions">
+<assign>
+<var>${Zillow}</var>
+</assign>
+<kw name="Connect to Production Reporting MySQL" library="Common">
+<kw name="Connect To Database Using Custom Params" library="DatabaseLibrary">
+<doc>Loads the DB API 2.0 module given `dbapiModuleName` then uses it to</doc>
+<arguments>
+<arg>pymysql</arg>
+<arg>database='ss_report', user='infrrd_ops', password='vfsOIJ987', host='ss-report.c3n1qsdsmjxc.us-west-2.rds.amazonaws.com', port=3306</arg>
+</arguments>
+<msg timestamp="20180403 16:37:28.953" level="INFO">Executing : Connect To Database Using Custom Params : pymysql.connect(db_api_2.connect(database='ss_report', user='infrrd_ops', password='vfsOIJ987', host='ss-report.c3n1qsdsmjxc.us-west-2.rds.amazonaws.com', port=3306)) </msg>
+<status status="PASS" endtime="20180403 16:37:30.076" starttime="20180403 16:37:28.953"></status>
+</kw>
+<status status="PASS" endtime="20180403 16:37:30.076" starttime="20180403 16:37:28.953"></status>
+</kw>
+<kw name="Query" library="DatabaseLibrary">
+<doc>Uses the input `selectStatement` to query for the values that will be returned as a list of tuples. Set optional</doc>
+<arguments>
+<arg>${Query23}</arg>
+</arguments>
+<assign>
+<var>${Zillow}</var>
+</assign>
+<msg timestamp="20180403 16:37:30.076" level="INFO">Executing : Query  |  select zillow_reviews from overview_company where company_id= 337 ; </msg>
+<msg timestamp="20180403 16:37:30.609" level="INFO">${Zillow} = ((24,),)</msg>
+<status status="PASS" endtime="20180403 16:37:30.609" starttime="20180403 16:37:30.076"></status>
+</kw>
+<kw name="Convert To String" library="BuiltIn">
+<doc>Converts the given item to a Unicode string.</doc>
+<arguments>
+<arg>${Zillow}</arg>
+</arguments>
+<assign>
+<var>${Zillow1}</var>
+</assign>
+<msg timestamp="20180403 16:37:30.609" level="INFO">${Zillow1} = ((24,),)</msg>
+<status status="PASS" endtime="20180403 16:37:30.610" starttime="20180403 16:37:30.609"></status>
+</kw>
+<kw name="Remove String" library="String">
+<doc>Removes all ``removables`` from the given ``string``.</doc>
+<arguments>
+<arg>${Zillow1}</arg>
+<arg>(</arg>
+<arg>)</arg>
+<arg>,</arg>
+</arguments>
+<assign>
+<var>${ZillowFinal}</var>
+</assign>
+<msg timestamp="20180403 16:37:30.610" level="INFO">${ZillowFinal} = 24</msg>
+<status status="PASS" endtime="20180403 16:37:30.610" starttime="20180403 16:37:30.610"></status>
+</kw>
+<kw name="Return From Keyword" library="BuiltIn">
+<doc>Returns from the enclosing user keyword.</doc>
+<arguments>
+<arg>${ZillowFinal}</arg>
+</arguments>
+<msg timestamp="20180403 16:37:30.610" level="INFO">Returning from the enclosing user keyword.</msg>
+<status status="PASS" endtime="20180403 16:37:30.610" starttime="20180403 16:37:30.610"></status>
+</kw>
+<msg timestamp="20180403 16:37:30.611" level="INFO">${Zillow} = 24</msg>
+<status status="PASS" endtime="20180403 16:37:30.611" starttime="20180403 16:37:28.952"></status>
+</kw>
+<kw name="Get Actual Zillow count for a company" library="OverviewFunctions">
+<arguments>
+<arg>${Zillow}</arg>
+</arguments>
+<kw name="Query" library="DatabaseLibrary">
+<doc>Uses the input `selectStatement` to query for the values that will be returned as a list of tuples. Set optional</doc>
+<arguments>
+<arg>${Query27}</arg>
+</arguments>
+<assign>
+<var>${First}</var>
+</assign>
+<msg timestamp="20180403 16:37:30.611" level="INFO">Executing : Query  |  select count(*) from survey_details where source='Zillow' and company_id= 337 ; </msg>
+<msg timestamp="20180403 16:37:31.740" level="INFO">${First} = ((24,),)</msg>
+<status status="PASS" endtime="20180403 16:37:31.740" starttime="20180403 16:37:30.611"></status>
+</kw>
+<kw name="Convert To String" library="BuiltIn">
+<doc>Converts the given item to a Unicode string.</doc>
+<arguments>
+<arg>${First}</arg>
+</arguments>
+<assign>
+<var>${Second}</var>
+</assign>
+<msg timestamp="20180403 16:37:31.741" level="INFO">${Second} = ((24,),)</msg>
+<status status="PASS" endtime="20180403 16:37:31.741" starttime="20180403 16:37:31.741"></status>
+</kw>
+<kw name="Remove String" library="String">
+<doc>Removes all ``removables`` from the given ``string``.</doc>
+<arguments>
+<arg>${Second}</arg>
+<arg>(</arg>
+<arg>)</arg>
+<arg>,</arg>
+</arguments>
+<assign>
+<var>${clean}</var>
+</assign>
+<msg timestamp="20180403 16:37:31.742" level="INFO">${clean} = 24</msg>
+<status status="PASS" endtime="20180403 16:37:31.742" starttime="20180403 16:37:31.741"></status>
+</kw>
+<kw name="Should Be Equal As Numbers" library="BuiltIn">
+<doc>Fails if objects are unequal after converting them to real numbers.</doc>
+<arguments>
+<arg>${Zillow}</arg>
+<arg>${clean}</arg>
+</arguments>
+<status status="PASS" endtime="20180403 16:37:31.742" starttime="20180403 16:37:31.742"></status>
+</kw>
+<status status="PASS" endtime="20180403 16:37:31.742" starttime="20180403 16:37:30.611"></status>
+</kw>
+<kw name="Get the Third Party reviews count for company" library="OverviewFunctions">
+<assign>
+<var>${ThirdParty}</var>
+</assign>
+<kw name="Connect to Production Reporting MySQL" library="Common">
+<kw name="Connect To Database Using Custom Params" library="DatabaseLibrary">
+<doc>Loads the DB API 2.0 module given `dbapiModuleName` then uses it to</doc>
+<arguments>
+<arg>pymysql</arg>
+<arg>database='ss_report', user='infrrd_ops', password='vfsOIJ987', host='ss-report.c3n1qsdsmjxc.us-west-2.rds.amazonaws.com', port=3306</arg>
+</arguments>
+<msg timestamp="20180403 16:37:31.743" level="INFO">Executing : Connect To Database Using Custom Params : pymysql.connect(db_api_2.connect(database='ss_report', user='infrrd_ops', password='vfsOIJ987', host='ss-report.c3n1qsdsmjxc.us-west-2.rds.amazonaws.com', port=3306)) </msg>
+<status status="PASS" endtime="20180403 16:37:32.784" starttime="20180403 16:37:31.743"></status>
+</kw>
+<status status="PASS" endtime="20180403 16:37:32.784" starttime="20180403 16:37:31.743"></status>
+</kw>
+<kw name="Query" library="DatabaseLibrary">
+<doc>Uses the input `selectStatement` to query for the values that will be returned as a list of tuples. Set optional</doc>
+<arguments>
+<arg>${Query24}</arg>
+</arguments>
+<assign>
+<var>${ThirdParty}</var>
+</assign>
+<msg timestamp="20180403 16:37:32.784" level="INFO">Executing : Query  |  select third_party from overview_company where company_id= 337 ; </msg>
+<msg timestamp="20180403 16:37:33.306" level="INFO">${ThirdParty} = ((0,),)</msg>
+<status status="PASS" endtime="20180403 16:37:33.306" starttime="20180403 16:37:32.784"></status>
+</kw>
+<kw name="Convert To String" library="BuiltIn">
+<doc>Converts the given item to a Unicode string.</doc>
+<arguments>
+<arg>${ThirdParty}</arg>
+</arguments>
+<assign>
+<var>${ThirdParty1}</var>
+</assign>
+<msg timestamp="20180403 16:37:33.307" level="INFO">${ThirdParty1} = ((0,),)</msg>
+<status status="PASS" endtime="20180403 16:37:33.307" starttime="20180403 16:37:33.307"></status>
+</kw>
+<kw name="Remove String" library="String">
+<doc>Removes all ``removables`` from the given ``string``.</doc>
+<arguments>
+<arg>${ThirdParty1}</arg>
+<arg>(</arg>
+<arg>)</arg>
+<arg>,</arg>
+</arguments>
+<assign>
+<var>${ThirdPartyFinal}</var>
+</assign>
+<msg timestamp="20180403 16:37:33.308" level="INFO">${ThirdPartyFinal} = 0</msg>
+<status status="PASS" endtime="20180403 16:37:33.308" starttime="20180403 16:37:33.307"></status>
+</kw>
+<kw name="Return From Keyword" library="BuiltIn">
+<doc>Returns from the enclosing user keyword.</doc>
+<arguments>
+<arg>${ThirdPartyFinal}</arg>
+</arguments>
+<msg timestamp="20180403 16:37:33.308" level="INFO">Returning from the enclosing user keyword.</msg>
+<status status="PASS" endtime="20180403 16:37:33.308" starttime="20180403 16:37:33.308"></status>
+</kw>
+<msg timestamp="20180403 16:37:33.308" level="INFO">${ThirdParty} = 0</msg>
+<status status="PASS" endtime="20180403 16:37:33.308" starttime="20180403 16:37:31.742"></status>
+</kw>
+<kw name="Get Actual Third Party count for a company" library="OverviewFunctions">
+<arguments>
+<arg>${ThirdParty}</arg>
+</arguments>
+<kw name="Query" library="DatabaseLibrary">
+<doc>Uses the input `selectStatement` to query for the values that will be returned as a list of tuples. Set optional</doc>
+<arguments>
+<arg>${Query28}</arg>
+</arguments>
+<assign>
+<var>${First}</var>
+</assign>
+<msg timestamp="20180403 16:37:33.309" level="INFO">Executing : Query  |  select count(*) from survey_details where source='3rd Party Review' and company_id= 337 ; </msg>
+<msg timestamp="20180403 16:37:34.214" level="INFO">${First} = ((0,),)</msg>
+<status status="PASS" endtime="20180403 16:37:34.214" starttime="20180403 16:37:33.309"></status>
+</kw>
+<kw name="Convert To String" library="BuiltIn">
+<doc>Converts the given item to a Unicode string.</doc>
+<arguments>
+<arg>${First}</arg>
+</arguments>
+<assign>
+<var>${Second}</var>
+</assign>
+<msg timestamp="20180403 16:37:34.214" level="INFO">${Second} = ((0,),)</msg>
+<status status="PASS" endtime="20180403 16:37:34.214" starttime="20180403 16:37:34.214"></status>
+</kw>
+<kw name="Remove String" library="String">
+<doc>Removes all ``removables`` from the given ``string``.</doc>
+<arguments>
+<arg>${Second}</arg>
+<arg>(</arg>
+<arg>)</arg>
+<arg>,</arg>
+</arguments>
+<assign>
+<var>${clean}</var>
+</assign>
+<msg timestamp="20180403 16:37:34.215" level="INFO">${clean} = 0</msg>
+<status status="PASS" endtime="20180403 16:37:34.215" starttime="20180403 16:37:34.215"></status>
+</kw>
+<kw name="Should Be Equal As Numbers" library="BuiltIn">
+<doc>Fails if objects are unequal after converting them to real numbers.</doc>
+<arguments>
+<arg>${ThirdParty}</arg>
+<arg>${clean}</arg>
+</arguments>
+<status status="PASS" endtime="20180403 16:37:34.216" starttime="20180403 16:37:34.215"></status>
+</kw>
+<status status="PASS" endtime="20180403 16:37:34.216" starttime="20180403 16:37:33.309"></status>
+</kw>
+<status status="PASS" endtime="20180403 16:37:34.216" critical="yes" starttime="20180403 16:37:18.602"></status>
+</test>
+<test id="s1-s1-t2" name="Region Overview test case">
+<kw name="Get the UI completed count for region" library="OverviewFunctions">
+<assign>
+<var>${Complete}</var>
+</assign>
+<kw name="Connect to Production Reporting MySQL" library="Common">
+<kw name="Connect To Database Using Custom Params" library="DatabaseLibrary">
+<doc>Loads the DB API 2.0 module given `dbapiModuleName` then uses it to</doc>
+<arguments>
+<arg>pymysql</arg>
+<arg>database='ss_report', user='infrrd_ops', password='vfsOIJ987', host='ss-report.c3n1qsdsmjxc.us-west-2.rds.amazonaws.com', port=3306</arg>
+</arguments>
+<msg timestamp="20180403 16:37:34.218" level="INFO">Executing : Connect To Database Using Custom Params : pymysql.connect(db_api_2.connect(database='ss_report', user='infrrd_ops', password='vfsOIJ987', host='ss-report.c3n1qsdsmjxc.us-west-2.rds.amazonaws.com', port=3306)) </msg>
+<status status="PASS" endtime="20180403 16:37:35.268" starttime="20180403 16:37:34.218"></status>
+</kw>
+<status status="PASS" endtime="20180403 16:37:35.268" starttime="20180403 16:37:34.218"></status>
+</kw>
+<kw name="Query" library="DatabaseLibrary">
+<doc>Uses the input `selectStatement` to query for the values that will be returned as a list of tuples. Set optional</doc>
+<arguments>
+<arg>${Query29}</arg>
+</arguments>
+<assign>
+<var>${Compltd}</var>
+</assign>
+<msg timestamp="20180403 16:37:35.269" level="INFO">Executing : Query  |  select completed from overview_region where region_id= 617 ; </msg>
+<msg timestamp="20180403 16:37:35.784" level="INFO">${Compltd} = ((20325,),)</msg>
+<status status="PASS" endtime="20180403 16:37:35.784" starttime="20180403 16:37:35.268"></status>
+</kw>
+<kw name="Convert To String" library="BuiltIn">
+<doc>Converts the given item to a Unicode string.</doc>
+<arguments>
+<arg>${Compltd}</arg>
+</arguments>
+<assign>
+<var>${Compltd1}</var>
+</assign>
+<msg timestamp="20180403 16:37:35.784" level="INFO">${Compltd1} = ((20325,),)</msg>
+<status status="PASS" endtime="20180403 16:37:35.785" starttime="20180403 16:37:35.784"></status>
+</kw>
+<kw name="Remove String" library="String">
+<doc>Removes all ``removables`` from the given ``string``.</doc>
+<arguments>
+<arg>${Compltd1}</arg>
+<arg>(</arg>
+<arg>)</arg>
+<arg>,</arg>
+</arguments>
+<assign>
+<var>${CompletedFinal}</var>
+</assign>
+<msg timestamp="20180403 16:37:35.785" level="INFO">${CompletedFinal} = 20325</msg>
+<status status="PASS" endtime="20180403 16:37:35.785" starttime="20180403 16:37:35.785"></status>
+</kw>
+<kw name="Return From Keyword" library="BuiltIn">
+<doc>Returns from the enclosing user keyword.</doc>
+<arguments>
+<arg>${CompletedFinal}</arg>
+</arguments>
+<msg timestamp="20180403 16:37:35.785" level="INFO">Returning from the enclosing user keyword.</msg>
+<status status="PASS" endtime="20180403 16:37:35.785" starttime="20180403 16:37:35.785"></status>
+</kw>
+<msg timestamp="20180403 16:37:35.786" level="INFO">${Complete} = 20325</msg>
+<status status="PASS" endtime="20180403 16:37:35.786" starttime="20180403 16:37:34.217"></status>
+</kw>
+<kw name="Get Actual completed count for a region" library="OverviewFunctions">
+<arguments>
+<arg>${Complete}</arg>
+</arguments>
+<kw name="Query" library="DatabaseLibrary">
+<doc>Uses the input `selectStatement` to query for the values that will be returned as a list of tuples. Set optional</doc>
+<arguments>
+<arg>${Query37}</arg>
+</arguments>
+<assign>
+<var>${First}</var>
+</assign>
+<msg timestamp="20180403 16:37:35.786" level="INFO">Executing : Query  |  select count(*) from survey_details where stage=-1 and source not in ('Zillow','3rd Party Review') and AGENT_ID in (select user_id from user_profile where REGION_ID=617 and STATUS in (0,1,2)); </msg>
+<msg timestamp="20180403 16:37:36.838" level="INFO">${First} = ((20325,),)</msg>
+<status status="PASS" endtime="20180403 16:37:36.838" starttime="20180403 16:37:35.786"></status>
+</kw>
+<kw name="Convert To String" library="BuiltIn">
+<doc>Converts the given item to a Unicode string.</doc>
+<arguments>
+<arg>${First}</arg>
+</arguments>
+<assign>
+<var>${Second}</var>
+</assign>
+<msg timestamp="20180403 16:37:36.839" level="INFO">${Second} = ((20325,),)</msg>
+<status status="PASS" endtime="20180403 16:37:36.839" starttime="20180403 16:37:36.839"></status>
+</kw>
+<kw name="Remove String" library="String">
+<doc>Removes all ``removables`` from the given ``string``.</doc>
+<arguments>
+<arg>${Second}</arg>
+<arg>(</arg>
+<arg>)</arg>
+<arg>,</arg>
+</arguments>
+<assign>
+<var>${clean}</var>
+</assign>
+<msg timestamp="20180403 16:37:36.840" level="INFO">${clean} = 20325</msg>
+<status status="PASS" endtime="20180403 16:37:36.840" starttime="20180403 16:37:36.839"></status>
+</kw>
+<kw name="Should Be Equal As Numbers" library="BuiltIn">
+<doc>Fails if objects are unequal after converting them to real numbers.</doc>
+<arguments>
+<arg>${Completed}</arg>
+<arg>${clean}</arg>
+</arguments>
+<status status="PASS" endtime="20180403 16:37:36.840" starttime="20180403 16:37:36.840"></status>
+</kw>
+<status status="PASS" endtime="20180403 16:37:36.840" starttime="20180403 16:37:35.786"></status>
+</kw>
+<kw name="Get the UI Incomplete count for region" library="OverviewFunctions">
+<assign>
+<var>${Incomplete}</var>
+</assign>
+<kw name="Connect to Production Reporting MySQL" library="Common">
+<kw name="Connect To Database Using Custom Params" library="DatabaseLibrary">
+<doc>Loads the DB API 2.0 module given `dbapiModuleName` then uses it to</doc>
+<arguments>
+<arg>pymysql</arg>
+<arg>database='ss_report', user='infrrd_ops', password='vfsOIJ987', host='ss-report.c3n1qsdsmjxc.us-west-2.rds.amazonaws.com', port=3306</arg>
+</arguments>
+<msg timestamp="20180403 16:37:36.841" level="INFO">Executing : Connect To Database Using Custom Params : pymysql.connect(db_api_2.connect(database='ss_report', user='infrrd_ops', password='vfsOIJ987', host='ss-report.c3n1qsdsmjxc.us-west-2.rds.amazonaws.com', port=3306)) </msg>
+<status status="PASS" endtime="20180403 16:37:37.858" starttime="20180403 16:37:36.841"></status>
+</kw>
+<status status="PASS" endtime="20180403 16:37:37.858" starttime="20180403 16:37:36.841"></status>
+</kw>
+<kw name="Query" library="DatabaseLibrary">
+<doc>Uses the input `selectStatement` to query for the values that will be returned as a list of tuples. Set optional</doc>
+<arguments>
+<arg>${Query30}</arg>
+</arguments>
+<assign>
+<var>${Incmplt}</var>
+</assign>
+<msg timestamp="20180403 16:37:37.858" level="INFO">Executing : Query  |  select incomplete from overview_region where region_id= 617 ; </msg>
+<msg timestamp="20180403 16:37:38.366" level="INFO">${Incmplt} = ((207477,),)</msg>
+<status status="PASS" endtime="20180403 16:37:38.366" starttime="20180403 16:37:37.858"></status>
+</kw>
+<kw name="Convert To String" library="BuiltIn">
+<doc>Converts the given item to a Unicode string.</doc>
+<arguments>
+<arg>${Incmplt}</arg>
+</arguments>
+<assign>
+<var>${Incmplt1}</var>
+</assign>
+<msg timestamp="20180403 16:37:38.367" level="INFO">${Incmplt1} = ((207477,),)</msg>
+<status status="PASS" endtime="20180403 16:37:38.367" starttime="20180403 16:37:38.366"></status>
+</kw>
+<kw name="Remove String" library="String">
+<doc>Removes all ``removables`` from the given ``string``.</doc>
+<arguments>
+<arg>${Incmplt1}</arg>
+<arg>(</arg>
+<arg>)</arg>
+<arg>,</arg>
+</arguments>
+<assign>
+<var>${IncmpltFinal}</var>
+</assign>
+<msg timestamp="20180403 16:37:38.367" level="INFO">${IncmpltFinal} = 207477</msg>
+<status status="PASS" endtime="20180403 16:37:38.367" starttime="20180403 16:37:38.367"></status>
+</kw>
+<kw name="Return From Keyword" library="BuiltIn">
+<doc>Returns from the enclosing user keyword.</doc>
+<arguments>
+<arg>${IncmpltFinal}</arg>
+</arguments>
+<msg timestamp="20180403 16:37:38.367" level="INFO">Returning from the enclosing user keyword.</msg>
+<status status="PASS" endtime="20180403 16:37:38.367" starttime="20180403 16:37:38.367"></status>
+</kw>
+<msg timestamp="20180403 16:37:38.368" level="INFO">${Incomplete} = 207477</msg>
+<status status="PASS" endtime="20180403 16:37:38.368" starttime="20180403 16:37:36.841"></status>
+</kw>
+<kw name="Get Actual incomplete count for a region" library="OverviewFunctions">
+<arguments>
+<arg>${Incomplete}</arg>
+</arguments>
+<kw name="Query" library="DatabaseLibrary">
+<doc>Uses the input `selectStatement` to query for the values that will be returned as a list of tuples. Set optional</doc>
+<arguments>
+<arg>${Query38}</arg>
+</arguments>
+<assign>
+<var>${First}</var>
+</assign>
+<msg timestamp="20180403 16:37:38.368" level="INFO">Executing : Query  |  select count(*) from survey_pre_initiation where STATUS in (0,1,2) and AGENT_ID in (select user_id from user_profile where REGION_ID=617 and STATUS in (0,1,2)); </msg>
+<msg timestamp="20180403 16:37:40.846" level="INFO">${First} = ((207477,),)</msg>
+<status status="PASS" endtime="20180403 16:37:40.846" starttime="20180403 16:37:38.368"></status>
+</kw>
+<kw name="Convert To String" library="BuiltIn">
+<doc>Converts the given item to a Unicode string.</doc>
+<arguments>
+<arg>${First}</arg>
+</arguments>
+<assign>
+<var>${Second}</var>
+</assign>
+<msg timestamp="20180403 16:37:40.847" level="INFO">${Second} = ((207477,),)</msg>
+<status status="PASS" endtime="20180403 16:37:40.847" starttime="20180403 16:37:40.846"></status>
+</kw>
+<kw name="Remove String" library="String">
+<doc>Removes all ``removables`` from the given ``string``.</doc>
+<arguments>
+<arg>${Second}</arg>
+<arg>(</arg>
+<arg>)</arg>
+<arg>,</arg>
+</arguments>
+<assign>
+<var>${clean}</var>
+</assign>
+<msg timestamp="20180403 16:37:40.847" level="INFO">${clean} = 207477</msg>
+<status status="PASS" endtime="20180403 16:37:40.847" starttime="20180403 16:37:40.847"></status>
+</kw>
+<kw name="Should Be Equal As Numbers" library="BuiltIn">
+<doc>Fails if objects are unequal after converting them to real numbers.</doc>
+<arguments>
+<arg>${Incompleted}</arg>
+<arg>${clean}</arg>
+</arguments>
+<status status="PASS" endtime="20180403 16:37:40.848" starttime="20180403 16:37:40.847"></status>
+</kw>
+<status status="PASS" endtime="20180403 16:37:40.848" starttime="20180403 16:37:38.368"></status>
+</kw>
+<kw name="Get the UI Zillow count for region" library="OverviewFunctions">
+<assign>
+<var>${Zillow}</var>
+</assign>
+<kw name="Connect to Production Reporting MySQL" library="Common">
+<kw name="Connect To Database Using Custom Params" library="DatabaseLibrary">
+<doc>Loads the DB API 2.0 module given `dbapiModuleName` then uses it to</doc>
+<arguments>
+<arg>pymysql</arg>
+<arg>database='ss_report', user='infrrd_ops', password='vfsOIJ987', host='ss-report.c3n1qsdsmjxc.us-west-2.rds.amazonaws.com', port=3306</arg>
+</arguments>
+<msg timestamp="20180403 16:37:40.849" level="INFO">Executing : Connect To Database Using Custom Params : pymysql.connect(db_api_2.connect(database='ss_report', user='infrrd_ops', password='vfsOIJ987', host='ss-report.c3n1qsdsmjxc.us-west-2.rds.amazonaws.com', port=3306)) </msg>
+<status status="PASS" endtime="20180403 16:37:41.897" starttime="20180403 16:37:40.849"></status>
+</kw>
+<status status="PASS" endtime="20180403 16:37:41.897" starttime="20180403 16:37:40.848"></status>
+</kw>
+<kw name="Query" library="DatabaseLibrary">
+<doc>Uses the input `selectStatement` to query for the values that will be returned as a list of tuples. Set optional</doc>
+<arguments>
+<arg>${Query31}</arg>
+</arguments>
+<assign>
+<var>${Zillow}</var>
+</assign>
+<msg timestamp="20180403 16:37:41.898" level="INFO">Executing : Query  |  select zillow_reviews from overview_region where region_id= 617 ; </msg>
+<msg timestamp="20180403 16:37:42.409" level="INFO">${Zillow} = ((0,),)</msg>
+<status status="PASS" endtime="20180403 16:37:42.409" starttime="20180403 16:37:41.897"></status>
+</kw>
+<kw name="Convert To String" library="BuiltIn">
+<doc>Converts the given item to a Unicode string.</doc>
+<arguments>
+<arg>${Zillow}</arg>
+</arguments>
+<assign>
+<var>${Zillow1}</var>
+</assign>
+<msg timestamp="20180403 16:37:42.409" level="INFO">${Zillow1} = ((0,),)</msg>
+<status status="PASS" endtime="20180403 16:37:42.409" starttime="20180403 16:37:42.409"></status>
+</kw>
+<kw name="Remove String" library="String">
+<doc>Removes all ``removables`` from the given ``string``.</doc>
+<arguments>
+<arg>${Zillow1}</arg>
+<arg>(</arg>
+<arg>)</arg>
+<arg>,</arg>
+</arguments>
+<assign>
+<var>${ZillowFinal}</var>
+</assign>
+<msg timestamp="20180403 16:37:42.410" level="INFO">${ZillowFinal} = 0</msg>
+<status status="PASS" endtime="20180403 16:37:42.410" starttime="20180403 16:37:42.410"></status>
+</kw>
+<kw name="Return From Keyword" library="BuiltIn">
+<doc>Returns from the enclosing user keyword.</doc>
+<arguments>
+<arg>${ZillowFinal}</arg>
+</arguments>
+<msg timestamp="20180403 16:37:42.410" level="INFO">Returning from the enclosing user keyword.</msg>
+<status status="PASS" endtime="20180403 16:37:42.410" starttime="20180403 16:37:42.410"></status>
+</kw>
+<msg timestamp="20180403 16:37:42.410" level="INFO">${Zillow} = 0</msg>
+<status status="PASS" endtime="20180403 16:37:42.410" starttime="20180403 16:37:40.848"></status>
+</kw>
+<kw name="Get Actual Zillow count for a region" library="OverviewFunctions">
+<arguments>
+<arg>${Zillow}</arg>
+</arguments>
+<kw name="Query" library="DatabaseLibrary">
+<doc>Uses the input `selectStatement` to query for the values that will be returned as a list of tuples. Set optional</doc>
+<arguments>
+<arg>${Query39}</arg>
+</arguments>
+<assign>
+<var>${First}</var>
+</assign>
+<msg timestamp="20180403 16:37:42.411" level="INFO">Executing : Query  |  select count(*) from survey_details where source='Zillow' and REGION_ID= 617 ; </msg>
+<msg timestamp="20180403 16:37:43.294" level="INFO">${First} = ((0,),)</msg>
+<status status="PASS" endtime="20180403 16:37:43.294" starttime="20180403 16:37:42.411"></status>
+</kw>
+<kw name="Convert To String" library="BuiltIn">
+<doc>Converts the given item to a Unicode string.</doc>
+<arguments>
+<arg>${First}</arg>
+</arguments>
+<assign>
+<var>${Second}</var>
+</assign>
+<msg timestamp="20180403 16:37:43.295" level="INFO">${Second} = ((0,),)</msg>
+<status status="PASS" endtime="20180403 16:37:43.295" starttime="20180403 16:37:43.294"></status>
+</kw>
+<kw name="Remove String" library="String">
+<doc>Removes all ``removables`` from the given ``string``.</doc>
+<arguments>
+<arg>${Second}</arg>
+<arg>(</arg>
+<arg>)</arg>
+<arg>,</arg>
+</arguments>
+<assign>
+<var>${clean}</var>
+</assign>
+<msg timestamp="20180403 16:37:43.295" level="INFO">${clean} = 0</msg>
+<status status="PASS" endtime="20180403 16:37:43.295" starttime="20180403 16:37:43.295"></status>
+</kw>
+<kw name="Should Be Equal As Numbers" library="BuiltIn">
+<doc>Fails if objects are unequal after converting them to real numbers.</doc>
+<arguments>
+<arg>${Zillow}</arg>
+<arg>${clean}</arg>
+</arguments>
+<status status="PASS" endtime="20180403 16:37:43.296" starttime="20180403 16:37:43.295"></status>
+</kw>
+<status status="PASS" endtime="20180403 16:37:43.296" starttime="20180403 16:37:42.411"></status>
+</kw>
+<kw name="Get the Third Party reviews count for region" library="OverviewFunctions">
+<assign>
+<var>${ThirdParty}</var>
+</assign>
+<kw name="Connect to Production Reporting MySQL" library="Common">
+<kw name="Connect To Database Using Custom Params" library="DatabaseLibrary">
+<doc>Loads the DB API 2.0 module given `dbapiModuleName` then uses it to</doc>
+<arguments>
+<arg>pymysql</arg>
+<arg>database='ss_report', user='infrrd_ops', password='vfsOIJ987', host='ss-report.c3n1qsdsmjxc.us-west-2.rds.amazonaws.com', port=3306</arg>
+</arguments>
+<msg timestamp="20180403 16:37:43.296" level="INFO">Executing : Connect To Database Using Custom Params : pymysql.connect(db_api_2.connect(database='ss_report', user='infrrd_ops', password='vfsOIJ987', host='ss-report.c3n1qsdsmjxc.us-west-2.rds.amazonaws.com', port=3306)) </msg>
+<status status="PASS" endtime="20180403 16:37:44.301" starttime="20180403 16:37:43.296"></status>
+</kw>
+<status status="PASS" endtime="20180403 16:37:44.301" starttime="20180403 16:37:43.296"></status>
+</kw>
+<kw name="Query" library="DatabaseLibrary">
+<doc>Uses the input `selectStatement` to query for the values that will be returned as a list of tuples. Set optional</doc>
+<arguments>
+<arg>${Query32}</arg>
+</arguments>
+<assign>
+<var>${ThirdParty}</var>
+</assign>
+<msg timestamp="20180403 16:37:44.302" level="INFO">Executing : Query  |  select third_party from overview_region where region_id= 617 ; </msg>
+<msg timestamp="20180403 16:37:44.805" level="INFO">${ThirdParty} = ((0,),)</msg>
+<status status="PASS" endtime="20180403 16:37:44.805" starttime="20180403 16:37:44.301"></status>
+</kw>
+<kw name="Convert To String" library="BuiltIn">
+<doc>Converts the given item to a Unicode string.</doc>
+<arguments>
+<arg>${ThirdParty}</arg>
+</arguments>
+<assign>
+<var>${ThirdParty1}</var>
+</assign>
+<msg timestamp="20180403 16:37:44.806" level="INFO">${ThirdParty1} = ((0,),)</msg>
+<status status="PASS" endtime="20180403 16:37:44.806" starttime="20180403 16:37:44.805"></status>
+</kw>
+<kw name="Remove String" library="String">
+<doc>Removes all ``removables`` from the given ``string``.</doc>
+<arguments>
+<arg>${ThirdParty1}</arg>
+<arg>(</arg>
+<arg>)</arg>
+<arg>,</arg>
+</arguments>
+<assign>
+<var>${ThirdPartyFinal}</var>
+</assign>
+<msg timestamp="20180403 16:37:44.806" level="INFO">${ThirdPartyFinal} = 0</msg>
+<status status="PASS" endtime="20180403 16:37:44.806" starttime="20180403 16:37:44.806"></status>
+</kw>
+<kw name="Return From Keyword" library="BuiltIn">
+<doc>Returns from the enclosing user keyword.</doc>
+<arguments>
+<arg>${ThirdPartyFinal}</arg>
+</arguments>
+<msg timestamp="20180403 16:37:44.807" level="INFO">Returning from the enclosing user keyword.</msg>
+<status status="PASS" endtime="20180403 16:37:44.807" starttime="20180403 16:37:44.806"></status>
+</kw>
+<msg timestamp="20180403 16:37:44.807" level="INFO">${ThirdParty} = 0</msg>
+<status status="PASS" endtime="20180403 16:37:44.807" starttime="20180403 16:37:43.296"></status>
+</kw>
+<kw name="Get Actual Third Party count for a region" library="OverviewFunctions">
+<arguments>
+<arg>${ThirdParty}</arg>
+</arguments>
+<kw name="Query" library="DatabaseLibrary">
+<doc>Uses the input `selectStatement` to query for the values that will be returned as a list of tuples. Set optional</doc>
+<arguments>
+<arg>${Query40}</arg>
+</arguments>
+<assign>
+<var>${First}</var>
+</assign>
+<msg timestamp="20180403 16:37:44.808" level="INFO">Executing : Query  |  select count(*) from survey_details where source='3rd Party Review' and REGION_ID= 617 ; </msg>
+<msg timestamp="20180403 16:37:45.679" level="INFO">${First} = ((0,),)</msg>
+<status status="PASS" endtime="20180403 16:37:45.679" starttime="20180403 16:37:44.807"></status>
+</kw>
+<kw name="Convert To String" library="BuiltIn">
+<doc>Converts the given item to a Unicode string.</doc>
+<arguments>
+<arg>${First}</arg>
+</arguments>
+<assign>
+<var>${Second}</var>
+</assign>
+<msg timestamp="20180403 16:37:45.679" level="INFO">${Second} = ((0,),)</msg>
+<status status="PASS" endtime="20180403 16:37:45.679" starttime="20180403 16:37:45.679"></status>
+</kw>
+<kw name="Remove String" library="String">
+<doc>Removes all ``removables`` from the given ``string``.</doc>
+<arguments>
+<arg>${Second}</arg>
+<arg>(</arg>
+<arg>)</arg>
+<arg>,</arg>
+</arguments>
+<assign>
+<var>${clean}</var>
+</assign>
+<msg timestamp="20180403 16:37:45.679" level="INFO">${clean} = 0</msg>
+<status status="PASS" endtime="20180403 16:37:45.680" starttime="20180403 16:37:45.679"></status>
+</kw>
+<kw name="Should Be Equal As Numbers" library="BuiltIn">
+<doc>Fails if objects are unequal after converting them to real numbers.</doc>
+<arguments>
+<arg>${ThirdParty}</arg>
+<arg>${clean}</arg>
+</arguments>
+<status status="PASS" endtime="20180403 16:37:45.680" starttime="20180403 16:37:45.680"></status>
+</kw>
+<status status="PASS" endtime="20180403 16:37:45.680" starttime="20180403 16:37:44.807"></status>
+</kw>
+<status status="PASS" endtime="20180403 16:37:45.680" critical="yes" starttime="20180403 16:37:34.217"></status>
+</test>
+<test id="s1-s1-t3" name="Branch Overview test case">
+<kw name="Get the UI completed count for branch" library="OverviewFunctions">
+<assign>
+<var>${Complete}</var>
+</assign>
+<kw name="Connect to Production Reporting MySQL" library="Common">
+<kw name="Connect To Database Using Custom Params" library="DatabaseLibrary">
+<doc>Loads the DB API 2.0 module given `dbapiModuleName` then uses it to</doc>
+<arguments>
+<arg>pymysql</arg>
+<arg>database='ss_report', user='infrrd_ops', password='vfsOIJ987', host='ss-report.c3n1qsdsmjxc.us-west-2.rds.amazonaws.com', port=3306</arg>
+</arguments>
+<msg timestamp="20180403 16:37:45.683" level="INFO">Executing : Connect To Database Using Custom Params : pymysql.connect(db_api_2.connect(database='ss_report', user='infrrd_ops', password='vfsOIJ987', host='ss-report.c3n1qsdsmjxc.us-west-2.rds.amazonaws.com', port=3306)) </msg>
+<status status="PASS" endtime="20180403 16:37:46.751" starttime="20180403 16:37:45.682"></status>
+</kw>
+<status status="PASS" endtime="20180403 16:37:46.751" starttime="20180403 16:37:45.682"></status>
+</kw>
+<kw name="Query" library="DatabaseLibrary">
+<doc>Uses the input `selectStatement` to query for the values that will be returned as a list of tuples. Set optional</doc>
+<arguments>
+<arg>${Query33}</arg>
+</arguments>
+<assign>
+<var>${Compltd}</var>
+</assign>
+<msg timestamp="20180403 16:37:46.752" level="INFO">Executing : Query  |  select completed from overview_branch where branch_id= 1221 ; </msg>
+<msg timestamp="20180403 16:37:47.270" level="INFO">${Compltd} = ((13213,),)</msg>
+<status status="PASS" endtime="20180403 16:37:47.270" starttime="20180403 16:37:46.751"></status>
+</kw>
+<kw name="Convert To String" library="BuiltIn">
+<doc>Converts the given item to a Unicode string.</doc>
+<arguments>
+<arg>${Compltd}</arg>
+</arguments>
+<assign>
+<var>${Compltd1}</var>
+</assign>
+<msg timestamp="20180403 16:37:47.270" level="INFO">${Compltd1} = ((13213,),)</msg>
+<status status="PASS" endtime="20180403 16:37:47.270" starttime="20180403 16:37:47.270"></status>
+</kw>
+<kw name="Remove String" library="String">
+<doc>Removes all ``removables`` from the given ``string``.</doc>
+<arguments>
+<arg>${Compltd1}</arg>
+<arg>(</arg>
+<arg>)</arg>
+<arg>,</arg>
+</arguments>
+<assign>
+<var>${CompletedFinal}</var>
+</assign>
+<msg timestamp="20180403 16:37:47.271" level="INFO">${CompletedFinal} = 13213</msg>
+<status status="PASS" endtime="20180403 16:37:47.271" starttime="20180403 16:37:47.271"></status>
+</kw>
+<kw name="Return From Keyword" library="BuiltIn">
+<doc>Returns from the enclosing user keyword.</doc>
+<arguments>
+<arg>${CompletedFinal}</arg>
+</arguments>
+<msg timestamp="20180403 16:37:47.271" level="INFO">Returning from the enclosing user keyword.</msg>
+<status status="PASS" endtime="20180403 16:37:47.271" starttime="20180403 16:37:47.271"></status>
+</kw>
+<msg timestamp="20180403 16:37:47.272" level="INFO">${Complete} = 13213</msg>
+<status status="PASS" endtime="20180403 16:37:47.272" starttime="20180403 16:37:45.681"></status>
+</kw>
+<kw name="Get Actual completed count for a branch" library="OverviewFunctions">
+<arguments>
+<arg>${Complete}</arg>
+</arguments>
+<kw name="Query" library="DatabaseLibrary">
+<doc>Uses the input `selectStatement` to query for the values that will be returned as a list of tuples. Set optional</doc>
+<arguments>
+<arg>${Query41}</arg>
+</arguments>
+<assign>
+<var>${First}</var>
+</assign>
+<msg timestamp="20180403 16:37:47.272" level="INFO">Executing : Query  |  select count(*) from survey_details where stage=-1 and source not in ('Zillow','3rd Party Review') and AGENT_ID in (select user_id from user_profile where BRANCH_ID=1221 and STATUS in (0,1,2)); </msg>
+<msg timestamp="20180403 16:37:48.323" level="INFO">${First} = ((13213,),)</msg>
+<status status="PASS" endtime="20180403 16:37:48.323" starttime="20180403 16:37:47.272"></status>
+</kw>
+<kw name="Convert To String" library="BuiltIn">
+<doc>Converts the given item to a Unicode string.</doc>
+<arguments>
+<arg>${First}</arg>
+</arguments>
+<assign>
+<var>${Second}</var>
+</assign>
+<msg timestamp="20180403 16:37:48.323" level="INFO">${Second} = ((13213,),)</msg>
+<status status="PASS" endtime="20180403 16:37:48.323" starttime="20180403 16:37:48.323"></status>
+</kw>
+<kw name="Remove String" library="String">
+<doc>Removes all ``removables`` from the given ``string``.</doc>
+<arguments>
+<arg>${Second}</arg>
+<arg>(</arg>
+<arg>)</arg>
+<arg>,</arg>
+</arguments>
+<assign>
+<var>${clean}</var>
+</assign>
+<msg timestamp="20180403 16:37:48.323" level="INFO">${clean} = 13213</msg>
+<status status="PASS" endtime="20180403 16:37:48.323" starttime="20180403 16:37:48.323"></status>
+</kw>
+<kw name="Should Be Equal As Numbers" library="BuiltIn">
+<doc>Fails if objects are unequal after converting them to real numbers.</doc>
+<arguments>
+<arg>${Completed}</arg>
+<arg>${clean}</arg>
+</arguments>
+<status status="PASS" endtime="20180403 16:37:48.324" starttime="20180403 16:37:48.324"></status>
+</kw>
+<status status="PASS" endtime="20180403 16:37:48.324" starttime="20180403 16:37:47.272"></status>
+</kw>
+<kw name="Get the UI Incomplete count for branch" library="OverviewFunctions">
+<assign>
+<var>${Incomplete}</var>
+</assign>
+<kw name="Connect to Production Reporting MySQL" library="Common">
+<kw name="Connect To Database Using Custom Params" library="DatabaseLibrary">
+<doc>Loads the DB API 2.0 module given `dbapiModuleName` then uses it to</doc>
+<arguments>
+<arg>pymysql</arg>
+<arg>database='ss_report', user='infrrd_ops', password='vfsOIJ987', host='ss-report.c3n1qsdsmjxc.us-west-2.rds.amazonaws.com', port=3306</arg>
+</arguments>
+<msg timestamp="20180403 16:37:48.325" level="INFO">Executing : Connect To Database Using Custom Params : pymysql.connect(db_api_2.connect(database='ss_report', user='infrrd_ops', password='vfsOIJ987', host='ss-report.c3n1qsdsmjxc.us-west-2.rds.amazonaws.com', port=3306)) </msg>
+<status status="PASS" endtime="20180403 16:37:49.353" starttime="20180403 16:37:48.325"></status>
+</kw>
+<status status="PASS" endtime="20180403 16:37:49.353" starttime="20180403 16:37:48.324"></status>
+</kw>
+<kw name="Query" library="DatabaseLibrary">
+<doc>Uses the input `selectStatement` to query for the values that will be returned as a list of tuples. Set optional</doc>
+<arguments>
+<arg>${Query34}</arg>
+</arguments>
+<assign>
+<var>${Incmplt}</var>
+</assign>
+<msg timestamp="20180403 16:37:49.354" level="INFO">Executing : Query  |  select incomplete from overview_branch where branch_id= 1221 ; </msg>
+<msg timestamp="20180403 16:37:49.866" level="INFO">${Incmplt} = ((114056,),)</msg>
+<status status="PASS" endtime="20180403 16:37:49.866" starttime="20180403 16:37:49.353"></status>
+</kw>
+<kw name="Convert To String" library="BuiltIn">
+<doc>Converts the given item to a Unicode string.</doc>
+<arguments>
+<arg>${Incmplt}</arg>
+</arguments>
+<assign>
+<var>${Incmplt1}</var>
+</assign>
+<msg timestamp="20180403 16:37:49.867" level="INFO">${Incmplt1} = ((114056,),)</msg>
+<status status="PASS" endtime="20180403 16:37:49.867" starttime="20180403 16:37:49.866"></status>
+</kw>
+<kw name="Remove String" library="String">
+<doc>Removes all ``removables`` from the given ``string``.</doc>
+<arguments>
+<arg>${Incmplt1}</arg>
+<arg>(</arg>
+<arg>)</arg>
+<arg>,</arg>
+</arguments>
+<assign>
+<var>${IncmpltFinal}</var>
+</assign>
+<msg timestamp="20180403 16:37:49.867" level="INFO">${IncmpltFinal} = 114056</msg>
+<status status="PASS" endtime="20180403 16:37:49.867" starttime="20180403 16:37:49.867"></status>
+</kw>
+<kw name="Return From Keyword" library="BuiltIn">
+<doc>Returns from the enclosing user keyword.</doc>
+<arguments>
+<arg>${IncmpltFinal}</arg>
+</arguments>
+<msg timestamp="20180403 16:37:49.868" level="INFO">Returning from the enclosing user keyword.</msg>
+<status status="PASS" endtime="20180403 16:37:49.868" starttime="20180403 16:37:49.867"></status>
+</kw>
+<msg timestamp="20180403 16:37:49.868" level="INFO">${Incomplete} = 114056</msg>
+<status status="PASS" endtime="20180403 16:37:49.868" starttime="20180403 16:37:48.324"></status>
+</kw>
+<kw name="Get Actual incomplete count for a branch" library="OverviewFunctions">
+<arguments>
+<arg>${Incomplete}</arg>
+</arguments>
+<kw name="Query" library="DatabaseLibrary">
+<doc>Uses the input `selectStatement` to query for the values that will be returned as a list of tuples. Set optional</doc>
+<arguments>
+<arg>${Query42}</arg>
+</arguments>
+<assign>
+<var>${First}</var>
+</assign>
+<msg timestamp="20180403 16:37:49.869" level="INFO">Executing : Query  |  select count(*) from survey_pre_initiation where STATUS in (0,1,2) and AGENT_ID in (select user_id from user_profile where BRANCH_ID=1221 and STATUS in (0,1,2)); </msg>
+<msg timestamp="20180403 16:37:52.328" level="INFO">${First} = ((114056,),)</msg>
+<status status="PASS" endtime="20180403 16:37:52.328" starttime="20180403 16:37:49.868"></status>
+</kw>
+<kw name="Convert To String" library="BuiltIn">
+<doc>Converts the given item to a Unicode string.</doc>
+<arguments>
+<arg>${First}</arg>
+</arguments>
+<assign>
+<var>${Second}</var>
+</assign>
+<msg timestamp="20180403 16:37:52.329" level="INFO">${Second} = ((114056,),)</msg>
+<status status="PASS" endtime="20180403 16:37:52.329" starttime="20180403 16:37:52.328"></status>
+</kw>
+<kw name="Remove String" library="String">
+<doc>Removes all ``removables`` from the given ``string``.</doc>
+<arguments>
+<arg>${Second}</arg>
+<arg>(</arg>
+<arg>)</arg>
+<arg>,</arg>
+</arguments>
+<assign>
+<var>${clean}</var>
+</assign>
+<msg timestamp="20180403 16:37:52.329" level="INFO">${clean} = 114056</msg>
+<status status="PASS" endtime="20180403 16:37:52.329" starttime="20180403 16:37:52.329"></status>
+</kw>
+<kw name="Should Be Equal As Numbers" library="BuiltIn">
+<doc>Fails if objects are unequal after converting them to real numbers.</doc>
+<arguments>
+<arg>${Incompleted}</arg>
+<arg>${clean}</arg>
+</arguments>
+<status status="PASS" endtime="20180403 16:37:52.329" starttime="20180403 16:37:52.329"></status>
+</kw>
+<status status="PASS" endtime="20180403 16:37:52.330" starttime="20180403 16:37:49.868"></status>
+</kw>
+<kw name="Get the UI Zillow count for branch" library="OverviewFunctions">
+<assign>
+<var>${Zillow}</var>
+</assign>
+<kw name="Connect to Production Reporting MySQL" library="Common">
+<kw name="Connect To Database Using Custom Params" library="DatabaseLibrary">
+<doc>Loads the DB API 2.0 module given `dbapiModuleName` then uses it to</doc>
+<arguments>
+<arg>pymysql</arg>
+<arg>database='ss_report', user='infrrd_ops', password='vfsOIJ987', host='ss-report.c3n1qsdsmjxc.us-west-2.rds.amazonaws.com', port=3306</arg>
+</arguments>
+<msg timestamp="20180403 16:37:52.331" level="INFO">Executing : Connect To Database Using Custom Params : pymysql.connect(db_api_2.connect(database='ss_report', user='infrrd_ops', password='vfsOIJ987', host='ss-report.c3n1qsdsmjxc.us-west-2.rds.amazonaws.com', port=3306)) </msg>
+<status status="PASS" endtime="20180403 16:37:53.459" starttime="20180403 16:37:52.330"></status>
+</kw>
+<status status="PASS" endtime="20180403 16:37:53.459" starttime="20180403 16:37:52.330"></status>
+</kw>
+<kw name="Query" library="DatabaseLibrary">
+<doc>Uses the input `selectStatement` to query for the values that will be returned as a list of tuples. Set optional</doc>
+<arguments>
+<arg>${Query35}</arg>
+</arguments>
+<assign>
+<var>${Zillow}</var>
+</assign>
+<msg timestamp="20180403 16:37:53.459" level="INFO">Executing : Query  |  select zillow_reviews from overview_branch where branch_id= 1221 ; </msg>
+<msg timestamp="20180403 16:37:53.998" level="INFO">${Zillow} = ((0,),)</msg>
+<status status="PASS" endtime="20180403 16:37:53.998" starttime="20180403 16:37:53.459"></status>
+</kw>
+<kw name="Convert To String" library="BuiltIn">
+<doc>Converts the given item to a Unicode string.</doc>
+<arguments>
+<arg>${Zillow}</arg>
+</arguments>
+<assign>
+<var>${Zillow1}</var>
+</assign>
+<msg timestamp="20180403 16:37:53.999" level="INFO">${Zillow1} = ((0,),)</msg>
+<status status="PASS" endtime="20180403 16:37:53.999" starttime="20180403 16:37:53.998"></status>
+</kw>
+<kw name="Remove String" library="String">
+<doc>Removes all ``removables`` from the given ``string``.</doc>
+<arguments>
+<arg>${Zillow1}</arg>
+<arg>(</arg>
+<arg>)</arg>
+<arg>,</arg>
+</arguments>
+<assign>
+<var>${ZillowFinal}</var>
+</assign>
+<msg timestamp="20180403 16:37:53.999" level="INFO">${ZillowFinal} = 0</msg>
+<status status="PASS" endtime="20180403 16:37:53.999" starttime="20180403 16:37:53.999"></status>
+</kw>
+<kw name="Return From Keyword" library="BuiltIn">
+<doc>Returns from the enclosing user keyword.</doc>
+<arguments>
+<arg>${ZillowFinal}</arg>
+</arguments>
+<msg timestamp="20180403 16:37:53.999" level="INFO">Returning from the enclosing user keyword.</msg>
+<status status="PASS" endtime="20180403 16:37:53.999" starttime="20180403 16:37:53.999"></status>
+</kw>
+<msg timestamp="20180403 16:37:54.000" level="INFO">${Zillow} = 0</msg>
+<status status="PASS" endtime="20180403 16:37:54.000" starttime="20180403 16:37:52.330"></status>
+</kw>
+<kw name="Get Actual Zillow count for a branch" library="OverviewFunctions">
+<arguments>
+<arg>${Zillow}</arg>
+</arguments>
+<kw name="Query" library="DatabaseLibrary">
+<doc>Uses the input `selectStatement` to query for the values that will be returned as a list of tuples. Set optional</doc>
+<arguments>
+<arg>${Query43}</arg>
+</arguments>
+<assign>
+<var>${First}</var>
+</assign>
+<msg timestamp="20180403 16:37:54.000" level="INFO">Executing : Query  |  select count(*) from survey_details where source='Zillow' and BRANCH_ID= 1221 ; </msg>
+<msg timestamp="20180403 16:37:54.912" level="INFO">${First} = ((0,),)</msg>
+<status status="PASS" endtime="20180403 16:37:54.912" starttime="20180403 16:37:54.000"></status>
+</kw>
+<kw name="Convert To String" library="BuiltIn">
+<doc>Converts the given item to a Unicode string.</doc>
+<arguments>
+<arg>${First}</arg>
+</arguments>
+<assign>
+<var>${Second}</var>
+</assign>
+<msg timestamp="20180403 16:37:54.913" level="INFO">${Second} = ((0,),)</msg>
+<status status="PASS" endtime="20180403 16:37:54.913" starttime="20180403 16:37:54.913"></status>
+</kw>
+<kw name="Remove String" library="String">
+<doc>Removes all ``removables`` from the given ``string``.</doc>
+<arguments>
+<arg>${Second}</arg>
+<arg>(</arg>
+<arg>)</arg>
+<arg>,</arg>
+</arguments>
+<assign>
+<var>${clean}</var>
+</assign>
+<msg timestamp="20180403 16:37:54.914" level="INFO">${clean} = 0</msg>
+<status status="PASS" endtime="20180403 16:37:54.914" starttime="20180403 16:37:54.913"></status>
+</kw>
+<kw name="Should Be Equal As Numbers" library="BuiltIn">
+<doc>Fails if objects are unequal after converting them to real numbers.</doc>
+<arguments>
+<arg>${Zillow}</arg>
+<arg>${clean}</arg>
+</arguments>
+<status status="PASS" endtime="20180403 16:37:54.914" starttime="20180403 16:37:54.914"></status>
+</kw>
+<status status="PASS" endtime="20180403 16:37:54.914" starttime="20180403 16:37:54.000"></status>
+</kw>
+<kw name="Get the Third Party reviews count for branch" library="OverviewFunctions">
+<assign>
+<var>${ThirdParty}</var>
+</assign>
+<kw name="Connect to Production Reporting MySQL" library="Common">
+<kw name="Connect To Database Using Custom Params" library="DatabaseLibrary">
+<doc>Loads the DB API 2.0 module given `dbapiModuleName` then uses it to</doc>
+<arguments>
+<arg>pymysql</arg>
+<arg>database='ss_report', user='infrrd_ops', password='vfsOIJ987', host='ss-report.c3n1qsdsmjxc.us-west-2.rds.amazonaws.com', port=3306</arg>
+</arguments>
+<msg timestamp="20180403 16:37:54.915" level="INFO">Executing : Connect To Database Using Custom Params : pymysql.connect(db_api_2.connect(database='ss_report', user='infrrd_ops', password='vfsOIJ987', host='ss-report.c3n1qsdsmjxc.us-west-2.rds.amazonaws.com', port=3306)) </msg>
+<status status="PASS" endtime="20180403 16:37:55.954" starttime="20180403 16:37:54.915"></status>
+</kw>
+<status status="PASS" endtime="20180403 16:37:55.954" starttime="20180403 16:37:54.915"></status>
+</kw>
+<kw name="Query" library="DatabaseLibrary">
+<doc>Uses the input `selectStatement` to query for the values that will be returned as a list of tuples. Set optional</doc>
+<arguments>
+<arg>${Query36}</arg>
+</arguments>
+<assign>
+<var>${ThirdParty}</var>
+</assign>
+<msg timestamp="20180403 16:37:55.955" level="INFO">Executing : Query  |  select third_party from overview_branch where branch_id= 1221 ; </msg>
+<msg timestamp="20180403 16:37:56.474" level="INFO">${ThirdParty} = ((0,),)</msg>
+<status status="PASS" endtime="20180403 16:37:56.474" starttime="20180403 16:37:55.954"></status>
+</kw>
+<kw name="Convert To String" library="BuiltIn">
+<doc>Converts the given item to a Unicode string.</doc>
+<arguments>
+<arg>${ThirdParty}</arg>
+</arguments>
+<assign>
+<var>${ThirdParty1}</var>
+</assign>
+<msg timestamp="20180403 16:37:56.475" level="INFO">${ThirdParty1} = ((0,),)</msg>
+<status status="PASS" endtime="20180403 16:37:56.475" starttime="20180403 16:37:56.474"></status>
+</kw>
+<kw name="Remove String" library="String">
+<doc>Removes all ``removables`` from the given ``string``.</doc>
+<arguments>
+<arg>${ThirdParty1}</arg>
+<arg>(</arg>
+<arg>)</arg>
+<arg>,</arg>
+</arguments>
+<assign>
+<var>${ThirdPartyFinal}</var>
+</assign>
+<msg timestamp="20180403 16:37:56.476" level="INFO">${ThirdPartyFinal} = 0</msg>
+<status status="PASS" endtime="20180403 16:37:56.476" starttime="20180403 16:37:56.475"></status>
+</kw>
+<kw name="Return From Keyword" library="BuiltIn">
+<doc>Returns from the enclosing user keyword.</doc>
+<arguments>
+<arg>${ThirdPartyFinal}</arg>
+</arguments>
+<msg timestamp="20180403 16:37:56.476" level="INFO">Returning from the enclosing user keyword.</msg>
+<status status="PASS" endtime="20180403 16:37:56.476" starttime="20180403 16:37:56.476"></status>
+</kw>
+<msg timestamp="20180403 16:37:56.476" level="INFO">${ThirdParty} = 0</msg>
+<status status="PASS" endtime="20180403 16:37:56.476" starttime="20180403 16:37:54.915"></status>
+</kw>
+<kw name="Get Actual Third Party count for a branch" library="OverviewFunctions">
+<arguments>
+<arg>${ThirdParty}</arg>
+</arguments>
+<kw name="Query" library="DatabaseLibrary">
+<doc>Uses the input `selectStatement` to query for the values that will be returned as a list of tuples. Set optional</doc>
+<arguments>
+<arg>${Query44}</arg>
+</arguments>
+<assign>
+<var>${First}</var>
+</assign>
+<msg timestamp="20180403 16:37:56.477" level="INFO">Executing : Query  |  select count(*) from survey_details where source='3rd Party Review' and BRANCH_ID= 1221 ; </msg>
+<msg timestamp="20180403 16:37:57.367" level="INFO">${First} = ((0,),)</msg>
+<status status="PASS" endtime="20180403 16:37:57.367" starttime="20180403 16:37:56.477"></status>
+</kw>
+<kw name="Convert To String" library="BuiltIn">
+<doc>Converts the given item to a Unicode string.</doc>
+<arguments>
+<arg>${First}</arg>
+</arguments>
+<assign>
+<var>${Second}</var>
+</assign>
+<msg timestamp="20180403 16:37:57.368" level="INFO">${Second} = ((0,),)</msg>
+<status status="PASS" endtime="20180403 16:37:57.368" starttime="20180403 16:37:57.367"></status>
+</kw>
+<kw name="Remove String" library="String">
+<doc>Removes all ``removables`` from the given ``string``.</doc>
+<arguments>
+<arg>${Second}</arg>
+<arg>(</arg>
+<arg>)</arg>
+<arg>,</arg>
+</arguments>
+<assign>
+<var>${clean}</var>
+</assign>
+<msg timestamp="20180403 16:37:57.368" level="INFO">${clean} = 0</msg>
+<status status="PASS" endtime="20180403 16:37:57.368" starttime="20180403 16:37:57.368"></status>
+</kw>
+<kw name="Should Be Equal As Numbers" library="BuiltIn">
+<doc>Fails if objects are unequal after converting them to real numbers.</doc>
+<arguments>
+<arg>${ThirdParty}</arg>
+<arg>${clean}</arg>
+</arguments>
+<status status="PASS" endtime="20180403 16:37:57.369" starttime="20180403 16:37:57.368"></status>
+</kw>
+<status status="PASS" endtime="20180403 16:37:57.369" starttime="20180403 16:37:56.476"></status>
+</kw>
+<status status="PASS" endtime="20180403 16:37:57.369" critical="yes" starttime="20180403 16:37:45.681"></status>
+</test>
+<doc>Checks the SPS score for all the timeframes.</doc>
+<status status="PASS" endtime="20180403 16:37:57.369" starttime="20180403 16:37:18.313"></status>
+</suite>
+<suite source="C:\developments\robot-scripts\SocialSurvey\tests\ReportsPageUiTestCases.txt" id="s1-s2" name="ReportsPageUiTestCases">
+<test id="s1-s2-t1" name="Generate User Ranking Reports">
+<kw name="Login As Company Admin" library="FirstTest">
+<kw name="Login as SS Admin" library="LoginPage">
+<doc>To fetch the cookie from the current active session to be used in the API calls</doc>
+<kw name="Open Browser" library="Selenium2Library">
+<doc>Opens a new browser instance to given URL.</doc>
+<arguments>
+<arg>https://socialsurvey.me/login.do</arg>
+<arg>chrome</arg>
+</arguments>
+<msg timestamp="20180403 16:37:57.393" level="INFO">Opening browser 'chrome' to base url 'https://socialsurvey.me/login.do'</msg>
+<status status="PASS" endtime="20180403 16:38:05.210" starttime="20180403 16:37:57.393"></status>
+</kw>
+<kw name="Maximize Browser Window" library="Selenium2Library">
+<doc>Maximizes current browser window.</doc>
+<status status="PASS" endtime="20180403 16:38:06.636" starttime="20180403 16:38:05.210"></status>
+</kw>
+<kw name="Input Text" library="Selenium2Library">
+<doc>Types the given `text` into text field identified by `locator`.</doc>
+<arguments>
+<arg>id=login-user-id</arg>
+<arg>patidar@infrrd.ai</arg>
+</arguments>
+<msg timestamp="20180403 16:38:06.636" level="INFO">Typing text 'patidar@infrrd.ai' into text field 'id=login-user-id'</msg>
+<status status="PASS" endtime="20180403 16:38:07.590" starttime="20180403 16:38:06.636"></status>
+</kw>
+<kw name="Input Text" library="Selenium2Library">
+<doc>Types the given `text` into text field identified by `locator`.</doc>
+<arguments>
+<arg>id=login-pwd</arg>
+<arg>socialsurvey</arg>
+</arguments>
+<msg timestamp="20180403 16:38:07.591" level="INFO">Typing text 'socialsurvey' into text field 'id=login-pwd'</msg>
+<status status="PASS" endtime="20180403 16:38:08.513" starttime="20180403 16:38:07.590"></status>
+</kw>
+<kw name="Click Element" library="Selenium2Library">
+<doc>Click element identified by `locator`.</doc>
+<arguments>
+<arg>xpath=//div[@id='login-submit']</arg>
+</arguments>
+<msg timestamp="20180403 16:38:08.513" level="INFO">Clicking element 'xpath=//div[@id='login-submit']'.</msg>
+<status status="PASS" endtime="20180403 16:38:11.467" starttime="20180403 16:38:08.513"></status>
+</kw>
+<kw name="Wait Until Page Contains" library="Selenium2Library">
+<doc>Waits until `text` appears on current page.</doc>
+<arguments>
+<arg>Dashboard</arg>
+</arguments>
+<status status="PASS" endtime="20180403 16:38:11.772" starttime="20180403 16:38:11.468"></status>
+</kw>
+<status status="PASS" endtime="20180403 16:38:11.772" starttime="20180403 16:37:57.392"></status>
+</kw>
+<kw name="After that Login As Company Admin" library="LoginPage">
+<kw name="Click Link" library="Selenium2Library">
+<doc>Clicks a link identified by locator.</doc>
+<arguments>
+<arg>id=heirarchy-link</arg>
+</arguments>
+<msg timestamp="20180403 16:38:11.773" level="INFO">Clicking link 'id=heirarchy-link'.</msg>
+<status status="PASS" endtime="20180403 16:38:12.704" starttime="20180403 16:38:11.773"></status>
+</kw>
+<kw name="Wait Until Page Contains" library="Selenium2Library">
+<doc>Waits until `text` appears on current page.</doc>
+<arguments>
+<arg>View Hierarchy</arg>
+</arguments>
+<status status="PASS" endtime="20180403 16:38:13.484" starttime="20180403 16:38:12.704"></status>
+</kw>
+<kw name="Click Element" library="Selenium2Library">
+<doc>Click element identified by `locator`.</doc>
+<arguments>
+<arg>xpath=//input[@id='hr-comp-sel']</arg>
+</arguments>
+<msg timestamp="20180403 16:38:13.484" level="INFO">Clicking element 'xpath=//input[@id='hr-comp-sel']'.</msg>
+<status status="PASS" endtime="20180403 16:38:14.127" starttime="20180403 16:38:13.484"></status>
+</kw>
+<kw name="Input Text" library="Selenium2Library">
+<doc>Types the given `text` into text field identified by `locator`.</doc>
+<arguments>
+<arg>xpath=//input[@id='hr-comp-sel']</arg>
+<arg>${CompanyNameForLoginAs}</arg>
+</arguments>
+<msg timestamp="20180403 16:38:14.127" level="INFO">Typing text 'Advantage Rent a Car' into text field 'xpath=//input[@id='hr-comp-sel']'</msg>
+<status status="PASS" endtime="20180403 16:38:15.219" starttime="20180403 16:38:14.127"></status>
+</kw>
+<kw name="Sleep" library="BuiltIn">
+<doc>Pauses the test executed for the given time.</doc>
+<arguments>
+<arg>2</arg>
+</arguments>
+<msg timestamp="20180403 16:38:17.220" level="INFO">Slept 2 seconds</msg>
+<status status="PASS" endtime="20180403 16:38:17.220" starttime="20180403 16:38:15.220"></status>
+</kw>
+<kw name="Click Element" library="Selenium2Library">
+<doc>Click element identified by `locator`.</doc>
+<arguments>
+<arg>xpath=//span[@id='hr-comp-icn']</arg>
+</arguments>
+<msg timestamp="20180403 16:38:17.220" level="INFO">Clicking element 'xpath=//span[@id='hr-comp-icn']'.</msg>
+<status status="PASS" endtime="20180403 16:38:17.872" starttime="20180403 16:38:17.220"></status>
+</kw>
+<kw name="Sleep" library="BuiltIn">
+<doc>Pauses the test executed for the given time.</doc>
+<arguments>
+<arg>2</arg>
+</arguments>
+<msg timestamp="20180403 16:38:19.872" level="INFO">Slept 2 seconds</msg>
+<status status="PASS" endtime="20180403 16:38:19.872" starttime="20180403 16:38:17.872"></status>
+</kw>
+<kw name="Click Element" library="Selenium2Library">
+<doc>Click element identified by `locator`.</doc>
+<arguments>
+<arg>xpath=//div[@id='tr-comp-337']</arg>
+</arguments>
+<msg timestamp="20180403 16:38:19.872" level="INFO">Clicking element 'xpath=//div[@id='tr-comp-337']'.</msg>
+<status status="PASS" endtime="20180403 16:38:20.699" starttime="20180403 16:38:19.872"></status>
+</kw>
+<kw name="Sleep" library="BuiltIn">
+<doc>Pauses the test executed for the given time.</doc>
+<arguments>
+<arg>2</arg>
+</arguments>
+<msg timestamp="20180403 16:38:22.699" level="INFO">Slept 2 seconds</msg>
+<status status="PASS" endtime="20180403 16:38:22.699" starttime="20180403 16:38:20.699"></status>
+</kw>
+<kw name="Click Element" library="Selenium2Library">
+<doc>Click element identified by `locator`.</doc>
+<arguments>
+<arg>xpath=//div[@class='float-right v-tbl-icn v-icn-login user-login-icn']</arg>
+</arguments>
+<msg timestamp="20180403 16:38:22.699" level="INFO">Clicking element 'xpath=//div[@class='float-right v-tbl-icn v-icn-login user-login-icn']'.</msg>
+<status status="PASS" endtime="20180403 16:38:23.277" starttime="20180403 16:38:22.699"></status>
+</kw>
+<kw name="Wait Until Page Contains" library="Selenium2Library">
+<doc>Waits until `text` appears on current page.</doc>
+<arguments>
+<arg>Dashboard</arg>
+<arg>timeout=15</arg>
+</arguments>
+<status status="PASS" endtime="20180403 16:38:23.572" starttime="20180403 16:38:23.277"></status>
+</kw>
+<kw name="Sleep" library="BuiltIn">
+<doc>Pauses the test executed for the given time.</doc>
+<arguments>
+<arg>5</arg>
+</arguments>
+<msg timestamp="20180403 16:38:28.573" level="INFO">Slept 5 seconds</msg>
+<status status="PASS" endtime="20180403 16:38:28.573" starttime="20180403 16:38:23.573"></status>
+</kw>
+<status status="PASS" endtime="20180403 16:38:28.573" starttime="20180403 16:38:11.772"></status>
+</kw>
+<kw name="Sleep" library="BuiltIn">
+<doc>Pauses the test executed for the given time.</doc>
+<arguments>
+<arg>3</arg>
+</arguments>
+<msg timestamp="20180403 16:38:31.574" level="INFO">Slept 3 seconds</msg>
+<status status="PASS" endtime="20180403 16:38:31.574" starttime="20180403 16:38:28.573"></status>
+</kw>
+<status status="PASS" endtime="20180403 16:38:31.574" starttime="20180403 16:37:57.392"></status>
+</kw>
+<kw name="Go to Reports page" library="Common">
+<kw name="Mouse Over" library="Selenium2Library">
+<doc>Simulates hovering mouse over the element specified by `locator`.</doc>
+<arguments>
+<arg>id=dashboard-link</arg>
+</arguments>
+<msg timestamp="20180403 16:38:31.575" level="INFO">Simulating Mouse Over on element 'id=dashboard-link'</msg>
+<status status="PASS" endtime="20180403 16:38:32.135" starttime="20180403 16:38:31.574"></status>
+</kw>
+<kw name="Click Element" library="Selenium2Library">
+<doc>Click element identified by `locator`.</doc>
+<arguments>
+<arg>xpath=//div[@class='hdr-link-item-dropdown-item'][3]</arg>
+</arguments>
+<msg timestamp="20180403 16:38:32.135" level="INFO">Clicking element 'xpath=//div[@class='hdr-link-item-dropdown-item'][3]'.</msg>
+<status status="PASS" endtime="20180403 16:38:32.812" starttime="20180403 16:38:32.135"></status>
+</kw>
+<kw name="Wait Until Page Contains" library="Selenium2Library">
+<doc>Waits until `text` appears on current page.</doc>
+<arguments>
+<arg>Reporting</arg>
+</arguments>
+<status status="PASS" endtime="20180403 16:38:33.937" starttime="20180403 16:38:32.812"></status>
+</kw>
+<kw name="Sleep" library="BuiltIn">
+<doc>Pauses the test executed for the given time.</doc>
+<arguments>
+<arg>3</arg>
+</arguments>
+<msg timestamp="20180403 16:38:36.938" level="INFO">Slept 3 seconds</msg>
+<status status="PASS" endtime="20180403 16:38:36.938" starttime="20180403 16:38:33.938"></status>
+</kw>
+<kw name="Click Element" library="Selenium2Library">
+<doc>Click element identified by `locator`.</doc>
+<arguments>
+<arg>id=dashboard-sel</arg>
+</arguments>
+<msg timestamp="20180403 16:38:36.938" level="INFO">Clicking element 'id=dashboard-sel'.</msg>
+<status status="PASS" endtime="20180403 16:38:37.586" starttime="20180403 16:38:36.938"></status>
+</kw>
+<kw name="Sleep" library="BuiltIn">
+<doc>Pauses the test executed for the given time.</doc>
+<arguments>
+<arg>1</arg>
+</arguments>
+<msg timestamp="20180403 16:38:38.587" level="INFO">Slept 1 second</msg>
+<status status="PASS" endtime="20180403 16:38:38.587" starttime="20180403 16:38:37.586"></status>
+</kw>
+<kw name="Click Element" library="Selenium2Library">
+<doc>Click element identified by `locator`.</doc>
+<arguments>
+<arg>xpath=//div[@class='da-dd-item'][2]</arg>
+</arguments>
+<msg timestamp="20180403 16:38:38.587" level="INFO">Clicking element 'xpath=//div[@class='da-dd-item'][2]'.</msg>
+<status status="PASS" endtime="20180403 16:38:39.260" starttime="20180403 16:38:38.587"></status>
+</kw>
+<kw name="Sleep" library="BuiltIn">
+<doc>Pauses the test executed for the given time.</doc>
+<arguments>
+<arg>3</arg>
+</arguments>
+<msg timestamp="20180403 16:38:42.260" level="INFO">Slept 3 seconds</msg>
+<status status="PASS" endtime="20180403 16:38:42.260" starttime="20180403 16:38:39.260"></status>
+</kw>
+<kw name="Wait Until Page Contains" library="Selenium2Library">
+<doc>Waits until `text` appears on current page.</doc>
+<arguments>
+<arg>Reporting</arg>
+</arguments>
+<status status="PASS" endtime="20180403 16:38:42.515" starttime="20180403 16:38:42.261"></status>
+</kw>
+<status status="PASS" endtime="20180403 16:38:42.515" starttime="20180403 16:38:31.574"></status>
+</kw>
+<kw name="Generate and verify user ranking this year" library="Common">
+<kw name="Click Element" library="Selenium2Library">
+<doc>Click element identified by `locator`.</doc>
+<arguments>
+<arg>xpath=//select[@id="generate-survey-reports"]</arg>
+</arguments>
+<msg timestamp="20180403 16:38:42.516" level="INFO">Clicking element 'xpath=//select[@id="generate-survey-reports"]'.</msg>
+<status status="PASS" endtime="20180403 16:38:43.177" starttime="20180403 16:38:42.516"></status>
+</kw>
+<kw name="Wait Until Element Is Visible" library="Selenium2Library">
+<doc>Waits until element specified with `locator` is visible.</doc>
+<arguments>
+<arg>//option[contains(text(),'User Ranking Report')]</arg>
+</arguments>
+<status status="PASS" endtime="20180403 16:38:43.760" starttime="20180403 16:38:43.177"></status>
+</kw>
+<kw name="Click Element" library="Selenium2Library">
+<doc>Click element identified by `locator`.</doc>
+<arguments>
+<arg>xpath=//option[contains(text(),'User Ranking Report')]</arg>
+</arguments>
+<msg timestamp="20180403 16:38:43.761" level="INFO">Clicking element 'xpath=//option[contains(text(),'User Ranking Report')]'.</msg>
+<status status="PASS" endtime="20180403 16:38:44.409" starttime="20180403 16:38:43.761"></status>
+</kw>
+<kw name="Click Element" library="Selenium2Library">
+<doc>Click element identified by `locator`.</doc>
+<arguments>
+<arg>id=reports-generate-report-btn</arg>
+</arguments>
+<msg timestamp="20180403 16:38:44.409" level="INFO">Clicking element 'id=reports-generate-report-btn'.</msg>
+<status status="PASS" endtime="20180403 16:38:46.184" starttime="20180403 16:38:44.409"></status>
+</kw>
+<kw name="Get Text" library="Selenium2Library">
+<doc>Returns the text value of element identified by `locator`.</doc>
+<arguments>
+<arg>xpath=//tr[@id='recent-activity-row0']/td[@class='v-tbl-recent-activity fetch-email txt-bold tbl-black-text ']</arg>
+</arguments>
+<assign>
+<var>${Text}</var>
+</assign>
+<msg timestamp="20180403 16:38:46.771" level="INFO">${Text} = This Year</msg>
+<status status="PASS" endtime="20180403 16:38:46.771" starttime="20180403 16:38:46.184"></status>
+</kw>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<arguments>
+<arg>${Text}</arg>
+<arg>This Year</arg>
+</arguments>
+<status status="PASS" endtime="20180403 16:38:46.772" starttime="20180403 16:38:46.772"></status>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<doc>Logs the given message to the console.</doc>
+<arguments>
+<arg>${Text}</arg>
+</arguments>
+<status status="PASS" endtime="20180403 16:38:46.773" starttime="20180403 16:38:46.772"></status>
+</kw>
+<status status="PASS" endtime="20180403 16:38:46.773" starttime="20180403 16:38:42.515"></status>
+</kw>
+<kw name="Generate and verify user ranking last year" library="Common">
+<kw name="Click Element" library="Selenium2Library">
+<doc>Click element identified by `locator`.</doc>
+<arguments>
+<arg>xpath=//select[@id="generate-survey-reports"]</arg>
+</arguments>
+<msg timestamp="20180403 16:38:46.773" level="INFO">Clicking element 'xpath=//select[@id="generate-survey-reports"]'.</msg>
+<status status="PASS" endtime="20180403 16:38:47.467" starttime="20180403 16:38:46.773"></status>
+</kw>
+<kw name="Wait Until Element Is Visible" library="Selenium2Library">
+<doc>Waits until element specified with `locator` is visible.</doc>
+<arguments>
+<arg>//option[contains(text(),'User Ranking Report')]</arg>
+</arguments>
+<status status="PASS" endtime="20180403 16:38:48.045" starttime="20180403 16:38:47.468"></status>
+</kw>
+<kw name="Click Element" library="Selenium2Library">
+<doc>Click element identified by `locator`.</doc>
+<arguments>
+<arg>xpath=//option[contains(text(),'User Ranking Report')]</arg>
+</arguments>
+<msg timestamp="20180403 16:38:48.045" level="INFO">Clicking element 'xpath=//option[contains(text(),'User Ranking Report')]'.</msg>
+<status status="PASS" endtime="20180403 16:38:48.607" starttime="20180403 16:38:48.045"></status>
+</kw>
+<kw name="Sleep" library="BuiltIn">
+<doc>Pauses the test executed for the given time.</doc>
+<arguments>
+<arg>2</arg>
+</arguments>
+<msg timestamp="20180403 16:38:50.608" level="INFO">Slept 2 seconds</msg>
+<status status="PASS" endtime="20180403 16:38:50.608" starttime="20180403 16:38:48.607"></status>
+</kw>
+<kw name="Click Element" library="Selenium2Library">
+<doc>Click element identified by `locator`.</doc>
+<arguments>
+<arg>xpath=//select[@id="report-time-selector"]</arg>
+</arguments>
+<msg timestamp="20180403 16:38:50.608" level="INFO">Clicking element 'xpath=//select[@id="report-time-selector"]'.</msg>
+<status status="PASS" endtime="20180403 16:38:51.288" starttime="20180403 16:38:50.608"></status>
+</kw>
+<kw name="Wait Until Element Is Visible" library="Selenium2Library">
+<doc>Waits until element specified with `locator` is visible.</doc>
+<arguments>
+<arg>//option[contains(text(),'Last Year')]</arg>
+</arguments>
+<status status="PASS" endtime="20180403 16:38:51.834" starttime="20180403 16:38:51.288"></status>
+</kw>
+<kw name="Click Element" library="Selenium2Library">
+<doc>Click element identified by `locator`.</doc>
+<arguments>
+<arg>xpath=//option[contains(text(),'Last Year')]</arg>
+</arguments>
+<msg timestamp="20180403 16:38:51.835" level="INFO">Clicking element 'xpath=//option[contains(text(),'Last Year')]'.</msg>
+<status status="PASS" endtime="20180403 16:38:52.437" starttime="20180403 16:38:51.834"></status>
+</kw>
+<kw name="Click Element" library="Selenium2Library">
+<doc>Click element identified by `locator`.</doc>
+<arguments>
+<arg>id=reports-generate-report-btn</arg>
+</arguments>
+<msg timestamp="20180403 16:38:52.437" level="INFO">Clicking element 'id=reports-generate-report-btn'.</msg>
+<status status="PASS" endtime="20180403 16:38:54.834" starttime="20180403 16:38:52.437"></status>
+</kw>
+<kw name="Get Text" library="Selenium2Library">
+<doc>Returns the text value of element identified by `locator`.</doc>
+<arguments>
+<arg>xpath=//tr[@id='recent-activity-row0']/td[@class='v-tbl-recent-activity fetch-email txt-bold tbl-black-text ']</arg>
+</arguments>
+<assign>
+<var>${Text}</var>
+</assign>
+<msg timestamp="20180403 16:38:55.419" level="INFO">${Text} = Last Year</msg>
+<status status="PASS" endtime="20180403 16:38:55.419" starttime="20180403 16:38:54.834"></status>
+</kw>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<arguments>
+<arg>${Text}</arg>
+<arg>Last Year</arg>
+</arguments>
+<status status="PASS" endtime="20180403 16:38:55.420" starttime="20180403 16:38:55.420"></status>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<doc>Logs the given message to the console.</doc>
+<arguments>
+<arg>${Text}</arg>
+</arguments>
+<status status="PASS" endtime="20180403 16:38:55.420" starttime="20180403 16:38:55.420"></status>
+</kw>
+<status status="PASS" endtime="20180403 16:38:55.420" starttime="20180403 16:38:46.773"></status>
+</kw>
+<kw name="Generate and verify user ranking this Month" library="Common">
+<kw name="Click Element" library="Selenium2Library">
+<doc>Click element identified by `locator`.</doc>
+<arguments>
+<arg>xpath=//select[@id="generate-survey-reports"]</arg>
+</arguments>
+<msg timestamp="20180403 16:38:55.421" level="INFO">Clicking element 'xpath=//select[@id="generate-survey-reports"]'.</msg>
+<status status="PASS" endtime="20180403 16:38:56.055" starttime="20180403 16:38:55.421"></status>
+</kw>
+<kw name="Wait Until Element Is Visible" library="Selenium2Library">
+<doc>Waits until element specified with `locator` is visible.</doc>
+<arguments>
+<arg>//option[contains(text(),'User Ranking Report')]</arg>
+</arguments>
+<status status="PASS" endtime="20180403 16:38:56.626" starttime="20180403 16:38:56.055"></status>
+</kw>
+<kw name="Click Element" library="Selenium2Library">
+<doc>Click element identified by `locator`.</doc>
+<arguments>
+<arg>xpath=//option[contains(text(),'User Ranking Report')]</arg>
+</arguments>
+<msg timestamp="20180403 16:38:56.627" level="INFO">Clicking element 'xpath=//option[contains(text(),'User Ranking Report')]'.</msg>
+<status status="PASS" endtime="20180403 16:38:57.229" starttime="20180403 16:38:56.626"></status>
+</kw>
+<kw name="Sleep" library="BuiltIn">
+<doc>Pauses the test executed for the given time.</doc>
+<arguments>
+<arg>2</arg>
+</arguments>
+<msg timestamp="20180403 16:38:59.229" level="INFO">Slept 2 seconds</msg>
+<status status="PASS" endtime="20180403 16:38:59.229" starttime="20180403 16:38:57.229"></status>
+</kw>
+<kw name="Click Element" library="Selenium2Library">
+<doc>Click element identified by `locator`.</doc>
+<arguments>
+<arg>xpath=//select[@id="report-time-selector"]</arg>
+</arguments>
+<msg timestamp="20180403 16:38:59.229" level="INFO">Clicking element 'xpath=//select[@id="report-time-selector"]'.</msg>
+<status status="PASS" endtime="20180403 16:38:59.888" starttime="20180403 16:38:59.229"></status>
+</kw>
+<kw name="Wait Until Element Is Visible" library="Selenium2Library">
+<doc>Waits until element specified with `locator` is visible.</doc>
+<arguments>
+<arg>//option[contains(text(),'This Month')]</arg>
+</arguments>
+<status status="PASS" endtime="20180403 16:39:00.472" starttime="20180403 16:38:59.889"></status>
+</kw>
+<kw name="Click Element" library="Selenium2Library">
+<doc>Click element identified by `locator`.</doc>
+<arguments>
+<arg>xpath=//option[contains(text(),'This Month')]</arg>
+</arguments>
+<msg timestamp="20180403 16:39:00.473" level="INFO">Clicking element 'xpath=//option[contains(text(),'This Month')]'.</msg>
+<status status="PASS" endtime="20180403 16:39:01.110" starttime="20180403 16:39:00.473"></status>
+</kw>
+<kw name="Click Element" library="Selenium2Library">
+<doc>Click element identified by `locator`.</doc>
+<arguments>
+<arg>id=reports-generate-report-btn</arg>
+</arguments>
+<msg timestamp="20180403 16:39:01.110" level="INFO">Clicking element 'id=reports-generate-report-btn'.</msg>
+<status status="PASS" endtime="20180403 16:39:02.758" starttime="20180403 16:39:01.110"></status>
+</kw>
+<kw name="Get Text" library="Selenium2Library">
+<doc>Returns the text value of element identified by `locator`.</doc>
+<arguments>
+<arg>xpath=//tr[@id='recent-activity-row0']/td[@class='v-tbl-recent-activity fetch-email txt-bold tbl-black-text ']</arg>
+</arguments>
+<assign>
+<var>${Text}</var>
+</assign>
+<msg timestamp="20180403 16:39:03.337" level="INFO">${Text} = Apr 2018</msg>
+<status status="PASS" endtime="20180403 16:39:03.337" starttime="20180403 16:39:02.758"></status>
+</kw>
+<kw name="Catenate" library="BuiltIn">
+<doc>Catenates the given items together and returns the resulted string.</doc>
+<arguments>
+<arg>${ThisMonthText}</arg>
+<arg>2018</arg>
+</arguments>
+<assign>
+<var>${ExpectedText}</var>
+</assign>
+<msg timestamp="20180403 16:39:03.338" level="INFO">${ExpectedText} = Mar 2018</msg>
+<status status="PASS" endtime="20180403 16:39:03.338" starttime="20180403 16:39:03.338"></status>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<doc>Logs the given message to the console.</doc>
+<arguments>
+<arg>Expected text is:</arg>
+<arg>${ExpectedText}</arg>
+</arguments>
+<status status="PASS" endtime="20180403 16:39:03.338" starttime="20180403 16:39:03.338"></status>
+</kw>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<arguments>
+<arg>${Text}</arg>
+<arg>Mar 2018</arg>
+</arguments>
+<msg timestamp="20180403 16:39:03.339" level="FAIL">Apr 2018 != Mar 2018</msg>
+<status status="FAIL" endtime="20180403 16:39:03.339" starttime="20180403 16:39:03.338"></status>
+</kw>
+<status status="FAIL" endtime="20180403 16:39:03.339" starttime="20180403 16:38:55.421"></status>
+</kw>
+<status status="FAIL" endtime="20180403 16:39:03.339" critical="yes" starttime="20180403 16:37:57.392">Apr 2018 != Mar 2018</status>
+</test>
+<status status="FAIL" endtime="20180403 16:39:03.340" starttime="20180403 16:37:57.372"></status>
+</suite>
+<suite source="C:\developments\robot-scripts\SocialSurvey\tests\ScoreStats.txt" id="s1-s3" name="ScoreStats">
+<test id="s1-s3-t1" name="Get the survey questions for a company and compare it with the UI.">
+<kw name="Get the expected question text from the DB" library="ScoreStatsFunctions">
+<kw name="Connect to Production Reporting MySQL" library="Common">
+<kw name="Connect To Database Using Custom Params" library="DatabaseLibrary">
+<doc>Loads the DB API 2.0 module given `dbapiModuleName` then uses it to</doc>
+<arguments>
+<arg>pymysql</arg>
+<arg>database='ss_report', user='infrrd_ops', password='vfsOIJ987', host='ss-report.c3n1qsdsmjxc.us-west-2.rds.amazonaws.com', port=3306</arg>
+</arguments>
+<msg timestamp="20180403 16:39:03.366" level="INFO">Executing : Connect To Database Using Custom Params : pymysql.connect(db_api_2.connect(database='ss_report', user='infrrd_ops', password='vfsOIJ987', host='ss-report.c3n1qsdsmjxc.us-west-2.rds.amazonaws.com', port=3306)) </msg>
+<status status="PASS" endtime="20180403 16:39:04.431" starttime="20180403 16:39:03.366"></status>
+</kw>
+<status status="PASS" endtime="20180403 16:39:04.431" starttime="20180403 16:39:03.366"></status>
+</kw>
+<kw name="Query" library="DatabaseLibrary">
+<doc>Uses the input `selectStatement` to query for the values that will be returned as a list of tuples. Set optional</doc>
+<arguments>
+<arg>${Query45}</arg>
+</arguments>
+<assign>
+<var>${SurveyQuestions}</var>
+</assign>
+<msg timestamp="20180403 16:39:04.431" level="INFO">Executing : Query  |  select distinct QUESTION from survey_response where SURVEY_DETAILS_ID in (select SURVEY_DETAILS_ID from survey_details where AGENT_ID in (select user_id from users where COMPANY_ID=1043 and status in (1,2,4)) and STAGE=-1 and SOURCE not in ('Zillow','3rd Party Review') and month(SURVEY_COMPLETED_DATE_EST)= 2 and year(SURVEY_COMPLETED_DATE_EST)= 2018 ) group by QUESTION; </msg>
+<msg timestamp="20180403 16:39:05.850" level="INFO">${SurveyQuestions} = (('How likely are you to recommend this company to your family, friends and colleagues?',), ('How would you rate the quality and condition of the vehicle that you rented? 1 star = worst, 5 stars = bes...</msg>
+<status status="PASS" endtime="20180403 16:39:05.850" starttime="20180403 16:39:04.431"></status>
+</kw>
+<kw name="Convert To String" library="BuiltIn">
+<doc>Converts the given item to a Unicode string.</doc>
+<arguments>
+<arg>${SurveyQuestions}</arg>
+</arguments>
+<assign>
+<var>${SurveyQuestions0}</var>
+</assign>
+<msg timestamp="20180403 16:39:05.851" level="INFO">${SurveyQuestions0} = (('How likely are you to recommend this company to your family, friends and colleagues?',), ('How would you rate the quality and condition of the vehicle that you rented? 1 star = worst, 5 stars = bes...</msg>
+<status status="PASS" endtime="20180403 16:39:05.851" starttime="20180403 16:39:05.850"></status>
+</kw>
+<kw name="Remove String" library="String">
+<doc>Removes all ``removables`` from the given ``string``.</doc>
+<arguments>
+<arg>${SurveyQuestions0}</arg>
+<arg>(</arg>
+<arg>)</arg>
+<arg>'</arg>
+</arguments>
+<assign>
+<var>${SurveyQuestions1}</var>
+</assign>
+<msg timestamp="20180403 16:39:05.851" level="INFO">${SurveyQuestions1} = How likely are you to recommend this company to your family, friends and colleagues?,, How would you rate the quality and condition of the vehicle that you rented? 1 star = worst, 5 stars = best,, How...</msg>
+<status status="PASS" endtime="20180403 16:39:05.851" starttime="20180403 16:39:05.851"></status>
+</kw>
+<kw name="Split String" library="String">
+<doc>Splits the ``string`` using ``separator`` as a delimiter string.</doc>
+<arguments>
+<arg>${SurveyQuestions1}</arg>
+<arg>,,</arg>
+</arguments>
+<assign>
+<var>@{Questions}</var>
+</assign>
+<msg timestamp="20180403 16:39:05.851" level="INFO">@{Questions} = [ How likely are you to recommend this company to your family, friends and colleagues? |  How would you rate the quality and condition of the vehicle that you rented? 1 star = worst, 5 stars = best | ...</msg>
+<status status="PASS" endtime="20180403 16:39:05.852" starttime="20180403 16:39:05.851"></status>
+</kw>
+<kw name="Get From List" library="Collections">
+<doc>Returns the value specified with an ``index`` from ``list``.</doc>
+<arguments>
+<arg>${Questions}</arg>
+<arg>0</arg>
+</arguments>
+<assign>
+<var>${Question1}</var>
+</assign>
+<msg timestamp="20180403 16:39:05.852" level="INFO">${Question1} = How likely are you to recommend this company to your family, friends and colleagues?</msg>
+<status status="PASS" endtime="20180403 16:39:05.852" starttime="20180403 16:39:05.852"></status>
+</kw>
+<kw name="Get From List" library="Collections">
+<doc>Returns the value specified with an ``index`` from ``list``.</doc>
+<arguments>
+<arg>${Questions}</arg>
+<arg>1</arg>
+</arguments>
+<assign>
+<var>${Question2}</var>
+</assign>
+<msg timestamp="20180403 16:39:05.852" level="INFO">${Question2} =  How would you rate the quality and condition of the vehicle that you rented? 1 star = worst, 5 stars = best</msg>
+<status status="PASS" endtime="20180403 16:39:05.852" starttime="20180403 16:39:05.852"></status>
+</kw>
+<kw name="Get From List" library="Collections">
+<doc>Returns the value specified with an ``index`` from ``list``.</doc>
+<arguments>
+<arg>${Questions}</arg>
+<arg>2</arg>
+</arguments>
+<assign>
+<var>${Question3}</var>
+</assign>
+<msg timestamp="20180403 16:39:05.853" level="INFO">${Question3} =  How would you rate the vehicle return process? 1 star = worst, 5 stars = best,</msg>
+<status status="PASS" endtime="20180403 16:39:05.853" starttime="20180403 16:39:05.853"></status>
+</kw>
+<kw name="Get From List" library="Collections">
+<doc>Returns the value specified with an ``index`` from ``list``.</doc>
+<arguments>
+<arg>${Questions}</arg>
+<arg>3</arg>
+</arguments>
+<assign>
+<var>${Question4}</var>
+</assign>
+<msg timestamp="20180403 16:39:05.854" level="FAIL">IndexError: Given index 3 is out of the range 0-2.</msg>
+<status status="FAIL" endtime="20180403 16:39:05.854" starttime="20180403 16:39:05.853"></status>
+</kw>
+<status status="FAIL" endtime="20180403 16:39:05.854" starttime="20180403 16:39:03.366"></status>
+</kw>
+<status status="FAIL" endtime="20180403 16:39:05.854" critical="yes" starttime="20180403 16:39:03.365">IndexError: Given index 3 is out of the range 0-2.</status>
+</test>
+<doc>Score stats test case</doc>
+<status status="FAIL" endtime="20180403 16:39:05.855" starttime="20180403 16:39:03.341"></status>
+</suite>
+<suite source="C:\developments\robot-scripts\SocialSurvey\tests\SpsScoreTestCases.txt" id="s1-s4" name="SpsScoreTestCases">
+<test id="s1-s4-t1" name="Match the SPS scores for region branch and Company">
+<kw name="Calculate SPS Score and save it in a file for a company" library="SPSScoreFunctions">
+<kw name="Connect to Production Reporting MySQL" library="Common">
+<kw name="Connect To Database Using Custom Params" library="DatabaseLibrary">
+<doc>Loads the DB API 2.0 module given `dbapiModuleName` then uses it to</doc>
+<arguments>
+<arg>pymysql</arg>
+<arg>database='ss_report', user='infrrd_ops', password='vfsOIJ987', host='ss-report.c3n1qsdsmjxc.us-west-2.rds.amazonaws.com', port=3306</arg>
+</arguments>
+<msg timestamp="20180403 16:39:05.885" level="INFO">Executing : Connect To Database Using Custom Params : pymysql.connect(db_api_2.connect(database='ss_report', user='infrrd_ops', password='vfsOIJ987', host='ss-report.c3n1qsdsmjxc.us-west-2.rds.amazonaws.com', port=3306)) </msg>
+<status status="PASS" endtime="20180403 16:39:06.932" starttime="20180403 16:39:05.884"></status>
+</kw>
+<status status="PASS" endtime="20180403 16:39:06.932" starttime="20180403 16:39:05.884"></status>
+</kw>
+<kw name="Query" library="DatabaseLibrary">
+<doc>Uses the input `selectStatement` to query for the values that will be returned as a list of tuples. Set optional</doc>
+<arguments>
+<arg>${Query9}</arg>
+</arguments>
+<assign>
+<var>${Great}</var>
+</assign>
+<msg timestamp="20180403 16:39:06.933" level="INFO">Executing : Query  |  select count(*) from survey_details where AGENT_ID in (select user_id from users where COMPANY_ID=337 ) and SOURCE not in ("Zillow", "3rd Party Review") and MOOD='Great' and STAGE=-1; </msg>
+<msg timestamp="20180403 16:39:08.441" level="INFO">${Great} = ((55933,),)</msg>
+<status status="PASS" endtime="20180403 16:39:08.441" starttime="20180403 16:39:06.933"></status>
+</kw>
+<kw name="Query" library="DatabaseLibrary">
+<doc>Uses the input `selectStatement` to query for the values that will be returned as a list of tuples. Set optional</doc>
+<arguments>
+<arg>${Query10}</arg>
+</arguments>
+<assign>
+<var>${Ok}</var>
+</assign>
+<msg timestamp="20180403 16:39:08.441" level="INFO">Executing : Query  |  select count(*) from survey_details where AGENT_ID in (select user_id from users where COMPANY_ID=337 ) and SOURCE not in ("Zillow", "3rd Party Review") and MOOD='Ok' and STAGE=-1; </msg>
+<msg timestamp="20180403 16:39:09.547" level="INFO">${Ok} = ((29561,),)</msg>
+<status status="PASS" endtime="20180403 16:39:09.547" starttime="20180403 16:39:08.441"></status>
+</kw>
+<kw name="Query" library="DatabaseLibrary">
+<doc>Uses the input `selectStatement` to query for the values that will be returned as a list of tuples. Set optional</doc>
+<arguments>
+<arg>${Query11}</arg>
+</arguments>
+<assign>
+<var>${Unpleasant}</var>
+</assign>
+<msg timestamp="20180403 16:39:09.547" level="INFO">Executing : Query  |  select count(*) from survey_details where AGENT_ID in (select user_id from users where COMPANY_ID=337 ) and SOURCE not in ("Zillow", "3rd Party Review") and MOOD='Unpleasant' and STAGE=-1; </msg>
+<msg timestamp="20180403 16:39:10.623" level="INFO">${Unpleasant} = ((20648,),)</msg>
+<status status="PASS" endtime="20180403 16:39:10.623" starttime="20180403 16:39:09.547"></status>
+</kw>
+<kw name="Convert To String" library="BuiltIn">
+<doc>Converts the given item to a Unicode string.</doc>
+<arguments>
+<arg>${Great}</arg>
+</arguments>
+<assign>
+<var>${Great1}</var>
+</assign>
+<msg timestamp="20180403 16:39:10.624" level="INFO">${Great1} = ((55933,),)</msg>
+<status status="PASS" endtime="20180403 16:39:10.624" starttime="20180403 16:39:10.623"></status>
+</kw>
+<kw name="Remove String" library="String">
+<doc>Removes all ``removables`` from the given ``string``.</doc>
+<arguments>
+<arg>${Great1}</arg>
+<arg>(</arg>
+<arg>)</arg>
+<arg>,</arg>
+</arguments>
+<assign>
+<var>${Great2}</var>
+</assign>
+<msg timestamp="20180403 16:39:10.624" level="INFO">${Great2} = 55933</msg>
+<status status="PASS" endtime="20180403 16:39:10.624" starttime="20180403 16:39:10.624"></status>
+</kw>
+<kw name="Convert To String" library="BuiltIn">
+<doc>Converts the given item to a Unicode string.</doc>
+<arguments>
+<arg>${Ok}</arg>
+</arguments>
+<assign>
+<var>${Ok1}</var>
+</assign>
+<msg timestamp="20180403 16:39:10.625" level="INFO">${Ok1} = ((29561,),)</msg>
+<status status="PASS" endtime="20180403 16:39:10.625" starttime="20180403 16:39:10.624"></status>
+</kw>
+<kw name="Remove String" library="String">
+<doc>Removes all ``removables`` from the given ``string``.</doc>
+<arguments>
+<arg>${Ok1}</arg>
+<arg>(</arg>
+<arg>)</arg>
+<arg>,</arg>
+</arguments>
+<assign>
+<var>${Ok2}</var>
+</assign>
+<msg timestamp="20180403 16:39:10.625" level="INFO">${Ok2} = 29561</msg>
+<status status="PASS" endtime="20180403 16:39:10.625" starttime="20180403 16:39:10.625"></status>
+</kw>
+<kw name="Convert To String" library="BuiltIn">
+<doc>Converts the given item to a Unicode string.</doc>
+<arguments>
+<arg>${Unpleasant}</arg>
+</arguments>
+<assign>
+<var>${Unpleasant1}</var>
+</assign>
+<msg timestamp="20180403 16:39:10.625" level="INFO">${Unpleasant1} = ((20648,),)</msg>
+<status status="PASS" endtime="20180403 16:39:10.626" starttime="20180403 16:39:10.625"></status>
+</kw>
+<kw name="Remove String" library="String">
+<doc>Removes all ``removables`` from the given ``string``.</doc>
+<arguments>
+<arg>${Unpleasant1}</arg>
+<arg>(</arg>
+<arg>)</arg>
+<arg>,</arg>
+</arguments>
+<assign>
+<var>${Unpleasant2}</var>
+</assign>
+<msg timestamp="20180403 16:39:10.626" level="INFO">${Unpleasant2} = 20648</msg>
+<status status="PASS" endtime="20180403 16:39:10.626" starttime="20180403 16:39:10.626"></status>
+</kw>
+<kw name="Convert To Number" library="BuiltIn">
+<doc>Converts the given item to a floating point number.</doc>
+<arguments>
+<arg>${Unpleasant2}</arg>
+</arguments>
+<assign>
+<var>${Unpleasant3}</var>
+</assign>
+<msg timestamp="20180403 16:39:10.626" level="INFO">${Unpleasant3} = 20648.0</msg>
+<status status="PASS" endtime="20180403 16:39:10.626" starttime="20180403 16:39:10.626"></status>
+</kw>
+<kw name="Convert To Number" library="BuiltIn">
+<doc>Converts the given item to a floating point number.</doc>
+<arguments>
+<arg>${Ok2}</arg>
+</arguments>
+<assign>
+<var>${Ok3}</var>
+</assign>
+<msg timestamp="20180403 16:39:10.627" level="INFO">${Ok3} = 29561.0</msg>
+<status status="PASS" endtime="20180403 16:39:10.627" starttime="20180403 16:39:10.627"></status>
+</kw>
+<kw name="Convert To Number" library="BuiltIn">
+<doc>Converts the given item to a floating point number.</doc>
+<arguments>
+<arg>${Great2}</arg>
+</arguments>
+<assign>
+<var>${Great3}</var>
+</assign>
+<msg timestamp="20180403 16:39:10.627" level="INFO">${Great3} = 55933.0</msg>
+<status status="PASS" endtime="20180403 16:39:10.627" starttime="20180403 16:39:10.627"></status>
+</kw>
+<kw name="Evaluate" library="BuiltIn">
+<doc>Evaluates the given expression in Python and returns the results.</doc>
+<arguments>
+<arg>${Great3} - ${Unpleasant3}</arg>
+</arguments>
+<assign>
+<var>${Calc1}</var>
+</assign>
+<msg timestamp="20180403 16:39:10.628" level="INFO">${Calc1} = 35285.0</msg>
+<status status="PASS" endtime="20180403 16:39:10.628" starttime="20180403 16:39:10.627"></status>
+</kw>
+<kw name="Evaluate" library="BuiltIn">
+<doc>Evaluates the given expression in Python and returns the results.</doc>
+<arguments>
+<arg>${Great3} + ${Unpleasant3} + ${Ok3}</arg>
+</arguments>
+<assign>
+<var>${Calc2}</var>
+</assign>
+<msg timestamp="20180403 16:39:10.628" level="INFO">${Calc2} = 106142.0</msg>
+<status status="PASS" endtime="20180403 16:39:10.628" starttime="20180403 16:39:10.628"></status>
+</kw>
+<kw name="Evaluate" library="BuiltIn">
+<doc>Evaluates the given expression in Python and returns the results.</doc>
+<arguments>
+<arg>${Calc1} / ${Calc2} * 100</arg>
+</arguments>
+<assign>
+<var>${var3}</var>
+</assign>
+<msg timestamp="20180403 16:39:10.629" level="INFO">${var3} = 33.2432025023</msg>
+<status status="PASS" endtime="20180403 16:39:10.629" starttime="20180403 16:39:10.629"></status>
+</kw>
+<kw name="Convert To String" library="BuiltIn">
+<doc>Converts the given item to a Unicode string.</doc>
+<arguments>
+<arg>${var3}</arg>
+</arguments>
+<assign>
+<var>${var4}</var>
+</assign>
+<msg timestamp="20180403 16:39:10.629" level="INFO">${var4} = 33.2432025023</msg>
+<status status="PASS" endtime="20180403 16:39:10.629" starttime="20180403 16:39:10.629"></status>
+</kw>
+<kw name="write_variable_in_txt_file" library="Common">
+<arguments>
+<arg>${var4}</arg>
+<arg>spsscore</arg>
+</arguments>
+<kw name="Get Time" library="BuiltIn">
+<doc>Returns the given time in the requested format.</doc>
+<arguments>
+<arg>format='epoch'</arg>
+</arguments>
+<assign>
+<var>${TheTime}</var>
+</assign>
+<msg timestamp="20180403 16:39:10.630" level="INFO">${TheTime} = 1522753750</msg>
+<status status="PASS" endtime="20180403 16:39:10.630" starttime="20180403 16:39:10.630"></status>
+</kw>
+<kw name="Convert To String" library="BuiltIn">
+<doc>Converts the given item to a Unicode string.</doc>
+<arguments>
+<arg>${TheTime}</arg>
+</arguments>
+<assign>
+<var>${ConvrtTime}</var>
+</assign>
+<msg timestamp="20180403 16:39:10.631" level="INFO">${ConvrtTime} = 1522753750</msg>
+<status status="PASS" endtime="20180403 16:39:10.631" starttime="20180403 16:39:10.630"></status>
+</kw>
+<kw name="Remove Files" library="OperatingSystem">
+<doc>Uses `Remove File` to remove multiple files one-by-one.</doc>
+<arguments>
+<arg>${DIRPath}/${FileName}.txt</arg>
+</arguments>
+<msg timestamp="20180403 16:39:10.632" html="yes" level="INFO">Removed file '&lt;a href="file://C:\ResponseFiles\spsscore.txt"&gt;C:\ResponseFiles\spsscore.txt&lt;/a&gt;'.</msg>
+<status status="PASS" endtime="20180403 16:39:10.632" starttime="20180403 16:39:10.631"></status>
+</kw>
+<kw name="Create File" library="OperatingSystem">
+<doc>Creates a file with the given content and encoding.</doc>
+<arguments>
+<arg>${DIRPath}/${FileName}.txt</arg>
+<arg>${queryResults}</arg>
+</arguments>
+<msg timestamp="20180403 16:39:10.635" html="yes" level="INFO">Created file '&lt;a href="file://C:\ResponseFiles\spsscore.txt"&gt;C:\ResponseFiles\spsscore.txt&lt;/a&gt;'.</msg>
+<status status="PASS" endtime="20180403 16:39:10.635" starttime="20180403 16:39:10.633"></status>
+</kw>
+<status status="PASS" endtime="20180403 16:39:10.636" starttime="20180403 16:39:10.630"></status>
+</kw>
+<status status="PASS" endtime="20180403 16:39:10.636" starttime="20180403 16:39:05.884"></status>
+</kw>
+<kw name="Read the calculated SPS score from file and match against the UI value for a company" library="SPSScoreFunctions">
+<kw name="Get File" library="OperatingSystem">
+<doc>Returns the contents of a specified file.</doc>
+<arguments>
+<arg>C:/ResponseFiles/spsscore.txt</arg>
+</arguments>
+<assign>
+<var>${ReadFromTheFile}</var>
+</assign>
+<msg timestamp="20180403 16:39:10.636" html="yes" level="INFO">Getting file '&lt;a href="file://C:\ResponseFiles\spsscore.txt"&gt;C:\ResponseFiles\spsscore.txt&lt;/a&gt;'.</msg>
+<msg timestamp="20180403 16:39:10.637" level="INFO">${ReadFromTheFile} = 33.2432025023</msg>
+<status status="PASS" endtime="20180403 16:39:10.637" starttime="20180403 16:39:10.636"></status>
+</kw>
+<kw name="Convert To Number" library="BuiltIn">
+<doc>Converts the given item to a floating point number.</doc>
+<arguments>
+<arg>${ReadFromTheFile}</arg>
+<arg>2</arg>
+</arguments>
+<assign>
+<var>${ReadFromTheFile1}</var>
+</assign>
+<msg timestamp="20180403 16:39:10.637" level="INFO">${ReadFromTheFile1} = 33.24</msg>
+<status status="PASS" endtime="20180403 16:39:10.638" starttime="20180403 16:39:10.637"></status>
+</kw>
+<kw name="Connect to Production Reporting MySQL" library="Common">
+<kw name="Connect To Database Using Custom Params" library="DatabaseLibrary">
+<doc>Loads the DB API 2.0 module given `dbapiModuleName` then uses it to</doc>
+<arguments>
+<arg>pymysql</arg>
+<arg>database='ss_report', user='infrrd_ops', password='vfsOIJ987', host='ss-report.c3n1qsdsmjxc.us-west-2.rds.amazonaws.com', port=3306</arg>
+</arguments>
+<msg timestamp="20180403 16:39:10.638" level="INFO">Executing : Connect To Database Using Custom Params : pymysql.connect(db_api_2.connect(database='ss_report', user='infrrd_ops', password='vfsOIJ987', host='ss-report.c3n1qsdsmjxc.us-west-2.rds.amazonaws.com', port=3306)) </msg>
+<status status="PASS" endtime="20180403 16:39:11.761" starttime="20180403 16:39:10.638"></status>
+</kw>
+<status status="PASS" endtime="20180403 16:39:11.761" starttime="20180403 16:39:10.638"></status>
+</kw>
+<kw name="Query" library="DatabaseLibrary">
+<doc>Uses the input `selectStatement` to query for the values that will be returned as a list of tuples. Set optional</doc>
+<arguments>
+<arg>${Query12}</arg>
+</arguments>
+<assign>
+<var>${ValueOnTheUI}</var>
+</assign>
+<msg timestamp="20180403 16:39:11.762" level="INFO">Executing : Query  |  select sps_score from overview_company where company_id=337 ; </msg>
+<msg timestamp="20180403 16:39:12.286" level="INFO">${ValueOnTheUI} = ((Decimal('33.24'),),)</msg>
+<status status="PASS" endtime="20180403 16:39:12.286" starttime="20180403 16:39:11.761"></status>
+</kw>
+<kw name="Convert To String" library="BuiltIn">
+<doc>Converts the given item to a Unicode string.</doc>
+<arguments>
+<arg>${ValueOnTheUI}</arg>
+</arguments>
+<assign>
+<var>${zyx}</var>
+</assign>
+<msg timestamp="20180403 16:39:12.286" level="INFO">${zyx} = ((Decimal('33.24'),),)</msg>
+<status status="PASS" endtime="20180403 16:39:12.286" starttime="20180403 16:39:12.286"></status>
+</kw>
+<kw name="Remove String" library="String">
+<doc>Removes all ``removables`` from the given ``string``.</doc>
+<arguments>
+<arg>${zyx}</arg>
+<arg>(</arg>
+<arg>)</arg>
+<arg>,</arg>
+<arg>Decimal</arg>
+<arg>'</arg>
+</arguments>
+<assign>
+<var>${xyz}</var>
+</assign>
+<msg timestamp="20180403 16:39:12.287" level="INFO">${xyz} = 33.24</msg>
+<status status="PASS" endtime="20180403 16:39:12.287" starttime="20180403 16:39:12.286"></status>
+</kw>
+<kw name="Convert To Number" library="BuiltIn">
+<doc>Converts the given item to a floating point number.</doc>
+<arguments>
+<arg>${xyz}</arg>
+</arguments>
+<assign>
+<var>${ValueOnTheUI1}</var>
+</assign>
+<msg timestamp="20180403 16:39:12.287" level="INFO">${ValueOnTheUI1} = 33.24</msg>
+<status status="PASS" endtime="20180403 16:39:12.287" starttime="20180403 16:39:12.287"></status>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<doc>Logs the given message to the console.</doc>
+<arguments>
+<arg>${ValueOnTheUI1}</arg>
+</arguments>
+<status status="PASS" endtime="20180403 16:39:12.288" starttime="20180403 16:39:12.287"></status>
+</kw>
+<kw name="Should Be Equal As Numbers" library="BuiltIn">
+<doc>Fails if objects are unequal after converting them to real numbers.</doc>
+<arguments>
+<arg>${ValueOnTheUI1}</arg>
+<arg>${ReadFromTheFile1}</arg>
+<arg>msg=For A Company Values donot match...</arg>
+</arguments>
+<status status="PASS" endtime="20180403 16:39:12.288" starttime="20180403 16:39:12.288"></status>
+</kw>
+<status status="PASS" endtime="20180403 16:39:12.288" starttime="20180403 16:39:10.636"></status>
+</kw>
+<kw name="Calculate SPS Score and save it in a file for a Region" library="SPSScoreFunctions">
+<kw name="Connect to Production Reporting MySQL" library="Common">
+<kw name="Connect To Database Using Custom Params" library="DatabaseLibrary">
+<doc>Loads the DB API 2.0 module given `dbapiModuleName` then uses it to</doc>
+<arguments>
+<arg>pymysql</arg>
+<arg>database='ss_report', user='infrrd_ops', password='vfsOIJ987', host='ss-report.c3n1qsdsmjxc.us-west-2.rds.amazonaws.com', port=3306</arg>
+</arguments>
+<msg timestamp="20180403 16:39:12.289" level="INFO">Executing : Connect To Database Using Custom Params : pymysql.connect(db_api_2.connect(database='ss_report', user='infrrd_ops', password='vfsOIJ987', host='ss-report.c3n1qsdsmjxc.us-west-2.rds.amazonaws.com', port=3306)) </msg>
+<status status="PASS" endtime="20180403 16:39:13.315" starttime="20180403 16:39:12.289"></status>
+</kw>
+<status status="PASS" endtime="20180403 16:39:13.315" starttime="20180403 16:39:12.289"></status>
+</kw>
+<kw name="Query" library="DatabaseLibrary">
+<doc>Uses the input `selectStatement` to query for the values that will be returned as a list of tuples. Set optional</doc>
+<arguments>
+<arg>${Query13}</arg>
+</arguments>
+<assign>
+<var>${Great}</var>
+</assign>
+<msg timestamp="20180403 16:39:13.315" level="INFO">Executing : Query  |  select count(*) from survey_details where AGENT_ID in (select user_id from user_profile where REGION_ID=617 and STATUS=1) and SOURCE not in ("Zillow", "3rd Party Review") and MOOD='Great' and STAGE=-1; </msg>
+<msg timestamp="20180403 16:39:14.425" level="INFO">${Great} = ((10147,),)</msg>
+<status status="PASS" endtime="20180403 16:39:14.425" starttime="20180403 16:39:13.315"></status>
+</kw>
+<kw name="Query" library="DatabaseLibrary">
+<doc>Uses the input `selectStatement` to query for the values that will be returned as a list of tuples. Set optional</doc>
+<arguments>
+<arg>${Query14}</arg>
+</arguments>
+<assign>
+<var>${Ok}</var>
+</assign>
+<msg timestamp="20180403 16:39:14.426" level="INFO">Executing : Query  |  select count(*) from survey_details where AGENT_ID in (select user_id from user_profile where REGION_ID=617 and STATUS=1) and SOURCE not in ("Zillow", "3rd Party Review") and MOOD='Ok' and STAGE=-1; </msg>
+<msg timestamp="20180403 16:39:15.474" level="INFO">${Ok} = ((5313,),)</msg>
+<status status="PASS" endtime="20180403 16:39:15.475" starttime="20180403 16:39:14.426"></status>
+</kw>
+<kw name="Query" library="DatabaseLibrary">
+<doc>Uses the input `selectStatement` to query for the values that will be returned as a list of tuples. Set optional</doc>
+<arguments>
+<arg>${Query15}</arg>
+</arguments>
+<assign>
+<var>${Unpleasant}</var>
+</assign>
+<msg timestamp="20180403 16:39:15.475" level="INFO">Executing : Query  |  select count(*) from survey_details where AGENT_ID in (select user_id from user_profile where REGION_ID=617 and STATUS=1) and SOURCE not in ("Zillow", "3rd Party Review") and MOOD='Unpleasant' and STAGE=-1; </msg>
+<msg timestamp="20180403 16:39:16.517" level="INFO">${Unpleasant} = ((3210,),)</msg>
+<status status="PASS" endtime="20180403 16:39:16.517" starttime="20180403 16:39:15.475"></status>
+</kw>
+<kw name="Convert To String" library="BuiltIn">
+<doc>Converts the given item to a Unicode string.</doc>
+<arguments>
+<arg>${Great}</arg>
+</arguments>
+<assign>
+<var>${Great1}</var>
+</assign>
+<msg timestamp="20180403 16:39:16.518" level="INFO">${Great1} = ((10147,),)</msg>
+<status status="PASS" endtime="20180403 16:39:16.518" starttime="20180403 16:39:16.517"></status>
+</kw>
+<kw name="Remove String" library="String">
+<doc>Removes all ``removables`` from the given ``string``.</doc>
+<arguments>
+<arg>${Great1}</arg>
+<arg>(</arg>
+<arg>)</arg>
+<arg>,</arg>
+</arguments>
+<assign>
+<var>${Great2}</var>
+</assign>
+<msg timestamp="20180403 16:39:16.518" level="INFO">${Great2} = 10147</msg>
+<status status="PASS" endtime="20180403 16:39:16.518" starttime="20180403 16:39:16.518"></status>
+</kw>
+<kw name="Convert To String" library="BuiltIn">
+<doc>Converts the given item to a Unicode string.</doc>
+<arguments>
+<arg>${Ok}</arg>
+</arguments>
+<assign>
+<var>${Ok1}</var>
+</assign>
+<msg timestamp="20180403 16:39:16.519" level="INFO">${Ok1} = ((5313,),)</msg>
+<status status="PASS" endtime="20180403 16:39:16.519" starttime="20180403 16:39:16.518"></status>
+</kw>
+<kw name="Remove String" library="String">
+<doc>Removes all ``removables`` from the given ``string``.</doc>
+<arguments>
+<arg>${Ok1}</arg>
+<arg>(</arg>
+<arg>)</arg>
+<arg>,</arg>
+</arguments>
+<assign>
+<var>${Ok2}</var>
+</assign>
+<msg timestamp="20180403 16:39:16.519" level="INFO">${Ok2} = 5313</msg>
+<status status="PASS" endtime="20180403 16:39:16.519" starttime="20180403 16:39:16.519"></status>
+</kw>
+<kw name="Convert To String" library="BuiltIn">
+<doc>Converts the given item to a Unicode string.</doc>
+<arguments>
+<arg>${Unpleasant}</arg>
+</arguments>
+<assign>
+<var>${Unpleasant1}</var>
+</assign>
+<msg timestamp="20180403 16:39:16.519" level="INFO">${Unpleasant1} = ((3210,),)</msg>
+<status status="PASS" endtime="20180403 16:39:16.519" starttime="20180403 16:39:16.519"></status>
+</kw>
+<kw name="Remove String" library="String">
+<doc>Removes all ``removables`` from the given ``string``.</doc>
+<arguments>
+<arg>${Unpleasant1}</arg>
+<arg>(</arg>
+<arg>)</arg>
+<arg>,</arg>
+</arguments>
+<assign>
+<var>${Unpleasant2}</var>
+</assign>
+<msg timestamp="20180403 16:39:16.520" level="INFO">${Unpleasant2} = 3210</msg>
+<status status="PASS" endtime="20180403 16:39:16.520" starttime="20180403 16:39:16.520"></status>
+</kw>
+<kw name="Convert To Number" library="BuiltIn">
+<doc>Converts the given item to a floating point number.</doc>
+<arguments>
+<arg>${Unpleasant2}</arg>
+</arguments>
+<assign>
+<var>${Unpleasant3}</var>
+</assign>
+<msg timestamp="20180403 16:39:16.520" level="INFO">${Unpleasant3} = 3210.0</msg>
+<status status="PASS" endtime="20180403 16:39:16.520" starttime="20180403 16:39:16.520"></status>
+</kw>
+<kw name="Convert To Number" library="BuiltIn">
+<doc>Converts the given item to a floating point number.</doc>
+<arguments>
+<arg>${Ok2}</arg>
+</arguments>
+<assign>
+<var>${Ok3}</var>
+</assign>
+<msg timestamp="20180403 16:39:16.521" level="INFO">${Ok3} = 5313.0</msg>
+<status status="PASS" endtime="20180403 16:39:16.521" starttime="20180403 16:39:16.521"></status>
+</kw>
+<kw name="Convert To Number" library="BuiltIn">
+<doc>Converts the given item to a floating point number.</doc>
+<arguments>
+<arg>${Great2}</arg>
+</arguments>
+<assign>
+<var>${Great3}</var>
+</assign>
+<msg timestamp="20180403 16:39:16.521" level="INFO">${Great3} = 10147.0</msg>
+<status status="PASS" endtime="20180403 16:39:16.521" starttime="20180403 16:39:16.521"></status>
+</kw>
+<kw name="Evaluate" library="BuiltIn">
+<doc>Evaluates the given expression in Python and returns the results.</doc>
+<arguments>
+<arg>${Great3} - ${Unpleasant3}</arg>
+</arguments>
+<assign>
+<var>${Calc1}</var>
+</assign>
+<msg timestamp="20180403 16:39:16.522" level="INFO">${Calc1} = 6937.0</msg>
+<status status="PASS" endtime="20180403 16:39:16.522" starttime="20180403 16:39:16.521"></status>
+</kw>
+<kw name="Evaluate" library="BuiltIn">
+<doc>Evaluates the given expression in Python and returns the results.</doc>
+<arguments>
+<arg>${Great3} + ${Unpleasant3} + ${Ok3}</arg>
+</arguments>
+<assign>
+<var>${Calc2}</var>
+</assign>
+<msg timestamp="20180403 16:39:16.522" level="INFO">${Calc2} = 18670.0</msg>
+<status status="PASS" endtime="20180403 16:39:16.522" starttime="20180403 16:39:16.522"></status>
+</kw>
+<kw name="Evaluate" library="BuiltIn">
+<doc>Evaluates the given expression in Python and returns the results.</doc>
+<arguments>
+<arg>${Calc1} / ${Calc2} * 100</arg>
+</arguments>
+<assign>
+<var>${var3}</var>
+</assign>
+<msg timestamp="20180403 16:39:16.523" level="INFO">${var3} = 37.1558650241</msg>
+<status status="PASS" endtime="20180403 16:39:16.523" starttime="20180403 16:39:16.523"></status>
+</kw>
+<kw name="Convert To String" library="BuiltIn">
+<doc>Converts the given item to a Unicode string.</doc>
+<arguments>
+<arg>${var3}</arg>
+</arguments>
+<assign>
+<var>${var5}</var>
+</assign>
+<msg timestamp="20180403 16:39:16.523" level="INFO">${var5} = 37.1558650241</msg>
+<status status="PASS" endtime="20180403 16:39:16.523" starttime="20180403 16:39:16.523"></status>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<doc>Logs the given message to the console.</doc>
+<arguments>
+<arg>${var5}</arg>
+</arguments>
+<status status="PASS" endtime="20180403 16:39:16.524" starttime="20180403 16:39:16.524"></status>
+</kw>
+<kw name="Convert To String" library="BuiltIn">
+<doc>Converts the given item to a Unicode string.</doc>
+<arguments>
+<arg>${var3}</arg>
+</arguments>
+<assign>
+<var>${var4}</var>
+</assign>
+<msg timestamp="20180403 16:39:16.524" level="INFO">${var4} = 37.1558650241</msg>
+<status status="PASS" endtime="20180403 16:39:16.524" starttime="20180403 16:39:16.524"></status>
+</kw>
+<kw name="write_variable_in_txt_file" library="Common">
+<arguments>
+<arg>${var5}</arg>
+<arg>spsscoreRegion</arg>
+</arguments>
+<kw name="Get Time" library="BuiltIn">
+<doc>Returns the given time in the requested format.</doc>
+<arguments>
+<arg>format='epoch'</arg>
+</arguments>
+<assign>
+<var>${TheTime}</var>
+</assign>
+<msg timestamp="20180403 16:39:16.525" level="INFO">${TheTime} = 1522753756</msg>
+<status status="PASS" endtime="20180403 16:39:16.525" starttime="20180403 16:39:16.525"></status>
+</kw>
+<kw name="Convert To String" library="BuiltIn">
+<doc>Converts the given item to a Unicode string.</doc>
+<arguments>
+<arg>${TheTime}</arg>
+</arguments>
+<assign>
+<var>${ConvrtTime}</var>
+</assign>
+<msg timestamp="20180403 16:39:16.526" level="INFO">${ConvrtTime} = 1522753756</msg>
+<status status="PASS" endtime="20180403 16:39:16.526" starttime="20180403 16:39:16.525"></status>
+</kw>
+<kw name="Remove Files" library="OperatingSystem">
+<doc>Uses `Remove File` to remove multiple files one-by-one.</doc>
+<arguments>
+<arg>${DIRPath}/${FileName}.txt</arg>
+</arguments>
+<msg timestamp="20180403 16:39:16.527" html="yes" level="INFO">Removed file '&lt;a href="file://C:\ResponseFiles\spsscoreRegion.txt"&gt;C:\ResponseFiles\spsscoreRegion.txt&lt;/a&gt;'.</msg>
+<status status="PASS" endtime="20180403 16:39:16.528" starttime="20180403 16:39:16.526"></status>
+</kw>
+<kw name="Create File" library="OperatingSystem">
+<doc>Creates a file with the given content and encoding.</doc>
+<arguments>
+<arg>${DIRPath}/${FileName}.txt</arg>
+<arg>${queryResults}</arg>
+</arguments>
+<msg timestamp="20180403 16:39:16.531" html="yes" level="INFO">Created file '&lt;a href="file://C:\ResponseFiles\spsscoreRegion.txt"&gt;C:\ResponseFiles\spsscoreRegion.txt&lt;/a&gt;'.</msg>
+<status status="PASS" endtime="20180403 16:39:16.531" starttime="20180403 16:39:16.528"></status>
+</kw>
+<status status="PASS" endtime="20180403 16:39:16.531" starttime="20180403 16:39:16.524"></status>
+</kw>
+<status status="PASS" endtime="20180403 16:39:16.531" starttime="20180403 16:39:12.288"></status>
+</kw>
+<kw name="Read the calculated SPS score from file and match against the UI value for a Region" library="SPSScoreFunctions">
+<kw name="Get File" library="OperatingSystem">
+<doc>Returns the contents of a specified file.</doc>
+<arguments>
+<arg>C:/ResponseFiles/spsscoreRegion.txt</arg>
+</arguments>
+<assign>
+<var>${ReadFromTheFile}</var>
+</assign>
+<msg timestamp="20180403 16:39:16.531" html="yes" level="INFO">Getting file '&lt;a href="file://C:\ResponseFiles\spsscoreRegion.txt"&gt;C:\ResponseFiles\spsscoreRegion.txt&lt;/a&gt;'.</msg>
+<msg timestamp="20180403 16:39:16.531" level="INFO">${ReadFromTheFile} = 37.1558650241</msg>
+<status status="PASS" endtime="20180403 16:39:16.532" starttime="20180403 16:39:16.531"></status>
+</kw>
+<kw name="Convert To Number" library="BuiltIn">
+<doc>Converts the given item to a floating point number.</doc>
+<arguments>
+<arg>${ReadFromTheFile}</arg>
+<arg>1</arg>
+</arguments>
+<assign>
+<var>${ReadFromTheFile1}</var>
+</assign>
+<msg timestamp="20180403 16:39:16.532" level="INFO">${ReadFromTheFile1} = 37.2</msg>
+<status status="PASS" endtime="20180403 16:39:16.532" starttime="20180403 16:39:16.532"></status>
+</kw>
+<kw name="Connect to Production Reporting MySQL" library="Common">
+<kw name="Connect To Database Using Custom Params" library="DatabaseLibrary">
+<doc>Loads the DB API 2.0 module given `dbapiModuleName` then uses it to</doc>
+<arguments>
+<arg>pymysql</arg>
+<arg>database='ss_report', user='infrrd_ops', password='vfsOIJ987', host='ss-report.c3n1qsdsmjxc.us-west-2.rds.amazonaws.com', port=3306</arg>
+</arguments>
+<msg timestamp="20180403 16:39:16.533" level="INFO">Executing : Connect To Database Using Custom Params : pymysql.connect(db_api_2.connect(database='ss_report', user='infrrd_ops', password='vfsOIJ987', host='ss-report.c3n1qsdsmjxc.us-west-2.rds.amazonaws.com', port=3306)) </msg>
+<status status="PASS" endtime="20180403 16:39:17.561" starttime="20180403 16:39:16.532"></status>
+</kw>
+<status status="PASS" endtime="20180403 16:39:17.561" starttime="20180403 16:39:16.532"></status>
+</kw>
+<kw name="Query" library="DatabaseLibrary">
+<doc>Uses the input `selectStatement` to query for the values that will be returned as a list of tuples. Set optional</doc>
+<arguments>
+<arg>${Query16}</arg>
+</arguments>
+<assign>
+<var>${ValueOnTheUI}</var>
+</assign>
+<msg timestamp="20180403 16:39:17.561" level="INFO">Executing : Query  |  select sps_score from overview_region where region_id=617; </msg>
+<msg timestamp="20180403 16:39:18.064" level="INFO">${ValueOnTheUI} = ((Decimal('37.03'),),)</msg>
+<status status="PASS" endtime="20180403 16:39:18.064" starttime="20180403 16:39:17.561"></status>
+</kw>
+<kw name="Convert To String" library="BuiltIn">
+<doc>Converts the given item to a Unicode string.</doc>
+<arguments>
+<arg>${ValueOnTheUI}</arg>
+</arguments>
+<assign>
+<var>${zyx}</var>
+</assign>
+<msg timestamp="20180403 16:39:18.065" level="INFO">${zyx} = ((Decimal('37.03'),),)</msg>
+<status status="PASS" endtime="20180403 16:39:18.065" starttime="20180403 16:39:18.064"></status>
+</kw>
+<kw name="Remove String" library="String">
+<doc>Removes all ``removables`` from the given ``string``.</doc>
+<arguments>
+<arg>${zyx}</arg>
+<arg>(</arg>
+<arg>)</arg>
+<arg>,</arg>
+<arg>Decimal</arg>
+<arg>'</arg>
+</arguments>
+<assign>
+<var>${xyz}</var>
+</assign>
+<msg timestamp="20180403 16:39:18.065" level="INFO">${xyz} = 37.03</msg>
+<status status="PASS" endtime="20180403 16:39:18.065" starttime="20180403 16:39:18.065"></status>
+</kw>
+<kw name="Convert To Number" library="BuiltIn">
+<doc>Converts the given item to a floating point number.</doc>
+<arguments>
+<arg>${xyz}</arg>
+<arg>2</arg>
+</arguments>
+<assign>
+<var>${ValueOnTheUI1}</var>
+</assign>
+<msg timestamp="20180403 16:39:18.066" level="INFO">${ValueOnTheUI1} = 37.03</msg>
+<status status="PASS" endtime="20180403 16:39:18.066" starttime="20180403 16:39:18.065"></status>
+</kw>
+<kw name="Should Be Equal As Numbers" library="BuiltIn">
+<doc>Fails if objects are unequal after converting them to real numbers.</doc>
+<arguments>
+<arg>${ValueOnTheUI1}</arg>
+<arg>${ReadFromTheFile1}</arg>
+<arg>msg=For a Region, Values donot match....</arg>
+</arguments>
+<msg timestamp="20180403 16:39:18.066" level="FAIL">For a Region, Values donot match....: 37.03 != 37.2</msg>
+<status status="FAIL" endtime="20180403 16:39:18.066" starttime="20180403 16:39:18.066"></status>
+</kw>
+<status status="FAIL" endtime="20180403 16:39:18.066" starttime="20180403 16:39:16.531"></status>
+</kw>
+<tags>
+<tag>Smoke</tag>
+</tags>
+<status status="FAIL" endtime="20180403 16:39:18.067" critical="yes" starttime="20180403 16:39:05.883">For a Region, Values donot match....: 37.03 != 37.2</status>
+</test>
+<doc>Checks the SPS score for all the timeframes.</doc>
+<status status="FAIL" endtime="20180403 16:39:18.067" starttime="20180403 16:39:05.856"></status>
+</suite>
+<suite source="C:\developments\robot-scripts\SocialSurvey\tests\UserRankingTestCases.txt" id="s1-s5" name="UserRankingTestCases">
+<test id="s1-s5-t1" name="Login To Social Survey">
+<kw name="Login As Company Admin" library="FirstTest">
+<kw name="Login as SS Admin" library="LoginPage">
+<doc>To fetch the cookie from the current active session to be used in the API calls</doc>
+<kw name="Open Browser" library="Selenium2Library">
+<doc>Opens a new browser instance to given URL.</doc>
+<arguments>
+<arg>https://socialsurvey.me/login.do</arg>
+<arg>chrome</arg>
+</arguments>
+<msg timestamp="20180403 16:39:18.094" level="INFO">Opening browser 'chrome' to base url 'https://socialsurvey.me/login.do'</msg>
+<status status="PASS" endtime="20180403 16:39:26.020" starttime="20180403 16:39:18.094"></status>
+</kw>
+<kw name="Maximize Browser Window" library="Selenium2Library">
+<doc>Maximizes current browser window.</doc>
+<status status="PASS" endtime="20180403 16:39:27.435" starttime="20180403 16:39:26.020"></status>
+</kw>
+<kw name="Input Text" library="Selenium2Library">
+<doc>Types the given `text` into text field identified by `locator`.</doc>
+<arguments>
+<arg>id=login-user-id</arg>
+<arg>patidar@infrrd.ai</arg>
+</arguments>
+<msg timestamp="20180403 16:39:27.435" level="INFO">Typing text 'patidar@infrrd.ai' into text field 'id=login-user-id'</msg>
+<status status="PASS" endtime="20180403 16:39:28.414" starttime="20180403 16:39:27.435"></status>
+</kw>
+<kw name="Input Text" library="Selenium2Library">
+<doc>Types the given `text` into text field identified by `locator`.</doc>
+<arguments>
+<arg>id=login-pwd</arg>
+<arg>socialsurvey</arg>
+</arguments>
+<msg timestamp="20180403 16:39:28.414" level="INFO">Typing text 'socialsurvey' into text field 'id=login-pwd'</msg>
+<status status="PASS" endtime="20180403 16:39:29.346" starttime="20180403 16:39:28.414"></status>
+</kw>
+<kw name="Click Element" library="Selenium2Library">
+<doc>Click element identified by `locator`.</doc>
+<arguments>
+<arg>xpath=//div[@id='login-submit']</arg>
+</arguments>
+<msg timestamp="20180403 16:39:29.346" level="INFO">Clicking element 'xpath=//div[@id='login-submit']'.</msg>
+<status status="PASS" endtime="20180403 16:39:32.092" starttime="20180403 16:39:29.346"></status>
+</kw>
+<kw name="Wait Until Page Contains" library="Selenium2Library">
+<doc>Waits until `text` appears on current page.</doc>
+<arguments>
+<arg>Dashboard</arg>
+</arguments>
+<status status="PASS" endtime="20180403 16:39:32.421" starttime="20180403 16:39:32.092"></status>
+</kw>
+<status status="PASS" endtime="20180403 16:39:32.421" starttime="20180403 16:39:18.094"></status>
+</kw>
+<kw name="After that Login As Company Admin" library="LoginPage">
+<kw name="Click Link" library="Selenium2Library">
+<doc>Clicks a link identified by locator.</doc>
+<arguments>
+<arg>id=heirarchy-link</arg>
+</arguments>
+<msg timestamp="20180403 16:39:32.422" level="INFO">Clicking link 'id=heirarchy-link'.</msg>
+<status status="PASS" endtime="20180403 16:39:33.368" starttime="20180403 16:39:32.422"></status>
+</kw>
+<kw name="Wait Until Page Contains" library="Selenium2Library">
+<doc>Waits until `text` appears on current page.</doc>
+<arguments>
+<arg>View Hierarchy</arg>
+</arguments>
+<status status="PASS" endtime="20180403 16:39:33.677" starttime="20180403 16:39:33.368"></status>
+</kw>
+<kw name="Click Element" library="Selenium2Library">
+<doc>Click element identified by `locator`.</doc>
+<arguments>
+<arg>xpath=//input[@id='hr-comp-sel']</arg>
+</arguments>
+<msg timestamp="20180403 16:39:33.677" level="INFO">Clicking element 'xpath=//input[@id='hr-comp-sel']'.</msg>
+<status status="PASS" endtime="20180403 16:39:34.317" starttime="20180403 16:39:33.677"></status>
+</kw>
+<kw name="Input Text" library="Selenium2Library">
+<doc>Types the given `text` into text field identified by `locator`.</doc>
+<arguments>
+<arg>xpath=//input[@id='hr-comp-sel']</arg>
+<arg>${CompanyNameForLoginAs}</arg>
+</arguments>
+<msg timestamp="20180403 16:39:34.317" level="INFO">Typing text 'Advantage Rent a Car' into text field 'xpath=//input[@id='hr-comp-sel']'</msg>
+<status status="PASS" endtime="20180403 16:39:35.716" starttime="20180403 16:39:34.317"></status>
+</kw>
+<kw name="Sleep" library="BuiltIn">
+<doc>Pauses the test executed for the given time.</doc>
+<arguments>
+<arg>2</arg>
+</arguments>
+<msg timestamp="20180403 16:39:37.716" level="INFO">Slept 2 seconds</msg>
+<status status="PASS" endtime="20180403 16:39:37.716" starttime="20180403 16:39:35.716"></status>
+</kw>
+<kw name="Click Element" library="Selenium2Library">
+<doc>Click element identified by `locator`.</doc>
+<arguments>
+<arg>xpath=//span[@id='hr-comp-icn']</arg>
+</arguments>
+<msg timestamp="20180403 16:39:37.717" level="INFO">Clicking element 'xpath=//span[@id='hr-comp-icn']'.</msg>
+<status status="PASS" endtime="20180403 16:39:38.378" starttime="20180403 16:39:37.716"></status>
+</kw>
+<kw name="Sleep" library="BuiltIn">
+<doc>Pauses the test executed for the given time.</doc>
+<arguments>
+<arg>2</arg>
+</arguments>
+<msg timestamp="20180403 16:39:40.380" level="INFO">Slept 2 seconds</msg>
+<status status="PASS" endtime="20180403 16:39:40.380" starttime="20180403 16:39:38.379"></status>
+</kw>
+<kw name="Click Element" library="Selenium2Library">
+<doc>Click element identified by `locator`.</doc>
+<arguments>
+<arg>xpath=//div[@id='tr-comp-337']</arg>
+</arguments>
+<msg timestamp="20180403 16:39:40.381" level="INFO">Clicking element 'xpath=//div[@id='tr-comp-337']'.</msg>
+<status status="PASS" endtime="20180403 16:39:41.018" starttime="20180403 16:39:40.380"></status>
+</kw>
+<kw name="Sleep" library="BuiltIn">
+<doc>Pauses the test executed for the given time.</doc>
+<arguments>
+<arg>2</arg>
+</arguments>
+<msg timestamp="20180403 16:39:43.019" level="INFO">Slept 2 seconds</msg>
+<status status="PASS" endtime="20180403 16:39:43.019" starttime="20180403 16:39:41.018"></status>
+</kw>
+<kw name="Click Element" library="Selenium2Library">
+<doc>Click element identified by `locator`.</doc>
+<arguments>
+<arg>xpath=//div[@class='float-right v-tbl-icn v-icn-login user-login-icn']</arg>
+</arguments>
+<msg timestamp="20180403 16:39:43.019" level="INFO">Clicking element 'xpath=//div[@class='float-right v-tbl-icn v-icn-login user-login-icn']'.</msg>
+<status status="PASS" endtime="20180403 16:39:43.639" starttime="20180403 16:39:43.019"></status>
+</kw>
+<kw name="Wait Until Page Contains" library="Selenium2Library">
+<doc>Waits until `text` appears on current page.</doc>
+<arguments>
+<arg>Dashboard</arg>
+<arg>timeout=15</arg>
+</arguments>
+<status status="PASS" endtime="20180403 16:39:43.947" starttime="20180403 16:39:43.639"></status>
+</kw>
+<kw name="Sleep" library="BuiltIn">
+<doc>Pauses the test executed for the given time.</doc>
+<arguments>
+<arg>5</arg>
+</arguments>
+<msg timestamp="20180403 16:39:48.947" level="INFO">Slept 5 seconds</msg>
+<status status="PASS" endtime="20180403 16:39:48.947" starttime="20180403 16:39:43.947"></status>
+</kw>
+<status status="PASS" endtime="20180403 16:39:48.947" starttime="20180403 16:39:32.421"></status>
+</kw>
+<kw name="Sleep" library="BuiltIn">
+<doc>Pauses the test executed for the given time.</doc>
+<arguments>
+<arg>3</arg>
+</arguments>
+<msg timestamp="20180403 16:39:51.947" level="INFO">Slept 3 seconds</msg>
+<status status="PASS" endtime="20180403 16:39:51.947" starttime="20180403 16:39:48.947"></status>
+</kw>
+<status status="PASS" endtime="20180403 16:39:51.947" starttime="20180403 16:39:18.093"></status>
+</kw>
+<kw name="Get Authn Session" library="SessionCookie">
+<kw name="Get Cookie Value" library="Selenium2Library">
+<doc>Returns value of cookie found with `name`.</doc>
+<arguments>
+<arg>JSESSIONID</arg>
+</arguments>
+<assign>
+<var>${cookie_value}</var>
+</assign>
+<msg timestamp="20180403 16:39:52.239" level="INFO">${cookie_value} = DQDDoz9+FeNtChQ6R424VZbF.node1</msg>
+<status status="PASS" endtime="20180403 16:39:52.240" starttime="20180403 16:39:51.947"></status>
+</kw>
+<kw name="Catenate" library="BuiltIn">
+<doc>Catenates the given items together and returns the resulted string.</doc>
+<arguments>
+<arg>JSESSIONID=</arg>
+<arg>${cookie_value}</arg>
+</arguments>
+<assign>
+<var>${Appended_Cookie_Value}</var>
+</assign>
+<msg timestamp="20180403 16:39:52.240" level="INFO">${Appended_Cookie_Value} = JSESSIONID= DQDDoz9+FeNtChQ6R424VZbF.node1</msg>
+<status status="PASS" endtime="20180403 16:39:52.240" starttime="20180403 16:39:52.240"></status>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<doc>Logs the given message to the console.</doc>
+<arguments>
+<arg>${Appended_Cookie_Value}</arg>
+</arguments>
+<status status="PASS" endtime="20180403 16:39:52.241" starttime="20180403 16:39:52.240"></status>
+</kw>
+<kw name="Create Dictionary" library="BuiltIn">
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<arguments>
+<arg>Cookie=${Appended_Cookie_Value}</arg>
+</arguments>
+<assign>
+<var>${headers}</var>
+</assign>
+<msg timestamp="20180403 16:39:52.242" level="INFO">${headers} = {u'Cookie': u'JSESSIONID= DQDDoz9+FeNtChQ6R424VZbF.node1'}</msg>
+<status status="PASS" endtime="20180403 16:39:52.242" starttime="20180403 16:39:52.241"></status>
+</kw>
+<kw name="Create Session" library="RequestsLibrary">
+<doc>Create Session: create a HTTP session to a server</doc>
+<arguments>
+<arg>articleCreate</arg>
+<arg>http://34.210.235.210</arg>
+<arg>${headers}</arg>
+</arguments>
+<msg timestamp="20180403 16:39:52.242" level="INFO">Creating Session using : alias=articleCreate, url=http://34.210.235.210, headers={u'Cookie': u'JSESSIONID= DQDDoz9+FeNtChQ6R424VZbF.node1'},                     cookies=None, auth=None, timeout=None, proxies=None, verify=False,                     debug=0 </msg>
+<status status="PASS" endtime="20180403 16:39:52.243" starttime="20180403 16:39:52.242"></status>
+</kw>
+<kw name="Get Request" library="RequestsLibrary">
+<doc>Send a GET request on the session object found using the</doc>
+<arguments>
+<arg>articleCreate</arg>
+<arg>${uri}</arg>
+<arg>headers=${headers}</arg>
+</arguments>
+<assign>
+<var>${resp}</var>
+</assign>
+<msg timestamp="20180403 16:39:53.332" level="INFO">Get Request using : alias=articleCreate, uri=/getuserranking.do?entityId=337&amp;entityType=companyId&amp;month=3&amp;year=2017&amp;startIndex=0&amp;batchSize=10&amp;timeFrame=3&amp;_=1520331042588, headers={u'Cookie': u'JSESSIONID= DQDDoz9+FeNtChQ6R424VZbF.node1'} json=None</msg>
+<msg timestamp="20180403 16:39:53.333" level="INFO">${resp} = &lt;Response [200]&gt;</msg>
+<status status="PASS" endtime="20180403 16:39:53.333" starttime="20180403 16:39:52.243"></status>
+</kw>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<arguments>
+<arg>${resp.status_code}</arg>
+<arg>200</arg>
+</arguments>
+<msg timestamp="20180403 16:39:53.333" level="INFO">Argument types are:
+&lt;type 'int'&gt;
+&lt;type 'unicode'&gt;</msg>
+<status status="PASS" endtime="20180403 16:39:53.333" starttime="20180403 16:39:53.333"></status>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<doc>Logs the given message to the console.</doc>
+<arguments>
+<arg>${resp.text}</arg>
+</arguments>
+<status status="PASS" endtime="20180403 16:39:53.334" starttime="20180403 16:39:53.333"></status>
+</kw>
+<kw name="Convert To String" library="BuiltIn">
+<doc>Converts the given item to a Unicode string.</doc>
+<arguments>
+<arg>${resp.text}</arg>
+</arguments>
+<assign>
+<var>${TheResponseText}</var>
+</assign>
+<msg timestamp="20180403 16:39:53.334" level="INFO">${TheResponseText} = 
+
+
+&lt;!DOCTYPE&gt;
+&lt;html&gt;
+&lt;head&gt;
+	&lt;meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"&gt;
+	&lt;meta name="viewport" content="width=device-width, initial-scale=1"&gt;
+	&lt;title&gt;Login&lt;/title&gt;
+	&lt;link...</msg>
+<status status="PASS" endtime="20180403 16:39:53.334" starttime="20180403 16:39:53.334"></status>
+</kw>
+<kw name="write_variable_in_txt_file" library="Common">
+<arguments>
+<arg>${TheResponseText}</arg>
+<arg>APIResponseFile</arg>
+</arguments>
+<kw name="Get Time" library="BuiltIn">
+<doc>Returns the given time in the requested format.</doc>
+<arguments>
+<arg>format='epoch'</arg>
+</arguments>
+<assign>
+<var>${TheTime}</var>
+</assign>
+<msg timestamp="20180403 16:39:53.335" level="INFO">${TheTime} = 1522753793</msg>
+<status status="PASS" endtime="20180403 16:39:53.335" starttime="20180403 16:39:53.335"></status>
+</kw>
+<kw name="Convert To String" library="BuiltIn">
+<doc>Converts the given item to a Unicode string.</doc>
+<arguments>
+<arg>${TheTime}</arg>
+</arguments>
+<assign>
+<var>${ConvrtTime}</var>
+</assign>
+<msg timestamp="20180403 16:39:53.336" level="INFO">${ConvrtTime} = 1522753793</msg>
+<status status="PASS" endtime="20180403 16:39:53.336" starttime="20180403 16:39:53.335"></status>
+</kw>
+<kw name="Remove Files" library="OperatingSystem">
+<doc>Uses `Remove File` to remove multiple files one-by-one.</doc>
+<arguments>
+<arg>${DIRPath}/${FileName}.txt</arg>
+</arguments>
+<msg timestamp="20180403 16:39:53.337" html="yes" level="INFO">Removed file '&lt;a href="file://C:\ResponseFiles\APIResponseFile.txt"&gt;C:\ResponseFiles\APIResponseFile.txt&lt;/a&gt;'.</msg>
+<status status="PASS" endtime="20180403 16:39:53.337" starttime="20180403 16:39:53.336"></status>
+</kw>
+<kw name="Create File" library="OperatingSystem">
+<doc>Creates a file with the given content and encoding.</doc>
+<arguments>
+<arg>${DIRPath}/${FileName}.txt</arg>
+<arg>${queryResults}</arg>
+</arguments>
+<msg timestamp="20180403 16:39:53.340" html="yes" level="INFO">Created file '&lt;a href="file://C:\ResponseFiles\APIResponseFile.txt"&gt;C:\ResponseFiles\APIResponseFile.txt&lt;/a&gt;'.</msg>
+<status status="PASS" endtime="20180403 16:39:53.341" starttime="20180403 16:39:53.337"></status>
+</kw>
+<status status="PASS" endtime="20180403 16:39:53.341" starttime="20180403 16:39:53.335"></status>
+</kw>
+<status status="PASS" endtime="20180403 16:39:53.341" starttime="20180403 16:39:51.947"></status>
+</kw>
+<tags>
+<tag>Regression</tag>
+<tag>Smoke</tag>
+</tags>
+<status status="PASS" endtime="20180403 16:39:53.341" critical="yes" starttime="20180403 16:39:18.092"></status>
+</test>
+<test id="s1-s5-t2" name="Validate last year user ranking results">
+<kw name="Connect to Production Reporting MySQL" library="Common">
+<kw name="Connect To Database Using Custom Params" library="DatabaseLibrary">
+<doc>Loads the DB API 2.0 module given `dbapiModuleName` then uses it to</doc>
+<arguments>
+<arg>pymysql</arg>
+<arg>database='ss_report', user='infrrd_ops', password='vfsOIJ987', host='ss-report.c3n1qsdsmjxc.us-west-2.rds.amazonaws.com', port=3306</arg>
+</arguments>
+<msg timestamp="20180403 16:39:53.343" level="INFO">Executing : Connect To Database Using Custom Params : pymysql.connect(db_api_2.connect(database='ss_report', user='infrrd_ops', password='vfsOIJ987', host='ss-report.c3n1qsdsmjxc.us-west-2.rds.amazonaws.com', port=3306)) </msg>
+<status status="PASS" endtime="20180403 16:39:54.442" starttime="20180403 16:39:53.343"></status>
+</kw>
+<status status="PASS" endtime="20180403 16:39:54.442" starttime="20180403 16:39:53.342"></status>
+</kw>
+<kw name="Fetch User Ranking Last Year and Save in A file" library="UserRanking">
+<kw name="Query" library="DatabaseLibrary">
+<doc>Uses the input `selectStatement` to query for the values that will be returned as a list of tuples. Set optional</doc>
+<arguments>
+<arg>${Query1}</arg>
+</arguments>
+<assign>
+<var>${queryResults}</var>
+</assign>
+<msg timestamp="20180403 16:39:54.443" level="INFO">Executing : Query  |  select x.AGENT_ID from (select a.AGENT_ID,a.AGENT_NAME,a.COMPANY_ID,count(distinct a.SURVEY_DETAILS_ID) as COMPLETED,avg(if(b.QUESTION_TYPE='sb-range-0to10',(b.ANSWER/2),b.ANSWER)) as AVG_SCORE from survey_details a left join survey_response b on a.SURVEY_DETAILS_ID=b.SURVEY_DETAILS_ID where a.STAGE=-1 and a.SOURCE not in ("Zillow", "admin", "agent", "customer", "3rd Party Review", "upload", "CSV_UPLOAD") and year(a.SURVEY_COMPLETED_DATE_EST) = 2017 and b.IS_USER_RANKING_QUESTION=1 and a.COMPANY_ID=337 group by a.AGENT_ID order by a.AGENT_ID) x left join min_requirement_for_ranking c on x.COMPANY_ID=c.COMPANY_ID right join users u on x.AGENT_ID=u.user_id and STATUS in (1,2) order by round(((((x.AVG_SCORE)*COMPLETED)+c.YEAR_OFFSET)/(COMPLETED+1)),3) desc limit 10; </msg>
+<msg timestamp="20180403 16:39:56.869" level="INFO">${queryResults} = ((15330,), (13370,), (13080,), (12998,), (23319,), (23321,), (13318,), (13569,), (17816,), (13140,))</msg>
+<status status="PASS" endtime="20180403 16:39:56.869" starttime="20180403 16:39:54.442"></status>
+</kw>
+<kw name="Query" library="DatabaseLibrary">
+<doc>Uses the input `selectStatement` to query for the values that will be returned as a list of tuples. Set optional</doc>
+<arguments>
+<arg>${Query2}</arg>
+</arguments>
+<assign>
+<var>${queryResults1}</var>
+</assign>
+<msg timestamp="20180403 16:39:56.870" level="INFO">Executing : Query  |  select user_id from user_ranking_past_year_main where year=2017 and company_id=337 and is_eligible !=2 order by ranking_score desc limit 10; </msg>
+<msg timestamp="20180403 16:39:57.412" level="INFO">${queryResults1} = ((15330,), (13370,), (13080,), (12998,), (23319,), (23321,), (13318,), (17816,), (13569,), (13140,))</msg>
+<status status="PASS" endtime="20180403 16:39:57.412" starttime="20180403 16:39:56.869"></status>
+</kw>
+<kw name="Convert To String" library="BuiltIn">
+<doc>Converts the given item to a Unicode string.</doc>
+<arguments>
+<arg>${queryResults}</arg>
+</arguments>
+<assign>
+<var>${Var1}</var>
+</assign>
+<msg timestamp="20180403 16:39:57.413" level="INFO">${Var1} = ((15330,), (13370,), (13080,), (12998,), (23319,), (23321,), (13318,), (13569,), (17816,), (13140,))</msg>
+<status status="PASS" endtime="20180403 16:39:57.413" starttime="20180403 16:39:57.413"></status>
+</kw>
+<kw name="Convert To String" library="BuiltIn">
+<doc>Converts the given item to a Unicode string.</doc>
+<arguments>
+<arg>${queryResults1}</arg>
+</arguments>
+<assign>
+<var>${Var2}</var>
+</assign>
+<msg timestamp="20180403 16:39:57.415" level="INFO">${Var2} = ((15330,), (13370,), (13080,), (12998,), (23319,), (23321,), (13318,), (17816,), (13569,), (13140,))</msg>
+<status status="PASS" endtime="20180403 16:39:57.415" starttime="20180403 16:39:57.414"></status>
+</kw>
+<kw name="Remove Files" library="OperatingSystem">
+<doc>Uses `Remove File` to remove multiple files one-by-one.</doc>
+<arguments>
+<arg>C:/ResponseFiles/MySQLResponseFileCentralized.txt</arg>
+<arg>C:/ResponseFiles/MySQLResponseFileReporting.txt</arg>
+</arguments>
+<msg timestamp="20180403 16:39:57.416" html="yes" level="INFO">Removed file '&lt;a href="file://C:\ResponseFiles\MySQLResponseFileCentralized.txt"&gt;C:\ResponseFiles\MySQLResponseFileCentralized.txt&lt;/a&gt;'.</msg>
+<msg timestamp="20180403 16:39:57.417" html="yes" level="INFO">Removed file '&lt;a href="file://C:\ResponseFiles\MySQLResponseFileReporting.txt"&gt;C:\ResponseFiles\MySQLResponseFileReporting.txt&lt;/a&gt;'.</msg>
+<status status="PASS" endtime="20180403 16:39:57.417" starttime="20180403 16:39:57.415"></status>
+</kw>
+<kw name="write_variable_in_txt_file" library="Common">
+<arguments>
+<arg>${Var1}</arg>
+<arg>MySQLResponseFileCentralized</arg>
+</arguments>
+<kw name="Get Time" library="BuiltIn">
+<doc>Returns the given time in the requested format.</doc>
+<arguments>
+<arg>format='epoch'</arg>
+</arguments>
+<assign>
+<var>${TheTime}</var>
+</assign>
+<msg timestamp="20180403 16:39:57.418" level="INFO">${TheTime} = 1522753797</msg>
+<status status="PASS" endtime="20180403 16:39:57.418" starttime="20180403 16:39:57.418"></status>
+</kw>
+<kw name="Convert To String" library="BuiltIn">
+<doc>Converts the given item to a Unicode string.</doc>
+<arguments>
+<arg>${TheTime}</arg>
+</arguments>
+<assign>
+<var>${ConvrtTime}</var>
+</assign>
+<msg timestamp="20180403 16:39:57.419" level="INFO">${ConvrtTime} = 1522753797</msg>
+<status status="PASS" endtime="20180403 16:39:57.419" starttime="20180403 16:39:57.419"></status>
+</kw>
+<kw name="Remove Files" library="OperatingSystem">
+<doc>Uses `Remove File` to remove multiple files one-by-one.</doc>
+<arguments>
+<arg>${DIRPath}/${FileName}.txt</arg>
+</arguments>
+<msg timestamp="20180403 16:39:57.420" html="yes" level="INFO">File '&lt;a href="file://C:\ResponseFiles\MySQLResponseFileCentralized.txt"&gt;C:\ResponseFiles\MySQLResponseFileCentralized.txt&lt;/a&gt;' does not exist.</msg>
+<status status="PASS" endtime="20180403 16:39:57.420" starttime="20180403 16:39:57.419"></status>
+</kw>
+<kw name="Create File" library="OperatingSystem">
+<doc>Creates a file with the given content and encoding.</doc>
+<arguments>
+<arg>${DIRPath}/${FileName}.txt</arg>
+<arg>${queryResults}</arg>
+</arguments>
+<msg timestamp="20180403 16:39:57.424" html="yes" level="INFO">Created file '&lt;a href="file://C:\ResponseFiles\MySQLResponseFileCentralized.txt"&gt;C:\ResponseFiles\MySQLResponseFileCentralized.txt&lt;/a&gt;'.</msg>
+<status status="PASS" endtime="20180403 16:39:57.424" starttime="20180403 16:39:57.420"></status>
+</kw>
+<status status="PASS" endtime="20180403 16:39:57.424" starttime="20180403 16:39:57.417"></status>
+</kw>
+<kw name="write_variable_in_txt_file" library="Common">
+<arguments>
+<arg>${Var2}</arg>
+<arg>MySQLResponseFileReporting</arg>
+</arguments>
+<kw name="Get Time" library="BuiltIn">
+<doc>Returns the given time in the requested format.</doc>
+<arguments>
+<arg>format='epoch'</arg>
+</arguments>
+<assign>
+<var>${TheTime}</var>
+</assign>
+<msg timestamp="20180403 16:39:57.426" level="INFO">${TheTime} = 1522753797</msg>
+<status status="PASS" endtime="20180403 16:39:57.426" starttime="20180403 16:39:57.426"></status>
+</kw>
+<kw name="Convert To String" library="BuiltIn">
+<doc>Converts the given item to a Unicode string.</doc>
+<arguments>
+<arg>${TheTime}</arg>
+</arguments>
+<assign>
+<var>${ConvrtTime}</var>
+</assign>
+<msg timestamp="20180403 16:39:57.427" level="INFO">${ConvrtTime} = 1522753797</msg>
+<status status="PASS" endtime="20180403 16:39:57.427" starttime="20180403 16:39:57.427"></status>
+</kw>
+<kw name="Remove Files" library="OperatingSystem">
+<doc>Uses `Remove File` to remove multiple files one-by-one.</doc>
+<arguments>
+<arg>${DIRPath}/${FileName}.txt</arg>
+</arguments>
+<msg timestamp="20180403 16:39:57.428" html="yes" level="INFO">File '&lt;a href="file://C:\ResponseFiles\MySQLResponseFileReporting.txt"&gt;C:\ResponseFiles\MySQLResponseFileReporting.txt&lt;/a&gt;' does not exist.</msg>
+<status status="PASS" endtime="20180403 16:39:57.428" starttime="20180403 16:39:57.427"></status>
+</kw>
+<kw name="Create File" library="OperatingSystem">
+<doc>Creates a file with the given content and encoding.</doc>
+<arguments>
+<arg>${DIRPath}/${FileName}.txt</arg>
+<arg>${queryResults}</arg>
+</arguments>
+<msg timestamp="20180403 16:39:57.431" html="yes" level="INFO">Created file '&lt;a href="file://C:\ResponseFiles\MySQLResponseFileReporting.txt"&gt;C:\ResponseFiles\MySQLResponseFileReporting.txt&lt;/a&gt;'.</msg>
+<status status="PASS" endtime="20180403 16:39:57.431" starttime="20180403 16:39:57.428"></status>
+</kw>
+<status status="PASS" endtime="20180403 16:39:57.431" starttime="20180403 16:39:57.424"></status>
+</kw>
+<status status="PASS" endtime="20180403 16:39:57.431" starttime="20180403 16:39:54.442"></status>
+</kw>
+<kw name="Read from a Text file and compare the results" library="UserRanking">
+<kw name="Get File" library="OperatingSystem">
+<doc>Returns the contents of a specified file.</doc>
+<arguments>
+<arg>C:/ResponseFiles/MySQLResponseFileCentralized.txt</arg>
+</arguments>
+<assign>
+<var>${TextFileContent}</var>
+</assign>
+<msg timestamp="20180403 16:39:57.432" html="yes" level="INFO">Getting file '&lt;a href="file://C:\ResponseFiles\MySQLResponseFileCentralized.txt"&gt;C:\ResponseFiles\MySQLResponseFileCentralized.txt&lt;/a&gt;'.</msg>
+<msg timestamp="20180403 16:39:57.432" level="INFO">${TextFileContent} = ((15330,), (13370,), (13080,), (12998,), (23319,), (23321,), (13318,), (13569,), (17816,), (13140,))</msg>
+<status status="PASS" endtime="20180403 16:39:57.432" starttime="20180403 16:39:57.432"></status>
+</kw>
+<kw name="Get File" library="OperatingSystem">
+<doc>Returns the contents of a specified file.</doc>
+<arguments>
+<arg>C:/ResponseFiles/MySQLResponseFileReporting.txt</arg>
+</arguments>
+<assign>
+<var>${TextFileContent1}</var>
+</assign>
+<msg timestamp="20180403 16:39:57.433" html="yes" level="INFO">Getting file '&lt;a href="file://C:\ResponseFiles\MySQLResponseFileReporting.txt"&gt;C:\ResponseFiles\MySQLResponseFileReporting.txt&lt;/a&gt;'.</msg>
+<msg timestamp="20180403 16:39:57.433" level="INFO">${TextFileContent1} = ((15330,), (13370,), (13080,), (12998,), (23319,), (23321,), (13318,), (17816,), (13569,), (13140,))</msg>
+<status status="PASS" endtime="20180403 16:39:57.433" starttime="20180403 16:39:57.433"></status>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<doc>Logs the given message to the console.</doc>
+<arguments>
+<arg>${TextFileContent}</arg>
+</arguments>
+<status status="PASS" endtime="20180403 16:39:57.434" starttime="20180403 16:39:57.433"></status>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<doc>Logs the given message to the console.</doc>
+<arguments>
+<arg>${TextFileContent1}</arg>
+</arguments>
+<status status="PASS" endtime="20180403 16:39:57.434" starttime="20180403 16:39:57.434"></status>
+</kw>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<arguments>
+<arg>${TextFileContent}</arg>
+<arg>${TextFileContent1}</arg>
+<arg>msg=The Ranking values created are incorrect.</arg>
+</arguments>
+<msg timestamp="20180403 16:39:57.435" level="FAIL">The Ranking values created are incorrect.: ((15330,), (13370,), (13080,), (12998,), (23319,), (23321,), (13318,), (13569,), (17816,), (13140,)) != ((15330,), (13370,), (13080,), (12998,), (23319,), (23321,), (13318,), (17816,), (13569,), (13140,))</msg>
+<status status="FAIL" endtime="20180403 16:39:57.435" starttime="20180403 16:39:57.434"></status>
+</kw>
+<status status="FAIL" endtime="20180403 16:39:57.435" starttime="20180403 16:39:57.431"></status>
+</kw>
+<tags>
+<tag>Regression</tag>
+<tag>Smoke</tag>
+</tags>
+<status status="FAIL" endtime="20180403 16:39:57.435" critical="yes" starttime="20180403 16:39:53.342">The Ranking values created are incorrect.: ((15330,), (13370,), (13080,), (12998,), (23319,), (23321,), (13318,), (13569,), (17816,), (13140,)) != ((15330,), (13370,), (13080,), (12998,), (23319,), (23321,), (13318,), (17816,), (13569,), (13140,))</status>
+</test>
+<test id="s1-s5-t3" name="Validate this year user ranking results">
+<kw name="Connect to Production Reporting MySQL" library="Common">
+<kw name="Connect To Database Using Custom Params" library="DatabaseLibrary">
+<doc>Loads the DB API 2.0 module given `dbapiModuleName` then uses it to</doc>
+<arguments>
+<arg>pymysql</arg>
+<arg>database='ss_report', user='infrrd_ops', password='vfsOIJ987', host='ss-report.c3n1qsdsmjxc.us-west-2.rds.amazonaws.com', port=3306</arg>
+</arguments>
+<msg timestamp="20180403 16:39:57.437" level="INFO">Executing : Connect To Database Using Custom Params : pymysql.connect(db_api_2.connect(database='ss_report', user='infrrd_ops', password='vfsOIJ987', host='ss-report.c3n1qsdsmjxc.us-west-2.rds.amazonaws.com', port=3306)) </msg>
+<status status="PASS" endtime="20180403 16:39:58.487" starttime="20180403 16:39:57.437"></status>
+</kw>
+<status status="PASS" endtime="20180403 16:39:58.487" starttime="20180403 16:39:57.436"></status>
+</kw>
+<kw name="Fetch User Ranking This Year and Save in A file" library="UserRanking">
+<kw name="Query" library="DatabaseLibrary">
+<doc>Uses the input `selectStatement` to query for the values that will be returned as a list of tuples. Set optional</doc>
+<arguments>
+<arg>${Query3}</arg>
+</arguments>
+<assign>
+<var>${queryResults}</var>
+</assign>
+<msg timestamp="20180403 16:39:58.488" level="INFO">Executing : Query  |  select x.AGENT_ID from (select a.AGENT_ID,a.AGENT_NAME,a.COMPANY_ID,count(distinct a.SURVEY_DETAILS_ID) as COMPLETED,avg(if(b.QUESTION_TYPE='sb-range-0to10',(b.ANSWER/2),b.ANSWER)) as AVG_SCORE from survey_details a left join survey_response b on a.SURVEY_DETAILS_ID=b.SURVEY_DETAILS_ID where a.STAGE=-1 and a.SOURCE not in ("Zillow", "admin", "agent", "customer", "3rd Party Review", "upload", "CSV_UPLOAD") and year(a.SURVEY_COMPLETED_DATE_EST) = 2018 and b.IS_USER_RANKING_QUESTION=1 and a.COMPANY_ID=337 group by a.AGENT_ID order by a.AGENT_ID) x left join min_requirement_for_ranking c on x.COMPANY_ID=c.COMPANY_ID right join users u on x.AGENT_ID=u.user_id and STATUS in (1,2) order by ((((x.AVG_SCORE)*COMPLETED)+c.YEAR_OFFSET)/(COMPLETED+1)) desc limit 10; </msg>
+<msg timestamp="20180403 16:40:00.097" level="INFO">${queryResults} = ((15330,), (8940,), (23319,), (13204,), (13370,), (19825,), (13208,), (28603,), (8981,), (26990,))</msg>
+<status status="PASS" endtime="20180403 16:40:00.097" starttime="20180403 16:39:58.488"></status>
+</kw>
+<kw name="Query" library="DatabaseLibrary">
+<doc>Uses the input `selectStatement` to query for the values that will be returned as a list of tuples. Set optional</doc>
+<arguments>
+<arg>${Query4}</arg>
+</arguments>
+<assign>
+<var>${queryResults1}</var>
+</assign>
+<msg timestamp="20180403 16:40:00.098" level="INFO">Executing : Query  |  select user_id from user_ranking_this_year_main where company_id=337 and is_eligible !=2 order by ranking_score desc limit 10; </msg>
+<msg timestamp="20180403 16:40:00.633" level="INFO">${queryResults1} = ((15330,), (8940,), (23319,), (13204,), (13370,), (9999,), (19825,), (13208,), (28603,), (8981,))</msg>
+<status status="PASS" endtime="20180403 16:40:00.633" starttime="20180403 16:40:00.097"></status>
+</kw>
+<kw name="Convert To String" library="BuiltIn">
+<doc>Converts the given item to a Unicode string.</doc>
+<arguments>
+<arg>${queryResults}</arg>
+</arguments>
+<assign>
+<var>${Var1}</var>
+</assign>
+<msg timestamp="20180403 16:40:00.634" level="INFO">${Var1} = ((15330,), (8940,), (23319,), (13204,), (13370,), (19825,), (13208,), (28603,), (8981,), (26990,))</msg>
+<status status="PASS" endtime="20180403 16:40:00.634" starttime="20180403 16:40:00.633"></status>
+</kw>
+<kw name="Convert To String" library="BuiltIn">
+<doc>Converts the given item to a Unicode string.</doc>
+<arguments>
+<arg>${queryResults1}</arg>
+</arguments>
+<assign>
+<var>${Var2}</var>
+</assign>
+<msg timestamp="20180403 16:40:00.634" level="INFO">${Var2} = ((15330,), (8940,), (23319,), (13204,), (13370,), (9999,), (19825,), (13208,), (28603,), (8981,))</msg>
+<status status="PASS" endtime="20180403 16:40:00.634" starttime="20180403 16:40:00.634"></status>
+</kw>
+<kw name="Remove Files" library="OperatingSystem">
+<doc>Uses `Remove File` to remove multiple files one-by-one.</doc>
+<arguments>
+<arg>C:/ResponseFiles/MySQLResponseFileCentralized.txt</arg>
+<arg>C:/ResponseFiles/MySQLResponseFileReporting.txt</arg>
+</arguments>
+<msg timestamp="20180403 16:40:00.635" html="yes" level="INFO">Removed file '&lt;a href="file://C:\ResponseFiles\MySQLResponseFileCentralized.txt"&gt;C:\ResponseFiles\MySQLResponseFileCentralized.txt&lt;/a&gt;'.</msg>
+<msg timestamp="20180403 16:40:00.636" html="yes" level="INFO">Removed file '&lt;a href="file://C:\ResponseFiles\MySQLResponseFileReporting.txt"&gt;C:\ResponseFiles\MySQLResponseFileReporting.txt&lt;/a&gt;'.</msg>
+<status status="PASS" endtime="20180403 16:40:00.636" starttime="20180403 16:40:00.635"></status>
+</kw>
+<kw name="write_variable_in_txt_file" library="Common">
+<arguments>
+<arg>${Var1}</arg>
+<arg>MySQLResponseFileCentralized</arg>
+</arguments>
+<kw name="Get Time" library="BuiltIn">
+<doc>Returns the given time in the requested format.</doc>
+<arguments>
+<arg>format='epoch'</arg>
+</arguments>
+<assign>
+<var>${TheTime}</var>
+</assign>
+<msg timestamp="20180403 16:40:00.637" level="INFO">${TheTime} = 1522753800</msg>
+<status status="PASS" endtime="20180403 16:40:00.637" starttime="20180403 16:40:00.637"></status>
+</kw>
+<kw name="Convert To String" library="BuiltIn">
+<doc>Converts the given item to a Unicode string.</doc>
+<arguments>
+<arg>${TheTime}</arg>
+</arguments>
+<assign>
+<var>${ConvrtTime}</var>
+</assign>
+<msg timestamp="20180403 16:40:00.638" level="INFO">${ConvrtTime} = 1522753800</msg>
+<status status="PASS" endtime="20180403 16:40:00.638" starttime="20180403 16:40:00.637"></status>
+</kw>
+<kw name="Remove Files" library="OperatingSystem">
+<doc>Uses `Remove File` to remove multiple files one-by-one.</doc>
+<arguments>
+<arg>${DIRPath}/${FileName}.txt</arg>
+</arguments>
+<msg timestamp="20180403 16:40:00.638" html="yes" level="INFO">File '&lt;a href="file://C:\ResponseFiles\MySQLResponseFileCentralized.txt"&gt;C:\ResponseFiles\MySQLResponseFileCentralized.txt&lt;/a&gt;' does not exist.</msg>
+<status status="PASS" endtime="20180403 16:40:00.638" starttime="20180403 16:40:00.638"></status>
+</kw>
+<kw name="Create File" library="OperatingSystem">
+<doc>Creates a file with the given content and encoding.</doc>
+<arguments>
+<arg>${DIRPath}/${FileName}.txt</arg>
+<arg>${queryResults}</arg>
+</arguments>
+<msg timestamp="20180403 16:40:00.641" html="yes" level="INFO">Created file '&lt;a href="file://C:\ResponseFiles\MySQLResponseFileCentralized.txt"&gt;C:\ResponseFiles\MySQLResponseFileCentralized.txt&lt;/a&gt;'.</msg>
+<status status="PASS" endtime="20180403 16:40:00.641" starttime="20180403 16:40:00.639"></status>
+</kw>
+<status status="PASS" endtime="20180403 16:40:00.641" starttime="20180403 16:40:00.637"></status>
+</kw>
+<kw name="write_variable_in_txt_file" library="Common">
+<arguments>
+<arg>${Var2}</arg>
+<arg>MySQLResponseFileReporting</arg>
+</arguments>
+<kw name="Get Time" library="BuiltIn">
+<doc>Returns the given time in the requested format.</doc>
+<arguments>
+<arg>format='epoch'</arg>
+</arguments>
+<assign>
+<var>${TheTime}</var>
+</assign>
+<msg timestamp="20180403 16:40:00.642" level="INFO">${TheTime} = 1522753800</msg>
+<status status="PASS" endtime="20180403 16:40:00.642" starttime="20180403 16:40:00.642"></status>
+</kw>
+<kw name="Convert To String" library="BuiltIn">
+<doc>Converts the given item to a Unicode string.</doc>
+<arguments>
+<arg>${TheTime}</arg>
+</arguments>
+<assign>
+<var>${ConvrtTime}</var>
+</assign>
+<msg timestamp="20180403 16:40:00.643" level="INFO">${ConvrtTime} = 1522753800</msg>
+<status status="PASS" endtime="20180403 16:40:00.643" starttime="20180403 16:40:00.642"></status>
+</kw>
+<kw name="Remove Files" library="OperatingSystem">
+<doc>Uses `Remove File` to remove multiple files one-by-one.</doc>
+<arguments>
+<arg>${DIRPath}/${FileName}.txt</arg>
+</arguments>
+<msg timestamp="20180403 16:40:00.643" html="yes" level="INFO">File '&lt;a href="file://C:\ResponseFiles\MySQLResponseFileReporting.txt"&gt;C:\ResponseFiles\MySQLResponseFileReporting.txt&lt;/a&gt;' does not exist.</msg>
+<status status="PASS" endtime="20180403 16:40:00.643" starttime="20180403 16:40:00.643"></status>
+</kw>
+<kw name="Create File" library="OperatingSystem">
+<doc>Creates a file with the given content and encoding.</doc>
+<arguments>
+<arg>${DIRPath}/${FileName}.txt</arg>
+<arg>${queryResults}</arg>
+</arguments>
+<msg timestamp="20180403 16:40:00.646" html="yes" level="INFO">Created file '&lt;a href="file://C:\ResponseFiles\MySQLResponseFileReporting.txt"&gt;C:\ResponseFiles\MySQLResponseFileReporting.txt&lt;/a&gt;'.</msg>
+<status status="PASS" endtime="20180403 16:40:00.646" starttime="20180403 16:40:00.644"></status>
+</kw>
+<status status="PASS" endtime="20180403 16:40:00.647" starttime="20180403 16:40:00.642"></status>
+</kw>
+<status status="PASS" endtime="20180403 16:40:00.647" starttime="20180403 16:39:58.487"></status>
+</kw>
+<kw name="Read from a Text file and compare the results" library="UserRanking">
+<kw name="Get File" library="OperatingSystem">
+<doc>Returns the contents of a specified file.</doc>
+<arguments>
+<arg>C:/ResponseFiles/MySQLResponseFileCentralized.txt</arg>
+</arguments>
+<assign>
+<var>${TextFileContent}</var>
+</assign>
+<msg timestamp="20180403 16:40:00.647" html="yes" level="INFO">Getting file '&lt;a href="file://C:\ResponseFiles\MySQLResponseFileCentralized.txt"&gt;C:\ResponseFiles\MySQLResponseFileCentralized.txt&lt;/a&gt;'.</msg>
+<msg timestamp="20180403 16:40:00.648" level="INFO">${TextFileContent} = ((15330,), (8940,), (23319,), (13204,), (13370,), (19825,), (13208,), (28603,), (8981,), (26990,))</msg>
+<status status="PASS" endtime="20180403 16:40:00.648" starttime="20180403 16:40:00.647"></status>
+</kw>
+<kw name="Get File" library="OperatingSystem">
+<doc>Returns the contents of a specified file.</doc>
+<arguments>
+<arg>C:/ResponseFiles/MySQLResponseFileReporting.txt</arg>
+</arguments>
+<assign>
+<var>${TextFileContent1}</var>
+</assign>
+<msg timestamp="20180403 16:40:00.649" html="yes" level="INFO">Getting file '&lt;a href="file://C:\ResponseFiles\MySQLResponseFileReporting.txt"&gt;C:\ResponseFiles\MySQLResponseFileReporting.txt&lt;/a&gt;'.</msg>
+<msg timestamp="20180403 16:40:00.649" level="INFO">${TextFileContent1} = ((15330,), (8940,), (23319,), (13204,), (13370,), (9999,), (19825,), (13208,), (28603,), (8981,))</msg>
+<status status="PASS" endtime="20180403 16:40:00.649" starttime="20180403 16:40:00.648"></status>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<doc>Logs the given message to the console.</doc>
+<arguments>
+<arg>${TextFileContent}</arg>
+</arguments>
+<status status="PASS" endtime="20180403 16:40:00.650" starttime="20180403 16:40:00.649"></status>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<doc>Logs the given message to the console.</doc>
+<arguments>
+<arg>${TextFileContent1}</arg>
+</arguments>
+<status status="PASS" endtime="20180403 16:40:00.650" starttime="20180403 16:40:00.650"></status>
+</kw>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<arguments>
+<arg>${TextFileContent}</arg>
+<arg>${TextFileContent1}</arg>
+<arg>msg=The Ranking values created are incorrect.</arg>
+</arguments>
+<msg timestamp="20180403 16:40:00.651" level="FAIL">The Ranking values created are incorrect.: ((15330,), (8940,), (23319,), (13204,), (13370,), (19825,), (13208,), (28603,), (8981,), (26990,)) != ((15330,), (8940,), (23319,), (13204,), (13370,), (9999,), (19825,), (13208,), (28603,), (8981,))</msg>
+<status status="FAIL" endtime="20180403 16:40:00.651" starttime="20180403 16:40:00.650"></status>
+</kw>
+<status status="FAIL" endtime="20180403 16:40:00.651" starttime="20180403 16:40:00.647"></status>
+</kw>
+<tags>
+<tag>Regression</tag>
+<tag>Smoke</tag>
+</tags>
+<status status="FAIL" endtime="20180403 16:40:00.651" critical="yes" starttime="20180403 16:39:57.435">The Ranking values created are incorrect.: ((15330,), (8940,), (23319,), (13204,), (13370,), (19825,), (13208,), (28603,), (8981,), (26990,)) != ((15330,), (8940,), (23319,), (13204,), (13370,), (9999,), (19825,), (13208,), (28603,), (8981,))</status>
+</test>
+<test id="s1-s5-t4" name="Validate last month user ranking results">
+<kw name="Connect to Production Reporting MySQL" library="Common">
+<kw name="Connect To Database Using Custom Params" library="DatabaseLibrary">
+<doc>Loads the DB API 2.0 module given `dbapiModuleName` then uses it to</doc>
+<arguments>
+<arg>pymysql</arg>
+<arg>database='ss_report', user='infrrd_ops', password='vfsOIJ987', host='ss-report.c3n1qsdsmjxc.us-west-2.rds.amazonaws.com', port=3306</arg>
+</arguments>
+<msg timestamp="20180403 16:40:00.653" level="INFO">Executing : Connect To Database Using Custom Params : pymysql.connect(db_api_2.connect(database='ss_report', user='infrrd_ops', password='vfsOIJ987', host='ss-report.c3n1qsdsmjxc.us-west-2.rds.amazonaws.com', port=3306)) </msg>
+<status status="PASS" endtime="20180403 16:40:01.699" starttime="20180403 16:40:00.652"></status>
+</kw>
+<status status="PASS" endtime="20180403 16:40:01.699" starttime="20180403 16:40:00.652"></status>
+</kw>
+<kw name="Fetch User Ranking Last Month and Save in A file" library="UserRanking">
+<kw name="Query" library="DatabaseLibrary">
+<doc>Uses the input `selectStatement` to query for the values that will be returned as a list of tuples. Set optional</doc>
+<arguments>
+<arg>${Query5}</arg>
+</arguments>
+<assign>
+<var>${queryResults}</var>
+</assign>
+<msg timestamp="20180403 16:40:01.700" level="INFO">Executing : Query  |  select x.AGENT_ID from (select a.AGENT_ID,a.AGENT_NAME,a.COMPANY_ID,count(distinct a.SURVEY_DETAILS_ID) as COMPLETED, avg(if(b.QUESTION_TYPE='sb-range-0to10',(b.ANSWER/2),b.ANSWER)) as AVG_SCORE from survey_details a left join survey_response b on a.SURVEY_DETAILS_ID=b.SURVEY_DETAILS_ID where a.STAGE=-1 and a.SOURCE not in ("Zillow", "admin", "agent", "customer", "3rd Party Review", "upload", "CSV_UPLOAD") and month(a.SURVEY_COMPLETED_DATE_EST) = 2 and year(a.SURVEY_COMPLETED_DATE_EST)=2018 and b.IS_USER_RANKING_QUESTION=1 and a.COMPANY_ID=337 group by a.AGENT_ID order by a.AGENT_ID) x left join min_requirement_for_ranking c on x.COMPANY_ID=c.COMPANY_ID right join users u on x.AGENT_ID=u.user_id and STATUS in (1,2) order by ((((x.AVG_SCORE)*COMPLETED)+c.MONTH_OFFSET)/(COMPLETED+1)) desc limit 10; </msg>
+<msg timestamp="20180403 16:40:02.960" level="INFO">${queryResults} = ((23319,), (13204,), (8940,), (8912,), (15330,), (24836,), (19825,), (13370,), (28603,), (8981,))</msg>
+<status status="PASS" endtime="20180403 16:40:02.960" starttime="20180403 16:40:01.700"></status>
+</kw>
+<kw name="Query" library="DatabaseLibrary">
+<doc>Uses the input `selectStatement` to query for the values that will be returned as a list of tuples. Set optional</doc>
+<arguments>
+<arg>${Query6}</arg>
+</arguments>
+<assign>
+<var>${queryResults1}</var>
+</assign>
+<msg timestamp="20180403 16:40:02.960" level="INFO">Executing : Query  |  select user_id from user_ranking_past_month_main where year=2017 and month=2 and company_id=337 and is_eligible !=2 order by ranking_score desc limit 10; </msg>
+<msg timestamp="20180403 16:40:03.549" level="INFO">${queryResults1} = ((8981,), (13080,), (13078,), (8983,), (8982,), (9003,), (8953,), (9001,), (8987,), (13683,))</msg>
+<status status="PASS" endtime="20180403 16:40:03.549" starttime="20180403 16:40:02.960"></status>
+</kw>
+<kw name="Convert To String" library="BuiltIn">
+<doc>Converts the given item to a Unicode string.</doc>
+<arguments>
+<arg>${queryResults}</arg>
+</arguments>
+<assign>
+<var>${Var1}</var>
+</assign>
+<msg timestamp="20180403 16:40:03.549" level="INFO">${Var1} = ((23319,), (13204,), (8940,), (8912,), (15330,), (24836,), (19825,), (13370,), (28603,), (8981,))</msg>
+<status status="PASS" endtime="20180403 16:40:03.549" starttime="20180403 16:40:03.549"></status>
+</kw>
+<kw name="Convert To String" library="BuiltIn">
+<doc>Converts the given item to a Unicode string.</doc>
+<arguments>
+<arg>${queryResults1}</arg>
+</arguments>
+<assign>
+<var>${Var2}</var>
+</assign>
+<msg timestamp="20180403 16:40:03.550" level="INFO">${Var2} = ((8981,), (13080,), (13078,), (8983,), (8982,), (9003,), (8953,), (9001,), (8987,), (13683,))</msg>
+<status status="PASS" endtime="20180403 16:40:03.550" starttime="20180403 16:40:03.550"></status>
+</kw>
+<kw name="Remove Files" library="OperatingSystem">
+<doc>Uses `Remove File` to remove multiple files one-by-one.</doc>
+<arguments>
+<arg>C:/ResponseFiles/MySQLResponseFileCentralized.txt</arg>
+<arg>C:/ResponseFiles/MySQLResponseFileReporting.txt</arg>
+</arguments>
+<msg timestamp="20180403 16:40:03.551" html="yes" level="INFO">Removed file '&lt;a href="file://C:\ResponseFiles\MySQLResponseFileCentralized.txt"&gt;C:\ResponseFiles\MySQLResponseFileCentralized.txt&lt;/a&gt;'.</msg>
+<msg timestamp="20180403 16:40:03.551" html="yes" level="INFO">Removed file '&lt;a href="file://C:\ResponseFiles\MySQLResponseFileReporting.txt"&gt;C:\ResponseFiles\MySQLResponseFileReporting.txt&lt;/a&gt;'.</msg>
+<status status="PASS" endtime="20180403 16:40:03.552" starttime="20180403 16:40:03.550"></status>
+</kw>
+<kw name="write_variable_in_txt_file" library="Common">
+<arguments>
+<arg>${Var1}</arg>
+<arg>MySQLResponseFileCentralized</arg>
+</arguments>
+<kw name="Get Time" library="BuiltIn">
+<doc>Returns the given time in the requested format.</doc>
+<arguments>
+<arg>format='epoch'</arg>
+</arguments>
+<assign>
+<var>${TheTime}</var>
+</assign>
+<msg timestamp="20180403 16:40:03.553" level="INFO">${TheTime} = 1522753803</msg>
+<status status="PASS" endtime="20180403 16:40:03.553" starttime="20180403 16:40:03.552"></status>
+</kw>
+<kw name="Convert To String" library="BuiltIn">
+<doc>Converts the given item to a Unicode string.</doc>
+<arguments>
+<arg>${TheTime}</arg>
+</arguments>
+<assign>
+<var>${ConvrtTime}</var>
+</assign>
+<msg timestamp="20180403 16:40:03.553" level="INFO">${ConvrtTime} = 1522753803</msg>
+<status status="PASS" endtime="20180403 16:40:03.553" starttime="20180403 16:40:03.553"></status>
+</kw>
+<kw name="Remove Files" library="OperatingSystem">
+<doc>Uses `Remove File` to remove multiple files one-by-one.</doc>
+<arguments>
+<arg>${DIRPath}/${FileName}.txt</arg>
+</arguments>
+<msg timestamp="20180403 16:40:03.554" html="yes" level="INFO">File '&lt;a href="file://C:\ResponseFiles\MySQLResponseFileCentralized.txt"&gt;C:\ResponseFiles\MySQLResponseFileCentralized.txt&lt;/a&gt;' does not exist.</msg>
+<status status="PASS" endtime="20180403 16:40:03.554" starttime="20180403 16:40:03.553"></status>
+</kw>
+<kw name="Create File" library="OperatingSystem">
+<doc>Creates a file with the given content and encoding.</doc>
+<arguments>
+<arg>${DIRPath}/${FileName}.txt</arg>
+<arg>${queryResults}</arg>
+</arguments>
+<msg timestamp="20180403 16:40:03.557" html="yes" level="INFO">Created file '&lt;a href="file://C:\ResponseFiles\MySQLResponseFileCentralized.txt"&gt;C:\ResponseFiles\MySQLResponseFileCentralized.txt&lt;/a&gt;'.</msg>
+<status status="PASS" endtime="20180403 16:40:03.557" starttime="20180403 16:40:03.554"></status>
+</kw>
+<status status="PASS" endtime="20180403 16:40:03.557" starttime="20180403 16:40:03.552"></status>
+</kw>
+<kw name="write_variable_in_txt_file" library="Common">
+<arguments>
+<arg>${Var2}</arg>
+<arg>MySQLResponseFileReporting</arg>
+</arguments>
+<kw name="Get Time" library="BuiltIn">
+<doc>Returns the given time in the requested format.</doc>
+<arguments>
+<arg>format='epoch'</arg>
+</arguments>
+<assign>
+<var>${TheTime}</var>
+</assign>
+<msg timestamp="20180403 16:40:03.558" level="INFO">${TheTime} = 1522753803</msg>
+<status status="PASS" endtime="20180403 16:40:03.558" starttime="20180403 16:40:03.558"></status>
+</kw>
+<kw name="Convert To String" library="BuiltIn">
+<doc>Converts the given item to a Unicode string.</doc>
+<arguments>
+<arg>${TheTime}</arg>
+</arguments>
+<assign>
+<var>${ConvrtTime}</var>
+</assign>
+<msg timestamp="20180403 16:40:03.558" level="INFO">${ConvrtTime} = 1522753803</msg>
+<status status="PASS" endtime="20180403 16:40:03.558" starttime="20180403 16:40:03.558"></status>
+</kw>
+<kw name="Remove Files" library="OperatingSystem">
+<doc>Uses `Remove File` to remove multiple files one-by-one.</doc>
+<arguments>
+<arg>${DIRPath}/${FileName}.txt</arg>
+</arguments>
+<msg timestamp="20180403 16:40:03.559" html="yes" level="INFO">File '&lt;a href="file://C:\ResponseFiles\MySQLResponseFileReporting.txt"&gt;C:\ResponseFiles\MySQLResponseFileReporting.txt&lt;/a&gt;' does not exist.</msg>
+<status status="PASS" endtime="20180403 16:40:03.559" starttime="20180403 16:40:03.559"></status>
+</kw>
+<kw name="Create File" library="OperatingSystem">
+<doc>Creates a file with the given content and encoding.</doc>
+<arguments>
+<arg>${DIRPath}/${FileName}.txt</arg>
+<arg>${queryResults}</arg>
+</arguments>
+<msg timestamp="20180403 16:40:03.562" html="yes" level="INFO">Created file '&lt;a href="file://C:\ResponseFiles\MySQLResponseFileReporting.txt"&gt;C:\ResponseFiles\MySQLResponseFileReporting.txt&lt;/a&gt;'.</msg>
+<status status="PASS" endtime="20180403 16:40:03.562" starttime="20180403 16:40:03.559"></status>
+</kw>
+<status status="PASS" endtime="20180403 16:40:03.562" starttime="20180403 16:40:03.557"></status>
+</kw>
+<status status="PASS" endtime="20180403 16:40:03.562" starttime="20180403 16:40:01.699"></status>
+</kw>
+<kw name="Read from a Text file and compare the results" library="UserRanking">
+<kw name="Get File" library="OperatingSystem">
+<doc>Returns the contents of a specified file.</doc>
+<arguments>
+<arg>C:/ResponseFiles/MySQLResponseFileCentralized.txt</arg>
+</arguments>
+<assign>
+<var>${TextFileContent}</var>
+</assign>
+<msg timestamp="20180403 16:40:03.563" html="yes" level="INFO">Getting file '&lt;a href="file://C:\ResponseFiles\MySQLResponseFileCentralized.txt"&gt;C:\ResponseFiles\MySQLResponseFileCentralized.txt&lt;/a&gt;'.</msg>
+<msg timestamp="20180403 16:40:03.564" level="INFO">${TextFileContent} = ((23319,), (13204,), (8940,), (8912,), (15330,), (24836,), (19825,), (13370,), (28603,), (8981,))</msg>
+<status status="PASS" endtime="20180403 16:40:03.564" starttime="20180403 16:40:03.563"></status>
+</kw>
+<kw name="Get File" library="OperatingSystem">
+<doc>Returns the contents of a specified file.</doc>
+<arguments>
+<arg>C:/ResponseFiles/MySQLResponseFileReporting.txt</arg>
+</arguments>
+<assign>
+<var>${TextFileContent1}</var>
+</assign>
+<msg timestamp="20180403 16:40:03.564" html="yes" level="INFO">Getting file '&lt;a href="file://C:\ResponseFiles\MySQLResponseFileReporting.txt"&gt;C:\ResponseFiles\MySQLResponseFileReporting.txt&lt;/a&gt;'.</msg>
+<msg timestamp="20180403 16:40:03.565" level="INFO">${TextFileContent1} = ((8981,), (13080,), (13078,), (8983,), (8982,), (9003,), (8953,), (9001,), (8987,), (13683,))</msg>
+<status status="PASS" endtime="20180403 16:40:03.565" starttime="20180403 16:40:03.564"></status>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<doc>Logs the given message to the console.</doc>
+<arguments>
+<arg>${TextFileContent}</arg>
+</arguments>
+<status status="PASS" endtime="20180403 16:40:03.566" starttime="20180403 16:40:03.566"></status>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<doc>Logs the given message to the console.</doc>
+<arguments>
+<arg>${TextFileContent1}</arg>
+</arguments>
+<status status="PASS" endtime="20180403 16:40:03.566" starttime="20180403 16:40:03.566"></status>
+</kw>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<arguments>
+<arg>${TextFileContent}</arg>
+<arg>${TextFileContent1}</arg>
+<arg>msg=The Ranking values created are incorrect.</arg>
+</arguments>
+<msg timestamp="20180403 16:40:03.567" level="FAIL">The Ranking values created are incorrect.: ((23319,), (13204,), (8940,), (8912,), (15330,), (24836,), (19825,), (13370,), (28603,), (8981,)) != ((8981,), (13080,), (13078,), (8983,), (8982,), (9003,), (8953,), (9001,), (8987,), (13683,))</msg>
+<status status="FAIL" endtime="20180403 16:40:03.567" starttime="20180403 16:40:03.566"></status>
+</kw>
+<status status="FAIL" endtime="20180403 16:40:03.567" starttime="20180403 16:40:03.563"></status>
+</kw>
+<tags>
+<tag>Regression</tag>
+<tag>Smoke</tag>
+</tags>
+<status status="FAIL" endtime="20180403 16:40:03.567" critical="yes" starttime="20180403 16:40:00.652">The Ranking values created are incorrect.: ((23319,), (13204,), (8940,), (8912,), (15330,), (24836,), (19825,), (13370,), (28603,), (8981,)) != ((8981,), (13080,), (13078,), (8983,), (8982,), (9003,), (8953,), (9001,), (8987,), (13683,))</status>
+</test>
+<test id="s1-s5-t5" name="Validate this month user ranking results">
+<kw name="Connect to Production Reporting MySQL" library="Common">
+<kw name="Connect To Database Using Custom Params" library="DatabaseLibrary">
+<doc>Loads the DB API 2.0 module given `dbapiModuleName` then uses it to</doc>
+<arguments>
+<arg>pymysql</arg>
+<arg>database='ss_report', user='infrrd_ops', password='vfsOIJ987', host='ss-report.c3n1qsdsmjxc.us-west-2.rds.amazonaws.com', port=3306</arg>
+</arguments>
+<msg timestamp="20180403 16:40:03.579" level="INFO">Executing : Connect To Database Using Custom Params : pymysql.connect(db_api_2.connect(database='ss_report', user='infrrd_ops', password='vfsOIJ987', host='ss-report.c3n1qsdsmjxc.us-west-2.rds.amazonaws.com', port=3306)) </msg>
+<status status="PASS" endtime="20180403 16:40:04.604" starttime="20180403 16:40:03.579"></status>
+</kw>
+<status status="PASS" endtime="20180403 16:40:04.604" starttime="20180403 16:40:03.568"></status>
+</kw>
+<kw name="Fetch User Ranking This Month and Save in A file" library="UserRanking">
+<kw name="Query" library="DatabaseLibrary">
+<doc>Uses the input `selectStatement` to query for the values that will be returned as a list of tuples. Set optional</doc>
+<arguments>
+<arg>${Query7}</arg>
+</arguments>
+<assign>
+<var>${queryResults}</var>
+</assign>
+<msg timestamp="20180403 16:40:04.606" level="INFO">Executing : Query  |  select x.AGENT_ID from (select a.AGENT_ID,a.AGENT_NAME,a.COMPANY_ID,count(distinct a.SURVEY_DETAILS_ID) as COMPLETED, avg(if(b.QUESTION_TYPE='sb-range-0to10',(b.ANSWER/2),b.ANSWER)) as AVG_SCORE from survey_details a left join survey_response b on a.SURVEY_DETAILS_ID=b.SURVEY_DETAILS_ID where a.STAGE=-1 and a.SOURCE not in ("Zillow", "admin", "agent", "customer", "3rd Party Review", "upload", "CSV_UPLOAD") and month(a.SURVEY_COMPLETED_DATE_EST) = 3 and year(a.SURVEY_COMPLETED_DATE_EST)=2018 and b.IS_USER_RANKING_QUESTION=1 and a.COMPANY_ID=337 group by a.AGENT_ID order by a.AGENT_ID) x left join min_requirement_for_ranking c on x.COMPANY_ID=c.COMPANY_ID right join users u on x.AGENT_ID=u.user_id and STATUS in (1,2) order by ((((x.AVG_SCORE)*COMPLETED)+c.MONTH_OFFSET)/(COMPLETED+1)) desc limit 10; </msg>
+<msg timestamp="20180403 16:40:05.894" level="INFO">${queryResults} = ((8940,), (15330,), (19825,), (13204,), (13534,), (26990,), (23319,), (29098,), (8912,), (29096,))</msg>
+<status status="PASS" endtime="20180403 16:40:05.894" starttime="20180403 16:40:04.605"></status>
+</kw>
+<kw name="Query" library="DatabaseLibrary">
+<doc>Uses the input `selectStatement` to query for the values that will be returned as a list of tuples. Set optional</doc>
+<arguments>
+<arg>${Query8}</arg>
+</arguments>
+<assign>
+<var>${queryResults1}</var>
+</assign>
+<msg timestamp="20180403 16:40:05.895" level="INFO">Executing : Query  |  select user_id from user_ranking_this_month_main where this_month=3 and company_id=337 and is_eligible !=2 order by ranking_score desc limit 10; </msg>
+<msg timestamp="20180403 16:40:06.419" level="INFO">${queryResults1} = ()</msg>
+<status status="PASS" endtime="20180403 16:40:06.419" starttime="20180403 16:40:05.895"></status>
+</kw>
+<kw name="Convert To String" library="BuiltIn">
+<doc>Converts the given item to a Unicode string.</doc>
+<arguments>
+<arg>${queryResults}</arg>
+</arguments>
+<assign>
+<var>${Var1}</var>
+</assign>
+<msg timestamp="20180403 16:40:06.420" level="INFO">${Var1} = ((8940,), (15330,), (19825,), (13204,), (13534,), (26990,), (23319,), (29098,), (8912,), (29096,))</msg>
+<status status="PASS" endtime="20180403 16:40:06.420" starttime="20180403 16:40:06.419"></status>
+</kw>
+<kw name="Convert To String" library="BuiltIn">
+<doc>Converts the given item to a Unicode string.</doc>
+<arguments>
+<arg>${queryResults1}</arg>
+</arguments>
+<assign>
+<var>${Var2}</var>
+</assign>
+<msg timestamp="20180403 16:40:06.420" level="INFO">${Var2} = ()</msg>
+<status status="PASS" endtime="20180403 16:40:06.420" starttime="20180403 16:40:06.420"></status>
+</kw>
+<kw name="Remove Files" library="OperatingSystem">
+<doc>Uses `Remove File` to remove multiple files one-by-one.</doc>
+<arguments>
+<arg>C:/ResponseFiles/MySQLResponseFileCentralized.txt</arg>
+<arg>C:/ResponseFiles/MySQLResponseFileReporting.txt</arg>
+</arguments>
+<msg timestamp="20180403 16:40:06.421" html="yes" level="INFO">Removed file '&lt;a href="file://C:\ResponseFiles\MySQLResponseFileCentralized.txt"&gt;C:\ResponseFiles\MySQLResponseFileCentralized.txt&lt;/a&gt;'.</msg>
+<msg timestamp="20180403 16:40:06.422" html="yes" level="INFO">Removed file '&lt;a href="file://C:\ResponseFiles\MySQLResponseFileReporting.txt"&gt;C:\ResponseFiles\MySQLResponseFileReporting.txt&lt;/a&gt;'.</msg>
+<status status="PASS" endtime="20180403 16:40:06.422" starttime="20180403 16:40:06.420"></status>
+</kw>
+<kw name="write_variable_in_txt_file" library="Common">
+<arguments>
+<arg>${Var1}</arg>
+<arg>MySQLResponseFileCentralized</arg>
+</arguments>
+<kw name="Get Time" library="BuiltIn">
+<doc>Returns the given time in the requested format.</doc>
+<arguments>
+<arg>format='epoch'</arg>
+</arguments>
+<assign>
+<var>${TheTime}</var>
+</assign>
+<msg timestamp="20180403 16:40:06.423" level="INFO">${TheTime} = 1522753806</msg>
+<status status="PASS" endtime="20180403 16:40:06.423" starttime="20180403 16:40:06.423"></status>
+</kw>
+<kw name="Convert To String" library="BuiltIn">
+<doc>Converts the given item to a Unicode string.</doc>
+<arguments>
+<arg>${TheTime}</arg>
+</arguments>
+<assign>
+<var>${ConvrtTime}</var>
+</assign>
+<msg timestamp="20180403 16:40:06.424" level="INFO">${ConvrtTime} = 1522753806</msg>
+<status status="PASS" endtime="20180403 16:40:06.424" starttime="20180403 16:40:06.423"></status>
+</kw>
+<kw name="Remove Files" library="OperatingSystem">
+<doc>Uses `Remove File` to remove multiple files one-by-one.</doc>
+<arguments>
+<arg>${DIRPath}/${FileName}.txt</arg>
+</arguments>
+<msg timestamp="20180403 16:40:06.424" html="yes" level="INFO">File '&lt;a href="file://C:\ResponseFiles\MySQLResponseFileCentralized.txt"&gt;C:\ResponseFiles\MySQLResponseFileCentralized.txt&lt;/a&gt;' does not exist.</msg>
+<status status="PASS" endtime="20180403 16:40:06.425" starttime="20180403 16:40:06.424"></status>
+</kw>
+<kw name="Create File" library="OperatingSystem">
+<doc>Creates a file with the given content and encoding.</doc>
+<arguments>
+<arg>${DIRPath}/${FileName}.txt</arg>
+<arg>${queryResults}</arg>
+</arguments>
+<msg timestamp="20180403 16:40:06.428" html="yes" level="INFO">Created file '&lt;a href="file://C:\ResponseFiles\MySQLResponseFileCentralized.txt"&gt;C:\ResponseFiles\MySQLResponseFileCentralized.txt&lt;/a&gt;'.</msg>
+<status status="PASS" endtime="20180403 16:40:06.428" starttime="20180403 16:40:06.425"></status>
+</kw>
+<status status="PASS" endtime="20180403 16:40:06.429" starttime="20180403 16:40:06.422"></status>
+</kw>
+<kw name="write_variable_in_txt_file" library="Common">
+<arguments>
+<arg>${Var2}</arg>
+<arg>MySQLResponseFileReporting</arg>
+</arguments>
+<kw name="Get Time" library="BuiltIn">
+<doc>Returns the given time in the requested format.</doc>
+<arguments>
+<arg>format='epoch'</arg>
+</arguments>
+<assign>
+<var>${TheTime}</var>
+</assign>
+<msg timestamp="20180403 16:40:06.430" level="INFO">${TheTime} = 1522753806</msg>
+<status status="PASS" endtime="20180403 16:40:06.430" starttime="20180403 16:40:06.430"></status>
+</kw>
+<kw name="Convert To String" library="BuiltIn">
+<doc>Converts the given item to a Unicode string.</doc>
+<arguments>
+<arg>${TheTime}</arg>
+</arguments>
+<assign>
+<var>${ConvrtTime}</var>
+</assign>
+<msg timestamp="20180403 16:40:06.430" level="INFO">${ConvrtTime} = 1522753806</msg>
+<status status="PASS" endtime="20180403 16:40:06.430" starttime="20180403 16:40:06.430"></status>
+</kw>
+<kw name="Remove Files" library="OperatingSystem">
+<doc>Uses `Remove File` to remove multiple files one-by-one.</doc>
+<arguments>
+<arg>${DIRPath}/${FileName}.txt</arg>
+</arguments>
+<msg timestamp="20180403 16:40:06.431" html="yes" level="INFO">File '&lt;a href="file://C:\ResponseFiles\MySQLResponseFileReporting.txt"&gt;C:\ResponseFiles\MySQLResponseFileReporting.txt&lt;/a&gt;' does not exist.</msg>
+<status status="PASS" endtime="20180403 16:40:06.431" starttime="20180403 16:40:06.431"></status>
+</kw>
+<kw name="Create File" library="OperatingSystem">
+<doc>Creates a file with the given content and encoding.</doc>
+<arguments>
+<arg>${DIRPath}/${FileName}.txt</arg>
+<arg>${queryResults}</arg>
+</arguments>
+<msg timestamp="20180403 16:40:06.434" html="yes" level="INFO">Created file '&lt;a href="file://C:\ResponseFiles\MySQLResponseFileReporting.txt"&gt;C:\ResponseFiles\MySQLResponseFileReporting.txt&lt;/a&gt;'.</msg>
+<status status="PASS" endtime="20180403 16:40:06.434" starttime="20180403 16:40:06.431"></status>
+</kw>
+<status status="PASS" endtime="20180403 16:40:06.434" starttime="20180403 16:40:06.429"></status>
+</kw>
+<status status="PASS" endtime="20180403 16:40:06.434" starttime="20180403 16:40:04.605"></status>
+</kw>
+<kw name="Read from a Text file and compare the results" library="UserRanking">
+<kw name="Get File" library="OperatingSystem">
+<doc>Returns the contents of a specified file.</doc>
+<arguments>
+<arg>C:/ResponseFiles/MySQLResponseFileCentralized.txt</arg>
+</arguments>
+<assign>
+<var>${TextFileContent}</var>
+</assign>
+<msg timestamp="20180403 16:40:06.436" html="yes" level="INFO">Getting file '&lt;a href="file://C:\ResponseFiles\MySQLResponseFileCentralized.txt"&gt;C:\ResponseFiles\MySQLResponseFileCentralized.txt&lt;/a&gt;'.</msg>
+<msg timestamp="20180403 16:40:06.437" level="INFO">${TextFileContent} = ((8940,), (15330,), (19825,), (13204,), (13534,), (26990,), (23319,), (29098,), (8912,), (29096,))</msg>
+<status status="PASS" endtime="20180403 16:40:06.437" starttime="20180403 16:40:06.436"></status>
+</kw>
+<kw name="Get File" library="OperatingSystem">
+<doc>Returns the contents of a specified file.</doc>
+<arguments>
+<arg>C:/ResponseFiles/MySQLResponseFileReporting.txt</arg>
+</arguments>
+<assign>
+<var>${TextFileContent1}</var>
+</assign>
+<msg timestamp="20180403 16:40:06.437" html="yes" level="INFO">Getting file '&lt;a href="file://C:\ResponseFiles\MySQLResponseFileReporting.txt"&gt;C:\ResponseFiles\MySQLResponseFileReporting.txt&lt;/a&gt;'.</msg>
+<msg timestamp="20180403 16:40:06.438" level="INFO">${TextFileContent1} = ()</msg>
+<status status="PASS" endtime="20180403 16:40:06.438" starttime="20180403 16:40:06.437"></status>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<doc>Logs the given message to the console.</doc>
+<arguments>
+<arg>${TextFileContent}</arg>
+</arguments>
+<status status="PASS" endtime="20180403 16:40:06.438" starttime="20180403 16:40:06.438"></status>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<doc>Logs the given message to the console.</doc>
+<arguments>
+<arg>${TextFileContent1}</arg>
+</arguments>
+<status status="PASS" endtime="20180403 16:40:06.439" starttime="20180403 16:40:06.439"></status>
+</kw>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<arguments>
+<arg>${TextFileContent}</arg>
+<arg>${TextFileContent1}</arg>
+<arg>msg=The Ranking values created are incorrect.</arg>
+</arguments>
+<msg timestamp="20180403 16:40:06.440" level="FAIL">The Ranking values created are incorrect.: ((8940,), (15330,), (19825,), (13204,), (13534,), (26990,), (23319,), (29098,), (8912,), (29096,)) != ()</msg>
+<status status="FAIL" endtime="20180403 16:40:06.440" starttime="20180403 16:40:06.439"></status>
+</kw>
+<status status="FAIL" endtime="20180403 16:40:06.440" starttime="20180403 16:40:06.434"></status>
+</kw>
+<tags>
+<tag>Regression</tag>
+<tag>Smoke</tag>
+</tags>
+<status status="FAIL" endtime="20180403 16:40:06.440" critical="yes" starttime="20180403 16:40:03.568">The Ranking values created are incorrect.: ((8940,), (15330,), (19825,), (13204,), (13534,), (26990,), (23319,), (29098,), (8912,), (29096,)) != ()</status>
+</test>
+<doc>Checks the User Ranking For a Company for all time frames.</doc>
+<status status="FAIL" endtime="20180403 16:40:06.441" starttime="20180403 16:39:18.068"></status>
+</suite>
+<status status="FAIL" endtime="20180403 16:40:06.447" starttime="20180403 16:37:18.294"></status>
+</suite>
+<statistics>
+<total>
+<stat fail="7" pass="4">Critical Tests</stat>
+<stat fail="7" pass="4">All Tests</stat>
+</total>
+<tag>
+<stat fail="4" pass="1">Regression</stat>
+<stat fail="5" pass="1">Smoke</stat>
+</tag>
+<suite>
+<stat fail="7" id="s1" name="Tests" pass="4">Tests</stat>
+<stat fail="0" id="s1-s1" name="OverviewTestCases" pass="3">Tests.OverviewTestCases</stat>
+<stat fail="1" id="s1-s2" name="ReportsPageUiTestCases" pass="0">Tests.ReportsPageUiTestCases</stat>
+<stat fail="1" id="s1-s3" name="ScoreStats" pass="0">Tests.ScoreStats</stat>
+<stat fail="1" id="s1-s4" name="SpsScoreTestCases" pass="0">Tests.SpsScoreTestCases</stat>
+<stat fail="4" id="s1-s5" name="UserRankingTestCases" pass="1">Tests.UserRankingTestCases</stat>
+</suite>
+</statistics>
+<errors>
+<msg timestamp="20180403 16:37:18.315" level="ERROR">Error in file 'C:\developments\robot-scripts\SocialSurvey\Resources\FirstTest.txt': Non-existing setting 'Suite Setup'.</msg>
+<msg timestamp="20180403 16:37:18.561" level="ERROR">Error in file 'C:\developments\robot-scripts\SocialSurvey\Resources\PO\LoginPage.txt': Resource file 'Variables.txt' does not exist.</msg>
+<msg timestamp="20180403 16:37:18.568" level="ERROR">Error in file 'C:\developments\robot-scripts\SocialSurvey\Resources\PO\UserRanking.txt': Resource file '\Common.txt' does not exist.</msg>
+<msg timestamp="20180403 16:37:18.568" level="ERROR">Error in file 'C:\developments\robot-scripts\SocialSurvey\Resources\PO\UserRanking.txt': Resource file '\Variables.txt' does not exist.</msg>
+<msg timestamp="20180403 16:37:18.576" level="ERROR">Error in file 'C:\developments\robot-scripts\SocialSurvey\Resources\PO\SPSScoreFunctions.txt': Resource file '..\Resources\FirstTest.txt' does not exist.</msg>
+<msg timestamp="20180403 16:37:18.576" level="ERROR">Error in file 'C:\developments\robot-scripts\SocialSurvey\Resources\PO\SPSScoreFunctions.txt': Resource file '..\Resources\PO\LandingPage.txt' does not exist.</msg>
+<msg timestamp="20180403 16:37:18.577" level="ERROR">Error in file 'C:\developments\robot-scripts\SocialSurvey\Resources\PO\SPSScoreFunctions.txt': Resource file '..\Resources\Common.txt' does not exist.</msg>
+<msg timestamp="20180403 16:37:18.578" level="ERROR">Error in file 'C:\developments\robot-scripts\SocialSurvey\Resources\PO\SPSScoreFunctions.txt': Resource file '..\Resources\PO\UserRanking.txt' does not exist.</msg>
+<msg timestamp="20180403 16:37:18.594" level="ERROR">Error in file 'C:\developments\robot-scripts\SocialSurvey\Resources\PO\OverviewFunctions.txt': Resource file '..\Resources\FirstTest.txt' does not exist.</msg>
+<msg timestamp="20180403 16:37:18.594" level="ERROR">Error in file 'C:\developments\robot-scripts\SocialSurvey\Resources\PO\OverviewFunctions.txt': Resource file '..\Resources\PO\LandingPage.txt' does not exist.</msg>
+<msg timestamp="20180403 16:37:18.594" level="ERROR">Error in file 'C:\developments\robot-scripts\SocialSurvey\Resources\PO\OverviewFunctions.txt': Resource file '\Common.txt' does not exist.</msg>
+<msg timestamp="20180403 16:37:18.595" level="ERROR">Error in file 'C:\developments\robot-scripts\SocialSurvey\Resources\PO\OverviewFunctions.txt': Resource file '..\Resources\PO\UserRanking.txt' does not exist.</msg>
+<msg timestamp="20180403 16:37:18.595" level="ERROR">Error in file 'C:\developments\robot-scripts\SocialSurvey\Resources\PO\OverviewFunctions.txt': Resource file '\Variables.txt' does not exist.</msg>
+<msg timestamp="20180403 16:37:57.385" level="ERROR">Error in file 'C:\developments\robot-scripts\SocialSurvey\Resources\PO\LoginPage.txt': Resource file 'Variables.txt' does not exist.</msg>
+<msg timestamp="20180403 16:39:03.359" level="ERROR">Error in file 'C:\developments\robot-scripts\SocialSurvey\Resources\PO\LoginPage.txt': Resource file 'Variables.txt' does not exist.</msg>
+<msg timestamp="20180403 16:39:05.869" level="ERROR">Error in file 'C:\developments\robot-scripts\SocialSurvey\Resources\PO\LoginPage.txt': Resource file 'Variables.txt' does not exist.</msg>
+<msg timestamp="20180403 16:39:05.874" level="ERROR">Error in file 'C:\developments\robot-scripts\SocialSurvey\Resources\PO\UserRanking.txt': Resource file '\Common.txt' does not exist.</msg>
+<msg timestamp="20180403 16:39:05.874" level="ERROR">Error in file 'C:\developments\robot-scripts\SocialSurvey\Resources\PO\UserRanking.txt': Resource file '\Variables.txt' does not exist.</msg>
+<msg timestamp="20180403 16:39:05.876" level="ERROR">Error in file 'C:\developments\robot-scripts\SocialSurvey\Resources\PO\SPSScoreFunctions.txt': Resource file '..\Resources\FirstTest.txt' does not exist.</msg>
+<msg timestamp="20180403 16:39:05.876" level="ERROR">Error in file 'C:\developments\robot-scripts\SocialSurvey\Resources\PO\SPSScoreFunctions.txt': Resource file '..\Resources\PO\LandingPage.txt' does not exist.</msg>
+<msg timestamp="20180403 16:39:05.877" level="ERROR">Error in file 'C:\developments\robot-scripts\SocialSurvey\Resources\PO\SPSScoreFunctions.txt': Resource file '..\Resources\Common.txt' does not exist.</msg>
+<msg timestamp="20180403 16:39:05.878" level="ERROR">Error in file 'C:\developments\robot-scripts\SocialSurvey\Resources\PO\SPSScoreFunctions.txt': Resource file '..\Resources\PO\UserRanking.txt' does not exist.</msg>
+<msg timestamp="20180403 16:39:18.081" level="ERROR">Error in file 'C:\developments\robot-scripts\SocialSurvey\Resources\PO\LoginPage.txt': Resource file 'Variables.txt' does not exist.</msg>
+<msg timestamp="20180403 16:39:18.087" level="ERROR">Error in file 'C:\developments\robot-scripts\SocialSurvey\Resources\PO\UserRanking.txt': Resource file '\Common.txt' does not exist.</msg>
+<msg timestamp="20180403 16:39:18.087" level="ERROR">Error in file 'C:\developments\robot-scripts\SocialSurvey\Resources\PO\UserRanking.txt': Resource file '\Variables.txt' does not exist.</msg>
+</errors>
+</robot>

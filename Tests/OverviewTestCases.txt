@@ -1,0 +1,45 @@
+*** Settings ***
+Documentation  Checks the SPS score for all the timeframes.
+Resource  ../Resources/FirstTest.txt
+Resource  ../Resources/PO/LandingPage.txt
+Resource  ../Resources/Common.txt
+Resource  ../Resources/PO/UserRanking.txt
+Resource  ../Resources/PO/SPSScoreFunctions.txt
+Resource  ../Resources/PO/OverviewFunctions.txt
+Resource  ../Resources/FirstTest.txt
+Resource  ../Resources/PO/LandingPage.txt
+Resource  ../Resources/Common.txt
+Resource  ../Resources/PO/UserRanking.txt
+Resource  ../Resources/PO/SPSScoreFunctions.txt
+
+*** Test Cases ***
+Company Overview test case
+    ${Complete}=    Get the UI completed count for company
+    Get Actual completed count for a company  ${Complete}
+    ${Incomplete}=  Get the UI Incomplete count for company
+    Get Actual incomplete count for a company  ${Incomplete}
+    ${Zillow}=    Get the UI Zillow count for company
+    Get Actual Zillow count for a company  ${Zillow}
+    ${ThirdParty}=  Get the Third Party reviews count for company
+    Get Actual Third Party count for a company  ${ThirdParty}
+
+
+Region Overview test case
+    ${Complete}=    Get the UI completed count for region
+    Get Actual completed count for a region  ${Complete}
+    ${Incomplete}=  Get the UI Incomplete count for region
+    Get Actual incomplete count for a region  ${Incomplete}
+    ${Zillow}=    Get the UI Zillow count for region
+    Get Actual Zillow count for a region  ${Zillow}
+    ${ThirdParty}=  Get the Third Party reviews count for region
+    Get Actual Third Party count for a region  ${ThirdParty}
+
+Branch Overview test case
+    ${Complete}=    Get the UI completed count for branch
+    Get Actual completed count for a branch  ${Complete}
+    ${Incomplete}=  Get the UI Incomplete count for branch
+    Get Actual incomplete count for a branch  ${Incomplete}
+    ${Zillow}=    Get the UI Zillow count for branch
+    Get Actual Zillow count for a branch  ${Zillow}
+    ${ThirdParty}=  Get the Third Party reviews count for branch
+    Get Actual Third Party count for a branch  ${ThirdParty}

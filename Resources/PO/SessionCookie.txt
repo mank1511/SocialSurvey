@@ -1,0 +1,26 @@
+*** Settings ***
+Documentation    Suite description
+Library  Selenium2Library
+Library  Collections
+Library  RequestsLibrary
+Resource  ../Common.txt
+#Resource  /Variables.txt
+*** Variables ***
+${uri}=    /getuserranking.do?entityId=337&entityType=companyId&month=3&year=2017&startIndex=0&batchSize=10&timeFrame=3&_=1520331042588
+
+
+*** Keywords ***
+Get Authn Session
+    ${cookie_value}=    get cookie value    JSESSIONID
+    ${Appended_Cookie_Value}=   catenate  JSESSIONID=   ${cookie_value}
+    log to console  ${Appended_Cookie_Value}
+    ${headers}=    Create Dictionary    Cookie=${Appended_Cookie_Value}
+    Create Session    articleCreate    http://34.210.235.210    ${headers}
+    ${resp}=    get request  articleCreate    ${uri}    headers=${headers}
+    should be equal as strings  ${resp.status_code}    200
+    log to console  ${resp.text}
+    ${TheResponseText}=    convert to string    ${resp.text}
+    write_variable_in_txt_file  ${TheResponseText}  APIResponseFile
+
+
+
